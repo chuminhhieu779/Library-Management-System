@@ -9,5 +9,5 @@ package com.library.model;
  * @author laptop gigabyte
  */
 public class user {
-    
+    private String name ;
 }
