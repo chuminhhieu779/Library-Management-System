@@ -10,4 +10,5 @@ package com.library.model;
  */
 public class user {
     private String name ;
+    private String name2 ;
 }
