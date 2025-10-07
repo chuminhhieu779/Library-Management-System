@@ -7,6 +7,10 @@ nbdist/
 *.bat
 *.sh
 
+# Allow JARs inside WEB-INF/lib (NetBeans Web Project)
+!web/WEB-INF/lib/*.jar
+
+
 # NetBeans auto-generated
 nbproject/build-impl.xml
 nbproject/genfiles.properties
