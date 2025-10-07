@@ -7,7 +7,11 @@ nbdist/
 *.bat
 *.sh
 
-# Allow JARs inside WEB-INF/lib (NetBeans Web Project)
+# Ignore all JARs by default
+*.jar
+
+# But DO include JARs in WEB-INF/lib (NetBeans Web Project)
+!web/WEB-INF/lib/
 !web/WEB-INF/lib/*.jar
 
 
@@ -21,7 +25,7 @@ nbproject/ant-deploy.xml
 target/
 
 # Package files
-*.jar
+
 *.war
 *.ear
 *.zip
