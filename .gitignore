@@ -11,8 +11,10 @@ nbdist/
 *.jar
 
 # But DO include JARs in WEB-INF/lib (NetBeans Web Project)
-!web/WEB-INF/lib/
-!web/WEB-INF/lib/*.jar
+!*/web/WEB-INF/lib/
+!*/web/WEB-INF/lib/*.jar
+!*/Web Pages/WEB-INF/lib/
+!*/Web Pages/WEB-INF/lib/*.jar
 
 
 # NetBeans auto-generated
