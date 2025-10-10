@@ -10,6 +10,13 @@
 <project name="LibraryManagement" default="default" basedir=".">
     <description>Builds, tests, and runs the project LibraryManagement.</description>
     <import file="nbproject/build-impl.xml"/>
+        <!-- Add all JARs in WEB-INF/lib to classpath before compiling -->
+<target name="-pre-compile">
+    <path id="extra.classpath">
+        <fileset dir="web/WEB-INF/lib" includes="**/*.jar"/>
+    </path>
+    <property name="javac.classpath" refid="extra.classpath"/>
+</target>
     <!--
 
     There exist several targets which are by default empty and which can be 
