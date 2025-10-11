@@ -1,0 +1,154 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Oct 10, 2025, 10:17:28 PM
+    Author     : hieuchu
+*/
+
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    display: grid;
+    grid-template-rows: auto 1fr auto; /* header, main, footer */
+    min-height: 100vh;
+    margin: 0;
+}
+
+.header{
+    gap: 10px;
+    background-color: blanchedalmond;
+
+}
+.header .content{
+    margin-top: 10px;
+    padding: 5px;;
+    width: 100%;
+    display: flex;
+    margin-left: 103px;
+    align-items: center;
+    gap: 10px;
+}
+.header .content ,img{
+    width: 15%;
+    margin-bottom: 10px;
+}
+
+
+
+nav{
+    background-color: rgb(215, 186, 147);
+    padding: 10px 0;
+    border-bottom: 3px solid #9472E5;
+}
+nav ul {
+    padding: 3px;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+nav ul li a{
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+}   
+
+marquee {
+    padding-top: 50px;
+}
+
+.image-container {
+    display: flex;
+    /* margin: auto giúp căn giữa theo chiều ngang trong cha */
+    margin: 50px auto;    
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 300px;
+    border: 5px solid #9472E5;
+    overflow: hidden;
+    border-radius: 5px ;
+}
+.image-container img{
+    width: 100%;
+    height: 110%;
+    object-fit: cover;
+    display: block;
+}
+
+.login{
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    max-width: 500px;
+    margin: 20px auto;
+    overflow: hidden;
+
+}
+
+.login label{
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+.login input{
+    margin-bottom: 10px;
+    padding: 5px;
+    width: 100%;
+}
+.login button{
+    display: block;
+    padding: 5px 10px;
+    border: 1px solid #402e2e;
+    border-radius: 5px ;
+    font-size: 16px;
+}
+.login .button{
+    margin-top: 10px;
+    display: inline-flex;
+    gap: 10px;
+}
+.login #sign-up{
+    border: 1px solid #402e2e;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+.login #sign-up a{
+    text-decoration: none;
+    color: black;
+}
+.login .title{
+    background-color: aquamarine;
+    padding: 10px;
+    width: 120%;
+    margin: -20px -20px 20px -20px;
+    text-align: center;
+    
+}
+.login-content {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+
+
+
+.footer{
+    margin-top: 50px;
+    border: 1px solid black ;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
