@@ -16,6 +16,10 @@ nbdist/
 !Web Pages/WEB-INF/lib/
 !Web Pages/WEB-INF/lib/*.jar
 
+# Include test libraries (JUnit, Mockito, etc.)
+!lib/test/
+!lib/test/*.jar
+
 
 
 # NetBeans auto-generated
