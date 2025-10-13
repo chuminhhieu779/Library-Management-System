@@ -18,29 +18,15 @@ import org.slf4j.LoggerFactory;
  *
  * @author hieuchu
  */
-@WebServlet(name = "NewServlet", urlPatterns = {"/NewServlet"})
-public class NewServlet extends HttpServlet {
-
-    private static final Logger logger = LoggerFactory.getLogger(NewServlet.class);
-
-    @Override
-    public void init() throws ServletException {
-        logger.info("========== Logback init() test ==========");
-        logger.debug("Debug message: servlet is initializing...");
-        logger.warn("Warning message: this is just a test!");
-        logger.error("Error message: logback test complete!");
-    }
-
+@WebServlet(name = "NewServlet", urlPatterns = {"/Home"})
+public class Home extends HttpServlet {
+  
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
           request.getRequestDispatcher("WEB-INF/views/homepage.jsp").forward(request, response);
+          return ;
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-    }
 
 }
