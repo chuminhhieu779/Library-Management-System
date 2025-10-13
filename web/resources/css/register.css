@@ -3,10 +3,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to c
 Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
 */
 /* 
-    Created on : Oct 10, 2025, 10:17:28 PM
+    Created on : Oct 13, 2025, 10:27:05 PM
     Author     : hieuchu
 */
-
 
 
 *{
@@ -62,84 +61,50 @@ nav ul li a{
     font-size: 18px;
 }   
 
-marquee {
-    padding-top: 50px;
-}
 
-.image-container {
+content{
     display: flex;
-    /* margin: auto giúp căn giữa theo chiều ngang trong cha */
-    margin: 50px auto;    
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    width: 50%;
-    height: 300px;
-    border: 5px solid #9472E5;
-    overflow: hidden;
-    border-radius: 5px ;
-}
-.image-container img{
+    justify-content: center;
+    height: 100vh;
     width: 100%;
-    height: 110%;
-    object-fit: cover;
+}
+
+form {
+    width: 30%;
+    height: 50%;
+    border: 2px solid #ccc;
+    border-radius: 7px;
+}
+form , label , button , input{
     display: block;
-}
-
-.login{
-    padding: 20px;
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    max-width: 500px;
-    margin: 20px auto;
-    overflow: hidden;
-
-}
-
-.login label{
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-.login input{
     margin-bottom: 10px;
-    padding: 5px;
-    width: 100%;
-}
-.login button{
-    display: block;
-    padding: 5px 10px;
-    border: 1px solid #402e2e;
-    border-radius: 5px ;
-    font-size: 16px;
-}
-.login .button{
-    margin-top: 10px;
-    display: inline-flex;
-    gap: 10px;
-}
-.login #sign-up{
-    border: 1px solid #402e2e;
-    border-radius: 5px;
-    padding: 5px 10px;
-}
-.login #sign-up a{
-    text-decoration: none;
-    color: black;
-}
-.login .title{
-    background-color: aquamarine;
-    padding: 10px;
-    width: 120%;
-    margin: -20px -20px 20px -40px;
-    text-align: center;
     
 }
-.login-content {
-    margin-top: 20px;
-    margin-bottom: 10px;
+form #title{
+    background-color: aquamarine;
+    padding: 10px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
 }
-
+#content-login{
+    padding: 10px;
+    margin-top: 10px;
+    padding-bottom: 10px;
+}
+#content-login input{
+    width: 100%;
+    padding: 5px;
+}
+#content-login button{
+    margin-top: 20px;
+    padding: 5px 10px;
+    border: 1px solid #402e2e;
+    border-radius: 5px ;
+    font-size: 14px;
+}
 
 .footer{
     margin-top: 50px;
@@ -149,4 +114,3 @@ marquee {
     align-items: center;
     padding: 20px;
 }
-

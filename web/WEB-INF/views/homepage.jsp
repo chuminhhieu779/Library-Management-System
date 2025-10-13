@@ -48,7 +48,7 @@
                         <div class="button">
                             <button type="submit">Login</button>
                             <div id="sign-up">
-                                <a href="/ForgotPasswordPage/ForgotPassword.html">Sign Up</a>
+                                <a href="${pageContext.request.contextPath}/user/register">Sign Up</a>
                             </div>
                         </div>
                     </div>
