@@ -24,6 +24,9 @@ public class DBConnection {
     private static final String user = "sa";
     private static final String password = "123";
     
+    
+    
+    
     private DBConnection() {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
