@@ -11,7 +11,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Login</title>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/homepage.css?v=<%=System.currentTimeMillis()%>">
     </head>
     <body>
@@ -36,15 +36,15 @@
                 <img src="${pageContext.request.contextPath}/resources/images/1.jpg">
             </div>
             <div class="login">
-                <form>
+                <form action="Login" method="post">
                     <div class="title">
                         <h3> Login Form </h3>
                     </div>
                     <div class="login-content">
                         <label for="">Enter your account:</label>
-                        <input type="email" id="email" name="account">
+                        <input type="text" name="account">
                         <label for="">Enter your password:</label>
-                        <input type="password" id="password" name="password">
+                        <input type="password" name="password">
                         <div class="button">
                             <button type="submit">Login</button>
                             <div id="sign-up">

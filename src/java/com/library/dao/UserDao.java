@@ -14,4 +14,5 @@ import java.util.List;
 public interface UserDao {
       List<Users> getALLUser();
       
+      boolean checkLogin(String username,String pass);
 }

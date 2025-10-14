@@ -20,7 +20,7 @@ public class DBConnection {
     private static final Logger logger = LoggerFactory.getLogger(DBConnection.class);
     private static DBConnection instance;
     private Connection connection;
-    private static final String url = "jdbc:sqlserver://localhost:1433;databaseName=LibraryManagement;encrypt=true;trustServerCertificate=true";
+    private static final String url = "jdbc:sqlserver://localhost:1433;databaseName=Library_Management;encrypt=true;trustServerCertificate=true";
     private static final String user = "sa";
     private static final String password = "123";
     
