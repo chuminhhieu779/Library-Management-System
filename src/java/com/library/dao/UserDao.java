@@ -4,6 +4,7 @@
  */
 package com.library.dao;
 
+
 import com.library.model.Users;
 import java.util.List;
 
@@ -12,7 +13,6 @@ import java.util.List;
  * @author hieuchu
  */
 public interface UserDao {
-      List<Users> getALLUser();
-      
+      List<Users> getALLUser();     
       boolean checkLogin(String username,String pass);
 }
