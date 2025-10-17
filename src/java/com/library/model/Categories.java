@@ -4,6 +4,8 @@
  */
 package com.library.model;
 
+import java.util.List;
+
 /**
  *
  * @author ADMIN
@@ -11,14 +13,7 @@ package com.library.model;
 public class Categories {
     private int categoryID;
     private String name;
-
-    public Categories(int categoryID, String name) {
-        this.categoryID = categoryID;
-        this.name = name;
-    }
-
-    public Categories() {
-    }
+    List<Books> listBook ;
 
     public int getCategoryID() {
         return categoryID;
@@ -36,6 +31,13 @@ public class Categories {
         this.name = name;
     }
 
+    public List<Books> getListBook() {
+        return listBook;
+    }
 
+    public void setListBook(List<Books> listBook) {
+        this.listBook = listBook;
+    }
+    
     
 }

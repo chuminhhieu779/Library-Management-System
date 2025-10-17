@@ -9,10 +9,12 @@ package com.library.model;
  * @author ADMIN
  */
 public class Books {
+
     private int bookID;
     private String title;
+    private String slug ;
     private String author;
-    private int categoryID;
+    private Categories category;
     private int quantity;
     private String description;
     private String coverImage;
@@ -20,11 +22,12 @@ public class Books {
     public Books() {
     }
 
-    public Books(int bookID, String title, String author, int categoryID, int quantity, String description, String coverImage) {
+    public Books(int bookID, String title, String slug, String author, Categories category, int quantity, String description, String coverImage) {
         this.bookID = bookID;
         this.title = title;
+        this.slug = slug;
         this.author = author;
-        this.categoryID = categoryID;
+        this.category = category;
         this.quantity = quantity;
         this.description = description;
         this.coverImage = coverImage;
@@ -46,6 +49,14 @@ public class Books {
         this.title = title;
     }
 
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
+
     public String getAuthor() {
         return author;
     }
@@ -54,12 +65,12 @@ public class Books {
         this.author = author;
     }
 
-    public int getCategoryID() {
-        return categoryID;
+    public Categories getCategory() {
+        return category;
     }
 
-    public void setCategoryID(int categoryID) {
-        this.categoryID = categoryID;
+    public void setCategory(Categories category) {
+        this.category = category;
     }
 
     public int getQuantity() {
@@ -86,6 +97,7 @@ public class Books {
         this.coverImage = coverImage;
     }
 
+    
     
     
 }
