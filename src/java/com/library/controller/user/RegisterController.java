@@ -42,14 +42,32 @@ public class RegisterController extends HttpServlet {
         String pass = request.getParameter("password");
         String account = request.getParameter("account");
         
-        if(userDao.checkUserExistence(account)){
-            session.setAttribute("error", "Tài khoản đã tồn tại");
+        if(userName.trim().isEmpty()){
+            session.setAttribute("error", "Vui lòng nhập họ và tên!");
             response.sendRedirect(request.getContextPath() + "/user/register");
+            return; 
+        }
+        else if(pass.trim().isEmpty()){
+            session.setAttribute("error", "Vui lòng nhập mật khẩu!");
+            response.sendRedirect(request.getContextPath() + "/user/register");
+            return; 
+        }
+        else if(account.trim().isEmpty()){
+            session.setAttribute("error", "Vui lòng nhập tên đăng nhập!");
+            response.sendRedirect(request.getContextPath() + "/user/register");
+            return; 
+        }
+        
+        if(userDao.checkUserExistence(account)){
+            session.setAttribute("error", "Tên đăng nhập đã được sử dụng!");
+            response.sendRedirect(request.getContextPath() + "/user/register");
+            return;
         }
         else{
             userDao.addNewUser(userName, account, pass);
             session.setAttribute("success", "Bạn đã đăng kí thành công!");
             response.sendRedirect(request.getContextPath() + "/Login");
+            return;
         }
     }
 
