@@ -25,6 +25,13 @@ public class Login extends HttpServlet {
        @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+            HttpSession session =  request.getSession();
+            String error = (String) session.getAttribute("error");
+            request.setAttribute("error", error);
+            session.removeAttribute("error");
+            String success = (String) session.getAttribute("success");
+            request.setAttribute("success", success);
+            session.removeAttribute("success");
             request.getRequestDispatcher("/WEB-INF/views/homepage.jsp").forward(request, response);
         
         
@@ -34,16 +41,18 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        HttpSession session =  request.getSession();
         String username = request.getParameter("account");
         String pass = request.getParameter("password");
         
         if(userDao.checkLogin(username, pass)){
-            HttpSession session =  request.getSession();
+            
             session.setAttribute("username", username);
             
             request.getRequestDispatcher("/WEB-INF/views/user/register.jsp").forward(request, response);
         }
         else{
+            session.setAttribute("error", "Tên đăng nhập không tồn tại!");
             response.sendRedirect(request.getContextPath() + "/Login");
         }
         

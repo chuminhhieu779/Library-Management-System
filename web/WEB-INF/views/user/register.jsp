@@ -26,11 +26,14 @@
             </ul>
         </nav>
     <content>
-        <form>
+        <form action="${pageContext.request.contextPath}/user/register" method="post">
             <div id="title">
                 <h2>Sign Up User</h2>
             </div>
             <div id="content-login">
+                <%if(request.getAttribute("error")!= null){%>
+                <p style="color: red"><%= request.getAttribute("error") %></p>
+                <%}%>
                 <label> Enter user name :</label>
                 <input type="text"  name="username" >
                 <label> Enter account :</label>

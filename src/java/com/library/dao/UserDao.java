@@ -15,4 +15,8 @@ public interface UserDao {
       List<Users> getALLUser();
       
       boolean checkLogin(String username,String pass);
+      
+      boolean checkUserExistence(String username);
+      
+      void addNewUser(String username,String account,String password);
 }

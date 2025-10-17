@@ -41,6 +41,12 @@
                         <h3> Login Form </h3>
                     </div>
                     <div class="login-content">
+                        <%if(request.getAttribute("error")!= null){%>
+                        <p style="color: red"><%= request.getAttribute("error")%></p>
+                        <%}%>
+                        <%if(request.getAttribute("success")!= null){%>
+                        <p style="color: #28a745"><%= request.getAttribute("success") %></p>
+                        <%}%>
                         <label for="">Enter your account:</label>
                         <input type="text" name="account">
                         <label for="">Enter your password:</label>
