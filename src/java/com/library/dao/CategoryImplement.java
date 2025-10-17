@@ -12,7 +12,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import org.eclipse.jdt.internal.compiler.apt.model.Factory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,13 +23,33 @@ import org.slf4j.LoggerFactory;
  *
  * @author hieuchu
  */
-public class BookImplementDao implements BookDao {
+public class CategoryImplement implements CategoryDao {
 
-    private static final Logger logger = LoggerFactory.getLogger(BookImplementDao.class);
+    private static final Logger logger = LoggerFactory.getLogger(CategoryImplement.class);
     private Connection conn = DBConnection.getInstance().getConnection();
 
     @Override
-    public List<Books> getALLBook() {
+    public List<Books> categorizeBook(String category) {       
+        List<Books> list = new ArrayList<>();         
+        String sql = "select * from categories join books on categories.category_id = books.category_id where categories.name = ? ";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, category);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Books b = new Books();
+                b.setSlug(rs.getString("slug"));
+                b.setCoverImage(rs.getString("cover_image"));
+                list.add(b);              
+            }
+        } catch (SQLException s) {
+            logger.error("Execute error {}", s.getMessage(), s);
+        }
+        return list;
+    }
+
+    @Override
+    public List<Books> getAllBook() {
         List<Books> list = new ArrayList<>();
         String sql = "select * from books ";
         try {
@@ -45,30 +68,4 @@ public class BookImplementDao implements BookDao {
         return list;
     }
 
-    @Override
-    public Books showBookDetail(String slug) {
-        String sql = "select * from books join categories on books.category_id = categories.category_id where books.slug = ? ";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, slug);
-            ResultSet rs = ps.executeQuery();     
-            while (rs.next()) {
-                Books b = new Books();
-                b.setAuthor(rs.getString("author"));
-                b.setTitle(rs.getString("title"));
-                b.setQuantity(rs.getInt("quantity"));
-                b.setDescription(rs.getString("description"));
-                b.setCoverImage(rs.getString("cover_image"));
-                Categories c = new Categories();
-                c.setName(rs.getString("name"));
-                b.setCategory(c);
-                return b;
-            }
-        } catch (SQLException s) {
-            logger.error("Error excecuting{}", s.getMessage(), s);
-        }
-        return null;
-    }
-    
-    
 }

@@ -6,13 +6,13 @@ package com.library.dao;
 
 import com.library.model.Books;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
  * @author hieuchu
  */
-public interface BookDao {
-     List<Books> getALLBook();
-     Books showBookDetail(String slug);
-     
+public interface CategoryDao {
+    List<Books> categorizeBook(String category );
+    List<Books> getAllBook();
 }

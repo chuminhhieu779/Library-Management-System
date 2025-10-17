@@ -27,7 +27,6 @@
             .header .content{
                 margin-top: 10px;
                 padding: 5px;
-                ;
                 width: 100%;
                 display: flex;
                 margin-left: 103px;
@@ -196,17 +195,9 @@
             <%@include file="/WEB-INF/views/components/header.jsp" %>
         </header>
 
-        <nav>
-            <ul>
-                <li><a href="/HomePage/Home.html">Dashboard</a></li>
-                <li><a href="/HomePage/About.html">Issued Books</a></li>
-                <li><a href="/HomePage/Contact.html">Account</a></li>
-                <li><a href="/LoginPage/Login.html">User Login</a></li>
-            </ul>
-        </nav>
 
         <div class="detail-container">
-            <a class="back-link" href="${pageContext.request.contextPath}/user/booklist">← Back to Library Books</a>
+            <a class="back-link" href="${previousPage}">← Back to Library Books</a>
 
             <div class="detail-card">
                 <img class="detail-cover" src="${pageContext.request.contextPath}/resources/images/${book.coverImage}" alt="Physics Redefined">

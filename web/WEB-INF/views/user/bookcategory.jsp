@@ -44,7 +44,48 @@
                 font-weight: 500;
                 transition: color 0.3s;
             }
-  
+
+            nav a:hover {
+                color: #e0e7ff;
+            }
+            .category{
+                position: absolute;
+                top:80px;
+                left: 20px;
+
+            }
+            .category form select {
+                padding: 10px 14px;
+                border-radius: 8px;
+                border: 1.5px solid #6c63ff;  /* màu tím nhạt */
+                background: linear-gradient(135deg, #ffffff, #f4f4ff);
+                font-size: 16px;
+                font-weight: bold;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                color: #333;
+                outline: none;
+                transition: all 0.3s ease;
+                cursor: pointer;
+            }
+
+            /* Khi hover */
+            .category form select:hover {
+                border-color: #4b47e0;
+                box-shadow: 0 0 8px rgba(108, 99, 255, 0.3);
+            }
+
+            /* Khi focus (đang chọn) */
+            .category form select:focus {
+                border-color: #3f3bd1;
+                box-shadow: 0 0 10px rgba(63, 59, 209, 0.4);
+                background: #fff;
+            }
+
+            /* Tùy chỉnh option */
+            .category form select option {
+                background-color: #fff;
+                color: #333;
+            }
 
             /* ==== MAIN CONTENT ==== */
             .book-container {
@@ -142,19 +183,31 @@
     <body>
         <nav>
             <ul>
-                <li><a href="${pageContext.request.contextPath}/user/book-category">Category</a></li>
+                <li><a href="/HomePage/Home.html">Category</a></li>
                 <li><a href="/HomePage/About.html">Issued Books</a></li>
                 <li><a href="/HomePage/Contact.html">Account</a></li>
                 <li><a href="${pageContext.request.contextPath}/Home">User Logout</a></li>
             </ul>
         </nav>
-      
+
+        <div class="category">
+            <form action="book-category" method="post">
+                <select name="category-select" onchange="this.form.submit()">
+                    <option value="Action" ${selected eq 'Action' ? 'selected="selected"' : ''}>Action</option>
+                    <option value="English" ${selected eq 'English' ? 'selected="selected"' : ''}>English</option>
+                    <option value="Romance" ${selected eq 'Romance' ? 'selected="selected"' : ''}>Romance</option>
+                    <option value="Soft Skill" ${selected eq 'Soft Skill' ? 'selected="selected"' : ''}>Soft-Skill</option>
+                    <option value="Technology" ${selected eq 'Technology' ? 'selected="selected"' : ''}>Technology</option>
+
+                </select>
+            </form>
+        </div>
 
         <div class="book-container">
-            <h2>Book List</h2>            
+            <h2>Book - Classification</h2>            
 
             <div class="book-gallery">
-                <c:forEach var="book" items="${bookList}">
+                <c:forEach var="book" items="${categorizeBook}">
                     <a href="${pageContext.request.contextPath}/user/bookdetail?name=${book.slug}" class="book-card" >
                         <img src="${pageContext.request.contextPath}/resources/images/${book.coverImage}" alt="Book cover">
                     </a>

@@ -14,7 +14,6 @@ public class Categories {
     private int categoryID;
     private String name;
     List<Books> listBook ;
-
     public int getCategoryID() {
         return categoryID;
     }
