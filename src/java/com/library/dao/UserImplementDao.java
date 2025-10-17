@@ -73,5 +73,42 @@ public class UserImplementDao implements UserDao{
         }
         return false;
     }
+
+    @Override
+    public boolean checkUserExistence(String username) {
+        String sql = "select * from users where account = ?";
+        
+        try{
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                return true;
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public void addNewUser(String username, String account, String password) {
+        String sql = "insert into users(fullname, account, password, role, avatar) values (?, ?, ?, ?, ?)";
+        String role = "user";
+        String avatar = "ava.jpg";
+        
+        try{
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, username);
+            ps.setString(2, account);
+            ps.setString(3, password);
+            ps.setString(4, role);
+            ps.setString(5, avatar);
+            
+            ps.executeUpdate();
+        }catch(SQLException e){
+            e.printStackTrace();;
+        }
+    }
     
 }

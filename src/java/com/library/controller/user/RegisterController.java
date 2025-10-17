@@ -12,18 +12,24 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import com.library.dao.UserDao;
+import com.library.dao.UserImplementDao;
+import jakarta.servlet.http.HttpSession;
 /**
  *
  * @author hieuchu  
  */
 @WebServlet(name="RegisterController", urlPatterns={"/user/register"})
 public class RegisterController extends HttpServlet {
-       
+    UserDao userDao = new UserImplementDao();
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String error = (String) session.getAttribute("error");
+        request.setAttribute("error", error);
+        session.removeAttribute("error");
         request.getRequestDispatcher("/WEB-INF/views/user/register.jsp").forward(request, response);      
     } 
 
@@ -31,7 +37,20 @@ public class RegisterController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String userName = request.getParameter("username");
+        String pass = request.getParameter("password");
+        String account = request.getParameter("account");
         
+        if(userDao.checkUserExistence(account)){
+            session.setAttribute("error", "Tài khoản đã tồn tại");
+            response.sendRedirect(request.getContextPath() + "/user/register");
+        }
+        else{
+            userDao.addNewUser(userName, account, pass);
+            session.setAttribute("success", "Bạn đã đăng kí thành công!");
+            response.sendRedirect(request.getContextPath() + "/Login");
+        }
     }
 
 
