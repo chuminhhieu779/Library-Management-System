@@ -7,11 +7,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-      
+
     <body>    
-        <footer>
-            <p>Copyright &copy; 2024 Library Management System. All rights reserved.</p>
-        </footer>
+        <div class="footer-section">
+            <h3>About Library</h3>
+            <p>A modern library management system providing convenient online book borrowing and returning services.</p>             
+        </div>      
     </body>
 
 

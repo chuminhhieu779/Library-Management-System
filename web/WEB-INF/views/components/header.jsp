@@ -10,7 +10,7 @@
     <body>
         <header>
             <div class="content">
-                <img src="${pageContext.request.contextPath}/resources/images/pngtree-book-clipart-vector-png-image_6653535.png">  
+                <img src="${pageContext.request.contextPath}/resources/images/avatar.jpg">  
                 <h3>Library Management System </h3>
             </div>  
         </header>
