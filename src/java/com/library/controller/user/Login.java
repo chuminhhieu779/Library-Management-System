@@ -46,8 +46,8 @@ public class Login extends HttpServlet {
         String pass = request.getParameter("password");
 
         if (userDao.checkLogin(username, pass)) {
-            session.setAttribute("username", username);
-            response.sendRedirect(request.getContextPath() + "/user/booklist");
+            session.setAttribute("account", username);
+            response.sendRedirect(request.getContextPath() + "/user/dashboard");
         } else {
             session.setAttribute("error", "Tên đăng nhập không tồn tại!");
 
@@ -61,8 +61,8 @@ public class Login extends HttpServlet {
                 return;
             }
             if (userDao.checkLogin(username, pass)) {
-                session.setAttribute("username", username);
-                response.sendRedirect(request.getContextPath() + "/user/booklist");
+                session.setAttribute("account", username);
+                response.sendRedirect(request.getContextPath() + "/user/dashboard");
                 return;
             } else {
                 session.setAttribute("error", "Tên đăng nhập hoặc mật khẩu sai!");

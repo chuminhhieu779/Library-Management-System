@@ -182,8 +182,7 @@
 
     <body>
         <nav>
-            <ul>
-                <li><a href="/HomePage/Home.html">Category</a></li>
+            <ul>                
                 <li><a href="/HomePage/About.html">Issued Books</a></li>
                 <li><a href="/HomePage/Contact.html">Account</a></li>
                 <li><a href="${pageContext.request.contextPath}/Home">User Logout</a></li>
