@@ -274,7 +274,7 @@
                     <p>Total Books</p>
                 </a>
 
-                <a href="${pageContext.request.contextPath}/user/borrowed-book" class="card">
+                <a href="${pageContext.request.contextPath}/user/borrowed-books" class="card">
                     <i class="fa-solid fa-recycle icon green"></i>
                     <h3>${totalBorrowedBook}</h3>
                     <p>Borrowed Books</p>
