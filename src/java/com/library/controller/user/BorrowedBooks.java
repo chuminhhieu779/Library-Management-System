@@ -2,11 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package com.library.controller.user;
 
-import com.library.dao.BookDao;
-import com.library.dao.BookImplementDao;
 import com.library.dao.BorrowingDao;
 import com.library.dao.BorrowingImplement;
 import com.library.model.Books;
@@ -24,25 +21,30 @@ import java.util.List;
  *
  * @author hieuchu
  */
-@WebServlet(name="LoadImage", urlPatterns={"/user/booklist"})
-public class BookList extends HttpServlet {
-   
-    BookDao bookDao = new BookImplementDao() ;
-          
+@WebServlet(name = "BorrowedBooks", urlPatterns = {"/user/borrowed-books"})
+public class BorrowedBooks extends HttpServlet {
+
+    BorrowingDao borrowDao = new BorrowingImplement();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        
-        List<Books> bookList = bookDao.getALLBook(); 
-        request.setAttribute("bookList", bookList);        
-        request.getRequestDispatcher("/WEB-INF/views/user/booklist.jsp").forward(request, response);
-    } 
+            throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("account") == null) {
+            response.sendRedirect(request.getContextPath() + "/Login");
+            return ;
+        }
+        String account = (String) session.getAttribute("account");
+        List<Books> borrowedBooks = borrowDao.borrowedBooksList(account);
 
+        request.setAttribute("borrowedBooks", borrowedBooks);
+        request.getRequestDispatcher("/WEB-INF/views/user/borrowedbooks.jsp").forward(request, response);
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        
+            throws ServletException, IOException {
+
     }
 
 }

@@ -27,13 +27,20 @@ public class Login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
+
+        HttpSession session = request.getSession(false);
+
+        session = request.getSession(); // create new session if it is not exist
+
         String error = (String) session.getAttribute("error");
-        request.setAttribute("error", error);
-        session.removeAttribute("error");
         String success = (String) session.getAttribute("success");
+
+        request.setAttribute("error", error);
         request.setAttribute("success", success);
+
+        session.removeAttribute("error");
         session.removeAttribute("success");
+
         request.getRequestDispatcher("/WEB-INF/views/homepage.jsp").forward(request, response);
 
     }
@@ -60,6 +67,7 @@ public class Login extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/Login");
                 return;
             }
+            // check login after user enter correcly 
             if (userDao.checkLogin(username, pass)) {
                 session.setAttribute("account", username);
                 response.sendRedirect(request.getContextPath() + "/user/dashboard");
@@ -70,5 +78,6 @@ public class Login extends HttpServlet {
                 return;
             }
         }
+
     }
 }

@@ -4,6 +4,9 @@
  */
 package com.library.dao;
 
+import com.library.model.Books;
+import java.util.List;
+
 /**
  *
  * @author hieuchu
@@ -11,4 +14,5 @@ package com.library.dao;
 public interface BorrowingDao {
     int totalBorrowedBooks(String account);
     int totalReturnedBooks(String account);
+    List<Books> borrowedBooksList(String account);
 }
