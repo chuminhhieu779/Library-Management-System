@@ -145,7 +145,7 @@
                 <li><a href="${pageContext.request.contextPath}/user/book-category">Category</a></li>
                 <li><a href="/HomePage/About.html">Issued Books</a></li>
                 <li><a href="/HomePage/Contact.html">Account</a></li>
-                <li><a href="${pageContext.request.contextPath}/Home">User Logout</a></li>
+                <li><a href="${pageContext.request.contextPath}/user/dashboard"> DashBoard</a></li>
             </ul>
         </nav>
       

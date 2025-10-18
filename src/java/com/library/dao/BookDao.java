@@ -14,5 +14,6 @@ import java.util.List;
 public interface BookDao {
      List<Books> getALLBook();
      Books showBookDetail(String slug);
+     int totalBook();
      
 }

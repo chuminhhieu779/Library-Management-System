@@ -51,7 +51,7 @@ public class BookImplementDao implements BookDao {
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, slug);
-            ResultSet rs = ps.executeQuery();     
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Books b = new Books();
                 b.setAuthor(rs.getString("author"));
@@ -69,6 +69,21 @@ public class BookImplementDao implements BookDao {
         }
         return null;
     }
-    
-    
+
+    @Override
+    public int totalBook() {
+        int sum = 0;
+        String sql = "select count(*) as total from Books";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                sum = rs.getInt("total");
+            }
+        } catch (SQLException s) {
+            logger.error("Error excecuting{}", s.getMessage(), s);
+        }
+        return sum;
+    }
+
 }
