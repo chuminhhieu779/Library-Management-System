@@ -280,7 +280,7 @@
                     <p>Borrowed Books</p>
                 </a>
 
-                <a href="${pageContext.request.contextPath}/user/returned-book" class="card">
+                <a href="${pageContext.request.contextPath}/user/returned-books" class="card">
                     <i class="fa-solid fa-hand-holding icon orange"></i>
                     <h3>${totalReturnedBooks}</h3>
                     <p>Returned Books</p>
