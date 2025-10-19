@@ -11,19 +11,29 @@ import java.time.LocalDate;
  * @author hieuchu
  */
 public class BorrowedBookDTO {
+    private int bookID ;
     private String coverImage ;
     private String slug ;
     private LocalDate borrowDate ;
     private LocalDate dueDate ;
-    
+
     public BorrowedBookDTO() {
     }
 
-    public BorrowedBookDTO(String coverImage, String slug, LocalDate borrowDate, LocalDate dueDate) {
+    public BorrowedBookDTO(int bookID, String coverImage, String slug, LocalDate borrowDate, LocalDate dueDate) {
+        this.bookID = bookID;
         this.coverImage = coverImage;
         this.slug = slug;
         this.borrowDate = borrowDate;
         this.dueDate = dueDate;
+    }
+
+    public int getBookID() {
+        return bookID;
+    }
+
+    public void setBookID(int bookID) {
+        this.bookID = bookID;
     }
 
     public String getCoverImage() {
@@ -57,10 +67,7 @@ public class BorrowedBookDTO {
     public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
-
     
-
-    
- 
+     
     
 }
