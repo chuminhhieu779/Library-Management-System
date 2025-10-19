@@ -5,6 +5,7 @@
 package com.library.dao;
 
 import com.library.model.Books;
+import com.library.model.BorrowedBookDTO;
 import java.util.List;
 
 /**
@@ -12,7 +13,15 @@ import java.util.List;
  * @author hieuchu
  */
 public interface BorrowingDao {
+
     int totalBorrowedBooks(String account);
+
     int totalReturnedBooks(String account);
-    List<Books> borrowedBooksList(String account);
+
+    List<BorrowedBookDTO> borrowedBooksList(String account);
+
+    List<Books> returnedBooksList(String account);
+    
+    boolean returnBook(String account, String slug);
+    
 }

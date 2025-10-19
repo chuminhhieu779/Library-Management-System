@@ -5,6 +5,8 @@
 package com.library.dao;
 
 import com.library.model.Books;
+import com.library.model.BorrowedBookDTO;
+import com.library.model.Borrowings;
 import com.library.util.DBConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -27,11 +29,10 @@ public class BorrowingImplement implements BorrowingDao {
     @Override
     public int totalBorrowedBooks(String account) {
         int sum = 0;
-        String sql = "select borrowings.user_id , count(borrowing_details.book_id) as totalBorrowedBooks from borrowings join borrowing_details\n"
-                + "on borrowings.borrowing_id = borrowing_details.borrowing_id\n"
-                + "join users on users.user_id = borrowings.user_id \n"
-                + "where borrowings.status = 'borrowing' and users.account = ? \n"
-                + "group by borrowings.user_id ";
+        String sql = "SELECT COUNT(b.book_id) AS totalBorrowedBooks "
+                + "FROM borrowings b "
+                + "JOIN users u ON u.user_id = b.user_id "
+                + "WHERE b.status = 'borrowing' AND u.account = ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, account);
@@ -48,11 +49,10 @@ public class BorrowingImplement implements BorrowingDao {
     @Override
     public int totalReturnedBooks(String account) {
         int sum = 0;
-        String sql = "select borrowings.user_id , count(borrowing_details.book_id) as totalReturnedBooks from borrowings join borrowing_details\n"
-                + "on borrowings.borrowing_id = borrowing_details.borrowing_id\n"
-                + "join users on users.user_id = borrowings.user_id \n"
-                + "where borrowings.status = 'returned' and users.account = ? \n"
-                + "group by borrowings.user_id ";
+        String sql = "SELECT COUNT(b.book_id) AS totalReturnedBooks "
+                + "FROM borrowings b "
+                + "JOIN users u ON u.user_id = b.user_id "
+                + "WHERE b.status = 'returned' AND u.account = ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, account);
@@ -64,23 +64,47 @@ public class BorrowingImplement implements BorrowingDao {
             logger.error("Error executing: {}", s.getMessage(), s);
         }
         return sum;
-
     }
 
     @Override
-    public List<Books> borrowedBooksList(String account) {
-        List<Books> list = new ArrayList<>();
-        String sql = "select borrowings.user_id ,books.cover_image from borrowings join borrowing_details\n"
-                + "on borrowings.borrowing_id = borrowing_details.borrowing_id\n"
-                + "join users on users.user_id = borrowings.user_id \n"
-                + "join books on books.book_id = borrowing_details.book_id\n"
-                + "where borrowings.status = 'borrowing' and users.account = ? \n"
-                + "group by borrowings.user_id , books.cover_image";
+    public List<BorrowedBookDTO> borrowedBooksList(String account) {
+        List<BorrowedBookDTO> list = new ArrayList<>();
+        String sql = "SELECT bk.cover_image, b.borrow_date, b.due_date, bk.slug "
+                + "FROM borrowings b "
+                + "JOIN users u ON u.user_id = b.user_id "
+                + "JOIN books bk ON bk.book_id = b.book_id "
+                + "WHERE b.status = 'borrowing' AND u.account = ?";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, account);
             ResultSet rs = ps.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
+                BorrowedBookDTO dto = new BorrowedBookDTO();
+                dto.setSlug(rs.getString("slug"));
+                dto.setBorrowDate(rs.getDate("borrow_date").toLocalDate());
+                dto.setDueDate(rs.getDate("due_date").toLocalDate());
+                dto.setCoverImage(rs.getString("cover_image"));
+                list.add(dto);
+            }
+        } catch (SQLException s) {
+            logger.error("Error executing: {}", s.getMessage(), s);
+        }
+        return list;
+    }
+
+    @Override
+    public List<Books> returnedBooksList(String account) {
+        List<Books> list = new ArrayList<>();
+        String sql = "SELECT bk.cover_image "
+                + "FROM borrowings b "
+                + "JOIN users u ON u.user_id = b.user_id "
+                + "JOIN books bk ON bk.book_id = b.book_id "
+                + "WHERE b.status = 'returned' AND u.account = ?";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, account);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
                 Books b = new Books();
                 b.setCoverImage(rs.getString("cover_image"));
                 list.add(b);
@@ -90,4 +114,25 @@ public class BorrowingImplement implements BorrowingDao {
         }
         return list;
     }
+
+    @Override
+    public boolean returnBook(String account, String slug) {
+        String sql = "UPDATE b "
+                + "SET b.status = 'returned', b.return_date = GETDATE() "
+                + "FROM borrowings b "
+                + "JOIN users u ON u.user_id = b.user_id "
+                + "JOIN books bk ON bk.book_id = b.book_id "
+                + "WHERE bk.slug = ? AND u.account = ? AND b.status = 'borrowing'";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, slug);
+            ps.setString(2, account);
+            int row = ps.executeUpdate();
+            return row > 0;
+        } catch (SQLException s) {
+            logger.error("Error executing: {}", s.getMessage(), s);
+        }
+        return false;
+    }
+
 }

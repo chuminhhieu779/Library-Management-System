@@ -7,6 +7,7 @@ package com.library.controller.user;
 import com.library.dao.BorrowingDao;
 import com.library.dao.BorrowingImplement;
 import com.library.model.Books;
+import com.library.model.BorrowedBookDTO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -22,21 +23,22 @@ import java.util.List;
  * @author hieuchu
  */
 @WebServlet(name = "BorrowedBooks", urlPatterns = {"/user/borrowed-books"})
-public class BorrowedBooks extends HttpServlet {
+public class BorrowedBooksList extends HttpServlet {
 
     BorrowingDao borrowDao = new BorrowingImplement();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession(false);        
         if (session == null || session.getAttribute("account") == null) {
             response.sendRedirect(request.getContextPath() + "/Login");
             return ;
-        }
+        }             
         String account = (String) session.getAttribute("account");
-        List<Books> borrowedBooks = borrowDao.borrowedBooksList(account);
-
+        
+        List<BorrowedBookDTO> borrowedBooks = borrowDao.borrowedBooksList(account);
+        
         request.setAttribute("borrowedBooks", borrowedBooks);
         request.getRequestDispatcher("/WEB-INF/views/user/borrowedbooks.jsp").forward(request, response);
     }
