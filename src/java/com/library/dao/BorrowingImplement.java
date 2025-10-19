@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
@@ -69,7 +70,7 @@ public class BorrowingImplement implements BorrowingDao {
     @Override
     public List<BorrowedBookDTO> borrowedBooksList(String account) {
         List<BorrowedBookDTO> list = new ArrayList<>();
-        String sql = "SELECT bk.cover_image, b.borrow_date, b.due_date, bk.slug "
+        String sql = "SELECT bk.cover_image, b.borrow_date, b.due_date, bk.slug , bk.book_id "
                 + "FROM borrowings b "
                 + "JOIN users u ON u.user_id = b.user_id "
                 + "JOIN books bk ON bk.book_id = b.book_id "
@@ -80,6 +81,7 @@ public class BorrowingImplement implements BorrowingDao {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 BorrowedBookDTO dto = new BorrowedBookDTO();
+                dto.setBookID(rs.getInt("book_id"));
                 dto.setSlug(rs.getString("slug"));
                 dto.setBorrowDate(rs.getDate("borrow_date").toLocalDate());
                 dto.setDueDate(rs.getDate("due_date").toLocalDate());
@@ -133,6 +135,44 @@ public class BorrowingImplement implements BorrowingDao {
             logger.error("Error executing: {}", s.getMessage(), s);
         }
         return false;
+    }
+
+    @Override
+    public boolean extendDueDay(int bookID, LocalDate dueDate, String account) {
+        String sql = " UPDATE borrowings\n"
+                + "SET borrowings.due_date = ? \n"
+                + "FROM borrowings\n"
+                + "JOIN users ON borrowings.user_id = users.user_id\n"
+                + "WHERE borrowings.book_id = ? \n"
+                + "  AND users.account = ? ";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setDate(1, java.sql.Date.valueOf(dueDate)); // convet LocalDate to Date in JDBC 
+            ps.setInt(2, bookID);
+            ps.setString(3, account);
+            int row = ps.executeUpdate();
+            return row > 0;
+        } catch (SQLException s) {
+            logger.error("Error executing: {}", s.getMessage(), s);
+        }
+        return false;
+    }
+
+    @Override
+    public LocalDate getBorrowDate(int bookID) {
+        String sql = "select * from borrowings where borrowings.book_id = ? ";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, bookID);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+               LocalDate currentBorrowDate = rs.getDate("borrow_date").toLocalDate();
+                return currentBorrowDate;
+            }   
+        } catch (SQLException s) {
+            logger.error("Error executing: {}", s.getMessage(), s);
+        }
+        return null ;
     }
 
 }
