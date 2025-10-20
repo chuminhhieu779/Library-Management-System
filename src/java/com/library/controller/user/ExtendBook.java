@@ -61,7 +61,7 @@ public class ExtendBook extends HttpServlet {
         }
         boolean commitExtraDate = borrowDao.extendDueDay(bookID, newDueDate, account);
         if (commitExtraDate) {
-            session.setAttribute("extendSuccess", "✅ Due date updated successfully!");
+            session.setAttribute("extendSuccess", " Due date updated successfully!");
             response.sendRedirect(request.getContextPath() + "/user/borrowed-books?bookID=" + bookID);
         }
     }
