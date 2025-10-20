@@ -59,35 +59,24 @@
                 margin-top: auto;
             }
             /* ==== NAVIGATION ==== */
-            nav {
-                background: linear-gradient(135deg, #4f46e5, #6d28d9);
-                padding: 15px 0;
-            }
-
-            nav ul {
+             .navbar {
+                background: #111827;
+                color: #e5e7eb;
                 display: flex;
-                justify-content: center;
-                list-style: none;
+                justify-content: space-between;
+                align-items: center;
+                padding: 12px 40px;
             }
 
-            nav li {
-                margin: 0 20px;
-            }
-
-            nav a {
-                text-decoration: none;
-                color: #fff;
-                font-weight: 500;
-                transition: color 0.3s;
-            }
-
-            nav a:hover {
-                color: #e0e7ff;
+            .navbar .logo {
+                font-weight: 600;
+                font-size: 18px;
             }
             .detail-container {
                 max-width: 760px;
                 margin: 24px auto;
                 padding: 16px;
+                margin-top: 50px;
             }
             .back-link {
                 display: inline-block;
@@ -171,12 +160,12 @@
                 background: #111827;
                 color: #e5e7eb;
                 text-align: center;
-                padding: 5px 5px;
+                padding: 10px 10px;
             }
 
             .footer-section h3 {
                 margin-bottom: 10px;
-                font-size: 20px;
+                font-size: 15px;
                 color: #a5b4fc;
             }
 
@@ -187,12 +176,15 @@
                 margin: 0 auto 20px;
             }
 
+
         </style>
     </head>
     <body>
 
         <header class="header">
-            <%@include file="/WEB-INF/views/components/header.jsp" %>
+            <nav class="navbar">
+                <span class="logo">📚 Library System</span>
+            </nav>
         </header>
 
 

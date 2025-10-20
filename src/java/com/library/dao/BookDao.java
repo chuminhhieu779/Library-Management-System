@@ -15,5 +15,5 @@ public interface BookDao {
      List<Books> getALLBook();
      Books showBookDetail(String slug);
      int totalBook();
-     
+     List<Books> searchBook(String query );    
 }
