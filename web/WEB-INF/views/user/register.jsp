@@ -12,7 +12,6 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/register.css?v=<%=System.currentTimeMillis()%>">
         <title>JSP Page</title>
         <style>
-            /* Reset và thiết lập cơ bản */
             * {
                 margin: 0;
                 padding: 0;
@@ -129,7 +128,6 @@
                 color: #991b1b;
             }
 
-            /* Footer giữ nguyên style inline */
             .footer {
                 background: #111827;
                 color: #e5e7eb;

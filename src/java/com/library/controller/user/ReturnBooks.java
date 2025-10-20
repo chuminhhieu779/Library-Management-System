@@ -33,12 +33,11 @@ public class ReturnBooks extends HttpServlet {
             return;
         }
         String account = (String) session.getAttribute("account");
-        String slug = request.getParameter("name");     
+        String slug = request.getParameter("slug");
         boolean commitReturnBook = borrowDao.returnBook(account, slug);
         if (commitReturnBook) {
-            session.setAttribute("commitReturnBook", commitReturnBook); // popup notification 
-         
-            response.sendRedirect(request.getContextPath() + "/user/borrowed-books");
+            session.setAttribute("returnSuccess", "The book was returned successfully!");
+            response.sendRedirect(request.getContextPath() + "/user/borrowed-books?slug=" + slug);
             return;
         }
     }
