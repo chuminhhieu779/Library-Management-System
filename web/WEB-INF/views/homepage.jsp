@@ -26,7 +26,7 @@
                 <li><a href="/HomePage/About.html">About</a></li>
                 <li><a href="/HomePage/Contact.html">Contact</a></li>
                 <li><a href="/LoginPage/Login.html"> User Login</a></li>
-                <li><a href="/SignUpPage/SignUp.html">Admin Login </a></li>
+                <li><a href="${pageContext.request.contextPath}/Admin">Admin Login </a></li>
             </ul>
         </nav>
         <main>

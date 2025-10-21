@@ -32,8 +32,13 @@ public class BookList extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        
-        List<Books> bookList = bookDao.getALLBook(); 
+        HttpSession session = request.getSession();
+        if(session.getAttribute("account")==null){
+            response.sendRedirect(request.getContextPath()+"/Login");
+            return;
+        }
+        List<Books> bookList = bookDao.getALLBook();                 
+
         request.setAttribute("bookList", bookList);        
         request.getRequestDispatcher("/WEB-INF/views/user/booklist.jsp").forward(request, response);
     } 

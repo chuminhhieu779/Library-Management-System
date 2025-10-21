@@ -110,6 +110,11 @@ public class UserImplementDao implements UserDao {
     }
 
     @Override
+    public boolean checkAdminLogin(String username, String pass) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+    @Override
     public int findUserID(String account) {
         String sql = "select * from users where users.account = ? ";
         try {
