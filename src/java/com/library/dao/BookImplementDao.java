@@ -86,4 +86,31 @@ public class BookImplementDao implements BookDao {
         return sum;
     }
 
+    @Override
+    public List<Books> searchBook(String query) {
+        List<Books> list = new ArrayList<>();
+        String sql = "select * from books\n"
+                + "where title_unaccented like ? ";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, "%" + query + "%");
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                Books b = new Books();
+                b.setSlug(rs.getString("slug"));
+                b.setAuthor(rs.getString("author"));
+                b.setTitle(rs.getString("title"));
+                b.setQuantity(rs.getInt("quantity"));
+                b.setDescription(rs.getString("description"));
+                b.setCoverImage(rs.getString("cover_image"));
+                list.add(b);               
+            }
+            return list ;
+        } catch (SQLException s) {
+            logger.error("Error excecuting{}", s.getMessage(), s);
+
+        }
+        return null;
+    }
+
 }
