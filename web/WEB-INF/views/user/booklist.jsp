@@ -12,7 +12,7 @@
                 box-sizing: border-box;
             }
 
-            /* Toàn trang */
+ 
             body {
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                 background: #f4f6f8;
@@ -24,7 +24,7 @@
 
             /* ==== NAVIGATION ==== */
             nav {
-                background: linear-gradient(135deg, #4f46e5, #6d28d9);
+                background: rgb(19, 24, 39);
                 padding: 15px 0;
             }
 
@@ -59,7 +59,7 @@
                 color: #3f3f46;
             }
             .book-container select {
-                position: relative; /* không nên absolute */
+                position: relative; 
                 display: inline-block;
                 padding: 10px 14px;
                 font-size: 16px;
@@ -86,7 +86,7 @@
                 color: #333;
                 background-color: #fff;
             }
-            /* Gallery sách */
+       
             .book-gallery {
                 display: grid;
                 grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -119,12 +119,12 @@
                 background: #111827;
                 color: #e5e7eb;
                 text-align: center;
-                padding: 20px 20px;
+                padding: 10px 10px;
             }
 
             .footer-section h3 {
                 margin-bottom: 10px;
-                font-size: 20px;
+                font-size: 15px;
                 color: #a5b4fc;
             }
 
@@ -142,10 +142,10 @@
     <body>
         <nav>
             <ul>
-                <li><a href="${pageContext.request.contextPath}/user/book-category">Category</a></li>
-                <li><a href="/HomePage/About.html">Issued Books</a></li>
-                <li><a href="/HomePage/Contact.html">Account</a></li>
+                
                 <li><a href="${pageContext.request.contextPath}/user/dashboard"> DashBoard</a></li>
+                <li><a href="${pageContext.request.contextPath}/user/book-category">Category</a></li>
+                <li><a href="${pageContext.request.contextPath}/user/search-books"> Search Book </a></li>          
             </ul>
         </nav>
       
@@ -155,7 +155,7 @@
 
             <div class="book-gallery">
                 <c:forEach var="book" items="${bookList}">
-                    <a href="${pageContext.request.contextPath}/user/bookdetail?name=${book.slug}" class="book-card" >
+                    <a href="${pageContext.request.contextPath}/user/bookdetail?slug=${book.slug}&bookID=${book.bookID}" class="book-card" >
                         <img src="${pageContext.request.contextPath}/resources/images/${book.coverImage}" alt="Book cover">
                     </a>
                 </c:forEach>

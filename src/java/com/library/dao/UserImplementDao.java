@@ -20,55 +20,53 @@ import org.slf4j.LoggerFactory;
  *
  * @author hieuchu
  */
-public class UserImplementDao implements UserDao{
+public class UserImplementDao implements UserDao {
 
     private static final Logger logger = LoggerFactory.getLogger(UserImplementDao.class);
-    private DBConnection db = DBConnection.getInstance();    
+    private DBConnection db = DBConnection.getInstance();
     private Connection conn = db.getConnection();
-    
-    
+
     @Override
     public List<Users> getALLUser() {
         List<Users> list = new ArrayList<>();
         String sql = "select * from users ";
-        try{
+        try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
-            
-            while(rs.next()){    
+
+            while (rs.next()) {
                 Users u = new Users();
                 u.setUserID(rs.getInt("user_id"));
                 u.setFullname(rs.getString("fullname"));
                 u.setAccount(rs.getString("account"));
                 u.setPassword(rs.getString("password"));
                 u.setRole(rs.getString("role"));
-                u.setAvatar(rs.getString("avatar"));                
+                u.setAvatar(rs.getString("avatar"));
                 list.add(u);
-               
+
             }
-            
-        }catch(SQLException s){
-            
+
+        } catch (SQLException s) {
+
         }
-        return list ;
+        return list;
     }
 
     @Override
     public boolean checkLogin(String username, String pass) {
         String sql = "select * from users where account = ? and password = ? and role = ?";
         String role = "user";
-        try{
+        try {
             PreparedStatement ps = conn.prepareStatement(sql);
-           
-            
+
             ps.setString(1, username);
             ps.setString(2, pass);
             ps.setString(3, role);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-            return true;
+                return true;
             }
-        }catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
@@ -77,15 +75,15 @@ public class UserImplementDao implements UserDao{
     @Override
     public boolean checkUserExistence(String username) {
         String sql = "select * from users where account = ?";
-        
-        try{
+
+        try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 return true;
             }
-        }catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
@@ -96,17 +94,17 @@ public class UserImplementDao implements UserDao{
         String sql = "insert into users(fullname, account, password, role, avatar) values (?, ?, ?, ?, ?)";
         String role = "user";
         String avatar = "ava.jpg";
-        
-        try{
+
+        try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, username);
             ps.setString(2, account);
             ps.setString(3, password);
             ps.setString(4, role);
             ps.setString(5, avatar);
-            
+
             ps.executeUpdate();
-        }catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();;
         }
     }
@@ -116,4 +114,21 @@ public class UserImplementDao implements UserDao{
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
+    @Override
+    public int findUserID(String account) {
+        String sql = "select * from users where users.account = ? ";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, account);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                return rs.getInt("user_id");
+            }                  
+        } catch (SQLException s) {
+            logger.error("Error excecuting{}", s.getMessage(), s);
+
+        }
+        return -1 ;
+    }
+
 }

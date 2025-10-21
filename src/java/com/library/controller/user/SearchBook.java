@@ -15,35 +15,30 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  *
  * @author hieuchu
  */
-@WebServlet(name="BookDetails", urlPatterns={"/user/bookdetail"})
-public class BookDetails extends HttpServlet {
-   
+@WebServlet(name="SearchBook", urlPatterns={"/user/search-books"})
+public class SearchBook extends HttpServlet {   
     BookDao bookDao = new BookImplementDao();
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-           String slug = request.getParameter("slug");
-           int getBookId = Integer.valueOf(request.getParameter("bookID"));
-           request.setAttribute("slug", slug);   
-//            
-           Books b = bookDao.showBookDetail(slug, getBookId);
-           String referer = request.getHeader("referer"); // take previous url 
-           
-           request.setAttribute("previousPage", referer);                      
-           request.setAttribute("book", b);
-           request.getRequestDispatcher("/WEB-INF/views/user/bookdetail.jsp").forward(request, response);
+        String query = request.getParameter("query");
+        List<Books>  b = bookDao.searchBook(query);
+        request.setAttribute("searchBook", b);
+        request.getRequestDispatcher("/WEB-INF/views/user/searchbook.jsp").forward(request, response);
     } 
 
+  
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-     
+        
     }
 
 }

@@ -24,7 +24,7 @@
 
             /* ==== NAVIGATION ==== */
             nav {
-                background: linear-gradient(135deg, #4f46e5, #6d28d9);
+                background: rgb(19, 24, 39);
                 padding: 15px 0;
             }
 
@@ -160,12 +160,12 @@
                 background: #111827;
                 color: #e5e7eb;
                 text-align: center;
-                padding: 20px 20px;
+                padding: 10px 10px;
             }
 
             .footer-section h3 {
                 margin-bottom: 10px;
-                font-size: 20px;
+                font-size: 15px;
                 color: #a5b4fc;
             }
 
@@ -177,15 +177,16 @@
             }
 
 
+
         </style>
     </head>
 
     <body>
         <nav>
             <ul>                
-                <li><a href="/HomePage/About.html">Issued Books</a></li>
-                <li><a href="/HomePage/Contact.html">Account</a></li>
-                <li><a href="${pageContext.request.contextPath}/Home">User Logout</a></li>
+                <li><a href="${pageContext.request.contextPath}/user/dashboard">Dashboard</a></li>
+                <li><a href="${pageContext.request.contextPath}/user/booklist"> Book List </a></li>
+                <li><a href="${pageContext.request.contextPath}/user/book-category">Category</a></li>      
             </ul>
         </nav>
 

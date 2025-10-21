@@ -1,153 +1,245 @@
-/*
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
-*/
-/* 
-    Created on : Oct 10, 2025, 10:17:28 PM
-    Author     : hieuchu
-*/
-
-
-
-*{
+/* Basic Reset and Typography */
+* {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
-
 
 body {
-    display: grid;
-    grid-template-rows: auto 1fr auto; /* header, main, footer */
-    min-height: 100vh;
-    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f7f6; /* Light gray background */
+    color: #333;
 }
 
-.header{
-    gap: 10px;
-    background-color: #F4F6F8;
-
+/* Header and Navigation */
+/* Styling for the header component */
+header {
+    background-color: white; /* Nền màu xanh dương chủ đạo */
+    color: black; 
+    padding: 10px 0; /* Đệm trên và dưới */
 }
-.header .content{
-    margin-top: 10px;
-    padding: 5px;;
-    width: 100%;
-    display: flex;
-    margin-left: 103px;
-    align-items: center;
-    gap: 10px;
-}
-.header .content ,img{
-    width: 15%;
-    margin-bottom: 10px;
-    border-radius: 5px ;
+/* Container cho nội dung bên trong header */
+header .content {
+    margin: 0 0; 
+    padding: 0 20px; 
+    display: flex; 
+    align-items: center; 
+    /* ĐIỀU CHỈNH 2: Căn chỉnh sang trái (đã đúng) */
+    justify-content: flex-start; 
 }
 
-
-
-nav{
-    background-color: rgb(215, 186, 147);
-    padding: 10px 0;
-    border-bottom: 3px solid #9472E5;
+/* Styling cho hình ảnh/avatar */
+header .content img {
+    height: 40px; /* ĐIỀU CHỈNH: Giảm kích thước avatar */
+    width: 40px; /* ĐIỀU CHỈNH: Giảm kích thước avatar */
+    border-radius: 50%; 
+    /* LOẠI BỎ border trắng nếu nền header là trắng, hoặc giữ nếu bạn muốn viền */
+    border: none; 
+    object-fit: cover; 
+    margin-right: 10px; /* Giảm khoảng cách nhẹ */
 }
+
+/* Styling cho tiêu đề */
+header .content h3 {
+    margin: 0; 
+    /* ĐIỀU CHỈNH 3: Giảm kích thước chữ */
+    font-size: 1.3em; 
+    font-weight: 700; 
+    letter-spacing: 0.5px; 
+}
+
+nav {
+    background-color: #007bff; /* Primary blue for navigation */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 nav ul {
-    padding: 3px;
     list-style: none;
     display: flex;
     justify-content: center;
-    gap: 20px;
-}
-nav ul li a{
-    text-decoration: none;
-    color: black;
-    font-size: 18px;
-}   
-
-marquee {
-    padding-top: 50px;
+    max-width: 1200px; /* Limit nav bar width */
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
-.image-container {
-    display: flex;
-    /* margin: auto giúp căn giữa theo chiều ngang trong cha */
-    margin: 50px auto;    
-    justify-content: center;
-    align-items: center;
-    width: 50%;
-    height: 300px;
-    border: 5px solid #9472E5;
-    overflow: hidden;
-    border-radius: 5px ;
-}
-.image-container img{
-    width: 100%;
-    height: 110%;
-    object-fit: cover;
+nav ul li a {
     display: block;
+    padding: 15px 20px;
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 600;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.login{
-    padding: 20px;
-    background-color: #f9f9f9;
+nav ul li a:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Main Content Layout */
+main {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+/* Welcome Marquee */
+marquee h2 {
+    color: #28a745; /* Green for welcome message */
+    padding: 10px 0;
+    border-bottom: 2px solid #28a745;
+    /* Tối ưu khoảng cách: Gần hơn với hình ảnh */
+    margin-bottom: 10px; 
+    font-size: 1.8em;
+    font-weight: 700;
+}
+
+/* Image Container */
+.image-container {
+    text-align: center;
+    /* Tối ưu khoảng cách: Tách biệt với form login */
+    margin-bottom: 40px; 
+    overflow: hidden; 
+    border-radius: 8px; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.image-container img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease-in-out;
+}
+
+.image-container img:hover {
+    transform: scale(1.02); /* Slight zoom on hover */
+}
+
+/* Login Form Styling */
+.login {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    max-width: 400px;
+    margin: 40px auto; /* Center the login form */
+}
+
+.login .title h3 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #007bff;
+    font-size: 1.5em;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+}
+
+.login-content label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+}
+
+.login-content input[type="text"],
+.login-content input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    max-width: 500px;
-    margin: 20px auto;
-    overflow: hidden;
-
+    font-size: 1em;
+    transition: border-color 0.3s ease;
 }
 
-.login label{
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
+.login-content input[type="text"]:focus,
+.login-content input[type="password"]:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
 }
-.login input{
-    margin-bottom: 10px;
-    padding: 5px;
-    width: 100%;
-}
-.login button{
-    display: block;
-    padding: 5px 10px;
-    border: 1px solid #402e2e;
-    border-radius: 5px ;
-    font-size: 16px;
-}
-.login .button{
-    margin-top: 10px;
-    display: inline-flex;
-    gap: 10px;
-}
-.login #sign-up{
-    border: 1px solid #402e2e;
-    border-radius: 5px;
-    padding: 5px 10px;
-}
-.login #sign-up a{
-    text-decoration: none;
-    color: black;
-}
-.login .title{
-    background-color: aquamarine;
+
+/* Messages (Error/Success) */
+.login-content p {
     padding: 10px;
-    width: 120%;
-    margin: -20px -20px 20px -40px;
+    margin-bottom: 15px;
+    border-radius: 5px;
     text-align: center;
-    
-}
-.login-content {
-    margin-top: 20px;
-    margin-bottom: 10px;
+    font-weight: 600;
 }
 
+.login-content p[style*="red"] {
+    background-color: #f8d7da; /* Light red background */
+    color: #721c24 !important; /* Dark red text */
+    border: 1px solid #f5c6cb;
+}
 
-.footer{
-    margin-top: 50px;
-    border: 1px solid black ;
+.login-content p[style*="#28a745"] {
+    background-color: #d4edda; /* Light green background */
+    color: #155724 !important; /* Dark green text */
+    border: 1px solid #c3e6cb;
+}
+
+/* Button and Sign Up Link - ĐIỀU CHỈNH ĐỂ CÂN ĐỐI */
+.button {
     display: flex;
-    justify-content: center;
+    justify-content: space-between; /* Giữ space-between để có khoảng cách giữa */
     align-items: center;
-    padding: 20px;
+    margin-top: 20px;
 }
 
+.button button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 0; /* Bỏ padding ngang, dùng width */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    
+    /* Đặt chiều rộng gần bằng nhau cho cả hai */
+    width: 48%; 
+    margin-right: 0; 
+}
+
+.button button[type="submit"]:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+}
+
+#sign-up {
+    /* Đặt chiều rộng gần bằng nhau cho cả hai */
+    width: 48%; 
+    text-align: center;
+}
+
+#sign-up a {
+    /* Tạo liên kết Sign Up có diện mạo như nút */
+    display: block; 
+    padding: 6px 0; 
+    border-radius: 5px;
+    border: 1px solid #ced4da; 
+    text-decoration: none;
+    color: #6c757d; 
+    font-weight: 500;
+    font-size: 1.1em; /* Cùng cỡ chữ với nút Login */
+    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+#sign-up a:hover {
+    color: #007bff; 
+    background-color: #e9ecef; 
+    border-color: #007bff;
+}
+
+/* Footer */
+.footer {
+    padding: 20px 0;
+    text-align: center;
+    background-color: #343a40; /* Dark background for footer */
+    color: #f8f9fa; /* Light text */
+    margin-top: 40px;
+    border-top: 3px solid #007bff;
+}

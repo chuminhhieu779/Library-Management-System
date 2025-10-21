@@ -21,4 +21,7 @@ public interface UserDao {
       void addNewUser(String username,String account,String password);
       
       boolean checkAdminLogin(String username,String pass);
+      
+      int findUserID(String account);
+
 }

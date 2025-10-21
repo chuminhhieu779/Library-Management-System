@@ -6,7 +6,11 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Book Gallery - Library Management</title>
         <style>
-            * { margin: 0; padding: 0; box-sizing: border-box; }
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
 
             body {
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -25,7 +29,10 @@
                 padding: 12px 40px;
             }
 
-            .navbar .logo { font-weight: 600; font-size: 18px; }
+            .navbar .logo {
+                font-weight: 600;
+                font-size: 18px;
+            }
 
             .book-container {
                 flex: 1;
@@ -86,11 +93,20 @@
                 background: #fff;
             }
 
-            dialog::backdrop { background: rgba(0, 0, 0, 0.6); }
+            dialog::backdrop {
+                background: rgba(0, 0, 0, 0.6);
+            }
 
-            dialog h3 { color: #333; margin-bottom: 15px; font-weight: 700; }
+            dialog h3 {
+                color: #333;
+                margin-bottom: 15px;
+                font-weight: 700;
+            }
 
-            dialog p { margin: 8px 0; color: #555; }
+            dialog p {
+                margin: 8px 0;
+                color: #555;
+            }
 
             .btn-group {
                 margin-top: 20px;
@@ -109,8 +125,12 @@
                 text-decoration: none;
             }
 
-            .btn.return { background: #ef4444; }
-            .btn.extend { background: #2563eb; }
+            .btn.return {
+                background: #ef4444;
+            }
+            .btn.extend {
+                background: #2563eb;
+            }
 
             .close-btn {
                 position: absolute;
@@ -145,6 +165,30 @@
                 text-align: center;
                 padding: 20px 20px;
             }
+
+            /* ✅ Toast notification (return success) */
+            .toast {
+                position: fixed;
+                top: 20%;
+                left: 50%;
+                transform: translate(-50%, -50%) scale(0.9);
+                background: rgb(19, 24, 39);
+                color: #fff;
+                padding: 16px 28px;
+                border-radius: 12px;
+                font-weight: 600;
+                font-size: 16px;
+                text-align: center;
+                box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+                opacity: 0;
+                transition: all 0.4s ease;
+                z-index: 9999;
+            }
+
+            .toast.show {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
         </style>
     </head>
 
@@ -154,7 +198,7 @@
         </nav>
 
         <div class="book-container">
-            <h2>Book List</h2>
+            <h2> Borrowed Books </h2>
             <a class="back-link" href="${pageContext.request.contextPath}/user/dashboard">← Back to DashBoard </a>
 
             <div class="book-gallery">
@@ -169,21 +213,22 @@
                         <button class="close-btn" onclick="this.closest('dialog').close()">&times;</button>
                         <h3>Borrowing Information</h3>
 
-                        <!-- ✅ Success message -->
+                        <!-- ✅ Extend success -->
                         <c:if test="${not empty sessionScope.extendSuccess && (param.bookID == (book.bookID).toString())}">
                             <p style="background:#ecfdf5;color:#065f46;border:1px solid #10b981;
-                                      padding:10px;border-radius:8px;font-weight:600;margin-bottom:10px;
-                                      display:flex;align-items:center;justify-content:center;gap:6px;">
+                               padding:10px;border-radius:8px;font-weight:600;margin-bottom:10px;
+                               display:flex;align-items:center;justify-content:center;gap:6px;">
                                 <span style="font-size:18px;">✅</span>
-                                Due date updated successfully!
+                                ${sessionScope.extendSuccess}
                             </p>
+                            <c:remove var="extendSuccess" scope="session" />
                         </c:if>
 
                         <p><strong>Borrow Date:</strong> ${book.borrowDate}</p>
                         <p><strong>Due Date:</strong> ${book.dueDate}</p>
 
                         <div class="btn-group">
-                            <a href="${pageContext.request.contextPath}/user/return-books?name=${book.slug}" class="btn return">Return Book</a>
+                            <a href="${pageContext.request.contextPath}/user/return-books?slug=${book.slug}" class="btn return">Return Book</a>
                             <button class="btn extend" onclick="document.getElementById('extendBox${loop.index}').style.display = 'block'">Extend</button>
                         </div>
 
@@ -217,5 +262,18 @@
         <footer class="footer">
             <%@include file="/WEB-INF/views/components/footer.jsp" %>
         </footer>
+
+        <!--// notice return book--> 
+        <c:if test="${not empty sessionScope.returnSuccess}">
+            <div id="returnToast" class="toast">
+                ✅ ${sessionScope.returnSuccess}
+            </div>
+            <c:remove var="returnSuccess" scope="session" />
+            <script>
+                const toast = document.getElementById('returnToast');
+                setTimeout(() => toast.classList.add('show'), 100); 
+                setTimeout(() => toast.classList.remove('show'), 4000); // behind notification after 4s
+            </script>
+        </c:if>
     </body>
 </html>
