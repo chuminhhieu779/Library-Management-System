@@ -189,21 +189,21 @@
 
     <div class="navbar">
         <a href="#" class="navbar-brand">
-            <img src="images/library-logo.png" alt="Library Logo"> Online Library Management System
+            <img src="images/library-logo.png" alt="Library Logo"> Library Management System
         </a>
         <div class="navbar-links">
             <ul>
-                <li><a href="#">HOME</a></li>
-                <li><a href="#">USER LOGIN</a></li>
-                <li><a href="#">USER SIGNUP</a></li>
-                <li><a href="#" style="color: #007bff;">ADMIN LOGIN</a></li> </ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">User login</a></li>
+                <li><a href="#">User signup</a></li>
+                <li><a href="#" style="color: #007bff;">Admin login</a></li> </ul>
         </div>
     </div>
 
     <div class="divider"></div>
 
     <div class="container">
-        <h2 class="page-title">ADMIN LOGIN FORM</h2>
+        <h2 class="page-title">Admin login form</h2>
 
         <div class="login-box">
             <h3>LOGIN FORM</h3>
