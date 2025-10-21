@@ -156,7 +156,7 @@
             }
 
             /* ==== FOOTER ==== */
-               .footer {
+            .footer {
                 background: #111827;
                 color: #e5e7eb;
                 text-align: center;
@@ -184,9 +184,9 @@
     <body>
         <nav>
             <ul>                
-                <li><a href="${pageContext.request.contextPath}/user/booklist"> DashBoard</a></li>
-                <li><a href="/HomePage/Contact.html">Account</a></li>
-                <li><a href="${pageContext.request.contextPath}/Home">User Logout</a></li>
+                <li><a href="${pageContext.request.contextPath}/user/dashboard">Dashboard</a></li>
+                <li><a href="${pageContext.request.contextPath}/user/booklist"> Book List </a></li>
+                <li><a href="${pageContext.request.contextPath}/user/book-category">Category</a></li>      
             </ul>
         </nav>
 

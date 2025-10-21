@@ -38,7 +38,12 @@
                 font-size: 18px;
             }
 
-
+            .back-link {
+                display: flex;
+                margin: 0 0 16px;
+                text-decoration: none;
+                color: #2a6df4;
+            }
             /* ==== MAIN CONTENT ==== */
             .book-container {
                 flex: 1;
@@ -50,7 +55,7 @@
                 font-size: 28px;
                 margin-bottom: 30px;
                 color: #3f3f46;
-            }                 
+            }
             /* Gallery sách */
             .book-gallery {
                 display: grid;
@@ -109,8 +114,8 @@
             <span class="logo">📚 Library System</span>           
         </nav>
         <div class="book-container">
-            <h2>Book List</h2>            
-
+            <h2> Returned Books </h2>            
+            <a class="back-link" href="${pageContext.request.contextPath}/user/dashboard">← Back to DashBoard </a>
             <div class="book-gallery">
                 <c:forEach var="book" items="${returnedBooks}">
                     <a  class="book-card" >

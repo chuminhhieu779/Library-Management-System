@@ -240,11 +240,9 @@
     <body>
         <nav>
             <ul>
-                <li><a href="${pageContext.request.contextPath}/user/book-category">Category</a></li>
-                <li><a href="${pageContext.request.contextPath}/user/booklist">All Books</a></li>
-                <li><a href="/HomePage/About.html">Issued Books</a></li>
-                <li><a href="/HomePage/Contact.html">Account</a></li>
                 <li><a href="${pageContext.request.contextPath}/user/dashboard">Dashboard</a></li>
+                <li><a href="${pageContext.request.contextPath}/user/booklist"> Book List </a></li>
+                <li><a href="${pageContext.request.contextPath}/user/book-category">Category</a></li>      
             </ul>
         </nav>
 

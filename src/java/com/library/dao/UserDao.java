@@ -19,4 +19,6 @@ public interface UserDao {
       boolean checkUserExistence(String username);
       
       void addNewUser(String username,String account,String password);
+      
+      int findUserID(String account);
 }

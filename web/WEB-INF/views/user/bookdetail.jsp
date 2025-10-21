@@ -59,7 +59,7 @@
                 margin-top: auto;
             }
             /* ==== NAVIGATION ==== */
-             .navbar {
+            .navbar {
                 background: #111827;
                 color: #e5e7eb;
                 display: flex;
@@ -189,7 +189,7 @@
 
 
         <div class="detail-container">
-            <a class="back-link" href="${previousPage}">← Back to Library Books</a>
+            <a class="back-link" href="${pageContext.request.contextPath}/user/booklist">← Back to Library Books</a>
 
             <div class="detail-card">
                 <img class="detail-cover" src="${pageContext.request.contextPath}/resources/images/${book.coverImage}" alt="Physics Redefined">
@@ -207,9 +207,20 @@
                         </p>
                     </div>
                     <div class="detail-actions">
-                        <button class="btn btn-primary" type="button">Want to read</button>
-                        <button class="btn" type="button">Favorite</button>
+                        <form action="${pageContext.request.contextPath}/user/favorite-book" method="get">
+                            <input type="hidden" name="slug" value="${book.slug}">
+                            <button class="btn btn-primary" type="button">Want to read</button>
+                            <button class="btn" type="submit" name="bookID" value="${book.bookID}">Favorite</button>
+                        </form>
                     </div>
+                    <c:if test="${not empty success}">
+                        <div style="margin-top:10px; color:green; font-weight:500;">${success}</div>
+                        <c:remove var="success" scope="session" />
+                    </c:if>
+                    <c:if test="${not empty failed}">
+                        <div style="margin-top:10px; color:red; font-weight:500;">${failed}</div>
+                        <c:remove var="failed" scope="session"></c:remove>
+                    </c:if>                 
                 </div>
             </div>
         </div>

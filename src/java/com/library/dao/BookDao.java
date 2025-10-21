@@ -13,7 +13,9 @@ import java.util.List;
  */
 public interface BookDao {
      List<Books> getALLBook();
-     Books showBookDetail(String slug);
+     Books showBookDetail(String slug, int bookID);
      int totalBook();
      List<Books> searchBook(String query );    
+     void favoriteBook(int bookID, int  userID);
+     Books addBookToFavorite(int bookID); 
 }
