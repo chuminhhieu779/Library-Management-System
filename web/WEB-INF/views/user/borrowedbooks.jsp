@@ -198,7 +198,7 @@
         </nav>
 
         <div class="book-container">
-            <h2>Book List</h2>
+            <h2> Borrowed Books </h2>
             <a class="back-link" href="${pageContext.request.contextPath}/user/dashboard">← Back to DashBoard </a>
 
             <div class="book-gallery">

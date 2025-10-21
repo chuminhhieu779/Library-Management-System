@@ -28,12 +28,14 @@ public class BookDetails extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-           String slug = request.getParameter("name");
-           request.setAttribute("slug", slug);
-           
-           Books b = bookDao.showBookDetail(slug);
+           String slug = request.getParameter("slug");
+           int getBookId = Integer.valueOf(request.getParameter("bookID"));
+           request.setAttribute("slug", slug);   
+//            
+           Books b = bookDao.showBookDetail(slug, getBookId);
            String referer = request.getHeader("referer"); // take previous url 
-           request.setAttribute("previousPage", referer);
+           
+           request.setAttribute("previousPage", referer);                      
            request.setAttribute("book", b);
            request.getRequestDispatcher("/WEB-INF/views/user/bookdetail.jsp").forward(request, response);
     } 

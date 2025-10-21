@@ -145,9 +145,7 @@
                 
                 <li><a href="${pageContext.request.contextPath}/user/dashboard"> DashBoard</a></li>
                 <li><a href="${pageContext.request.contextPath}/user/book-category">Category</a></li>
-                <li><a href="${pageContext.request.contextPath}/user/search-books"> Search Book </a></li>
-                <li><a href="/HomePage/Contact.html">Account</a></li>
-           
+                <li><a href="${pageContext.request.contextPath}/user/search-books"> Search Book </a></li>          
             </ul>
         </nav>
       
@@ -157,7 +155,7 @@
 
             <div class="book-gallery">
                 <c:forEach var="book" items="${bookList}">
-                    <a href="${pageContext.request.contextPath}/user/bookdetail?name=${book.slug}" class="book-card" >
+                    <a href="${pageContext.request.contextPath}/user/bookdetail?slug=${book.slug}&bookID=${book.bookID}" class="book-card" >
                         <img src="${pageContext.request.contextPath}/resources/images/${book.coverImage}" alt="Book cover">
                     </a>
                 </c:forEach>
