@@ -5,8 +5,6 @@
 
 package com.library.controller.user;
 
-import com.library.dao.BookDao;
-import com.library.dao.BookImplementDao;
 import com.library.dao.BorrowingDao;
 import com.library.dao.BorrowingImplement;
 import com.library.model.Books;
@@ -24,30 +22,31 @@ import java.util.List;
  *
  * @author hieuchu
  */
-@WebServlet(name="LoadImage", urlPatterns={"/user/booklist"})
-public class BookList extends HttpServlet {
+@WebServlet(name="ReturnedBooks", urlPatterns={"/user/returned-books"})
+public class ReturnedBooksList extends HttpServlet {
    
-    BookDao bookDao = new BookImplementDao() ;
-          
+        BorrowingDao borrowDao = new BorrowingImplement();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        if(session.getAttribute("account")==null){
-            response.sendRedirect(request.getContextPath()+"/Login");
-            return;
+        HttpSession session = request.getSession(false);
+        if(session == null || session.getAttribute("account") == null){
+            response.sendRedirect(request.getContextPath() + "/Login");
+            return ;
         }
-        List<Books> bookList = bookDao.getALLBook();                 
-
-        request.setAttribute("bookList", bookList);        
-        request.getRequestDispatcher("/WEB-INF/views/user/booklist.jsp").forward(request, response);
+        String account = (String)session.getAttribute("account");
+        List<Books> list = borrowDao.returnedBooksList(account);
+        request.setAttribute("returnedBooks", list);
+        request.getRequestDispatcher("/WEB-INF/views/user/returnedbook.jsp").forward(request, response);
     } 
 
-
+  
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        
+
     }
+
 
 }

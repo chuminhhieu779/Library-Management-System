@@ -110,5 +110,10 @@ public class UserImplementDao implements UserDao{
             e.printStackTrace();;
         }
     }
+
+    @Override
+    public boolean checkAdminLogin(String username, String pass) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
 }

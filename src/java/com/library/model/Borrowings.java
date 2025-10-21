@@ -4,6 +4,7 @@
  */
 package com.library.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -13,14 +14,14 @@ import java.util.Date;
 public class Borrowings {
     private int borrowingID;
     private int userID;
-    private Date borrowDate;
-    private Date dueDate;
+    private LocalDate borrowDate;
+    private LocalDate dueDate;
     private String status;
 
     public Borrowings() {
     }
 
-    public Borrowings(int borrowingID, int userID, Date borrowDate, Date dueDate, String status) {
+    public Borrowings(int borrowingID, int userID, LocalDate borrowDate, LocalDate dueDate, String status) {
         this.borrowingID = borrowingID;
         this.userID = userID;
         this.borrowDate = borrowDate;
@@ -44,19 +45,19 @@ public class Borrowings {
         this.userID = userID;
     }
 
-    public Date getBorrowDate() {
+    public LocalDate getBorrowDate() {
         return borrowDate;
     }
 
-    public void setBorrowDate(Date borrowDate) {
+    public void setBorrowDate(LocalDate borrowDate) {
         this.borrowDate = borrowDate;
     }
 
-    public Date getDueDate() {
+    public LocalDate getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(Date dueDate) {
+    public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
     }
 
@@ -68,6 +69,6 @@ public class Borrowings {
         this.status = status;
     }
 
-
+ 
     
 }

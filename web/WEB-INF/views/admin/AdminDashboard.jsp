@@ -1,7 +1,7 @@
 <%-- 
-    Document   : homepage
-    Created on : Oct 10, 2025, 10:04:17 PM
-    Author     : hieuchu
+    Document   : AdminDashboard
+    Created on : Oct 21, 2025, 1:41:45 AM
+    Author     : laptop gigabyte
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -14,7 +14,4 @@
     <body>
         <h1>Hello World!</h1>
     </body>
-    <footer>
-        
-    </footer>
 </html>

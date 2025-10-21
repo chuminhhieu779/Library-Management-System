@@ -1,0 +1,31 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.library.dao;
+
+import com.library.model.Books;
+import com.library.model.BorrowedBookDTO;
+import java.time.LocalDate;
+import java.util.List;
+
+/**
+ *
+ * @author hieuchu
+ */
+public interface BorrowingDao {
+
+    int totalBorrowedBooks(String account);
+
+    int totalReturnedBooks(String account);
+
+    List<BorrowedBookDTO> borrowedBooksList(String account);
+
+    List<Books> returnedBooksList(String account);
+    
+    boolean returnBook(String account, String slug);
+    
+    boolean extendDueDay(int bookID, LocalDate dueDate, String account);
+    
+    LocalDate getBorrowDate(int bookID);
+}

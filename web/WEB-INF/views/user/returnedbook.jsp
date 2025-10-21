@@ -12,39 +12,32 @@
                 box-sizing: border-box;
             }
 
-            /* Toàn trang */
+            html, body {
+                height: 100%;
+            }
+
             body {
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                background: #f4f6f8;
-                color: #333;
-                min-height: 100vh;
                 display: flex;
                 flex-direction: column;
+                min-height: 100vh;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background: #f9f9ff;
             }
 
             /* ==== NAVIGATION ==== */
-            nav {
-                background: linear-gradient(135deg, #4f46e5, #6d28d9);
-                padding: 15px 0;
-            }
-
-            nav ul {
+            .navbar {
+                background: #111827;
+                color: #e5e7eb;
                 display: flex;
-                justify-content: center;
-                list-style: none;
+                justify-content: space-between;
+                align-items: center;
+                padding: 12px 40px;
+            }
+            .navbar .logo {
+                font-weight: 600;
+                font-size: 18px;
             }
 
-            nav li {
-                margin: 0 20px;
-            }
-
-            nav a {
-                text-decoration: none;
-                color: #fff;
-                font-weight: 500;
-                transition: color 0.3s;
-            }
-  
 
             /* ==== MAIN CONTENT ==== */
             .book-container {
@@ -57,35 +50,7 @@
                 font-size: 28px;
                 margin-bottom: 30px;
                 color: #3f3f46;
-            }
-            .book-container select {
-                position: relative; /* không nên absolute */
-                display: inline-block;
-                padding: 10px 14px;
-                font-size: 16px;
-                color: #333;
-                border: 2px solid #667eea;
-                border-radius: 8px;
-                background: #f8faff;
-                cursor: pointer;
-                transition: all 0.2s ease;
-                box-shadow: 0 3px 6px rgba(0,0,0,0.05);
-                outline: none;
-                margin-bottom: 25px;
-            }
-            .book-container select:hover,
-            .book-container select:focus {
-                border-color: #764ba2;
-                box-shadow: 0 0 8px rgba(118,75,162,0.3);
-            }
-
-            /* ==== OPTION ==== */
-            .book-container option {
-                padding: 10px;
-                font-size: 15px;
-                color: #333;
-                background-color: #fff;
-            }
+            }                 
             /* Gallery sách */
             .book-gallery {
                 display: grid;
@@ -140,22 +105,15 @@
     </head>
 
     <body>
-        <nav>
-            <ul>
-                <li><a href="${pageContext.request.contextPath}/user/book-category">Category</a></li>
-                <li><a href="/HomePage/About.html">Issued Books</a></li>
-                <li><a href="/HomePage/Contact.html">Account</a></li>
-                <li><a href="${pageContext.request.contextPath}/user/dashboard"> DashBoard</a></li>
-            </ul>
+        <nav class="navbar">
+            <span class="logo">📚 Library System</span>           
         </nav>
-      
-
         <div class="book-container">
             <h2>Book List</h2>            
 
             <div class="book-gallery">
-                <c:forEach var="book" items="${bookList}">
-                    <a href="${pageContext.request.contextPath}/user/bookdetail?name=${book.slug}" class="book-card" >
+                <c:forEach var="book" items="${returnedBooks}">
+                    <a  class="book-card" >
                         <img src="${pageContext.request.contextPath}/resources/images/${book.coverImage}" alt="Book cover">
                     </a>
                 </c:forEach>

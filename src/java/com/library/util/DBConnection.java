@@ -30,7 +30,7 @@ public class DBConnection {
     private DBConnection() {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            connection = DriverManager.getConnection(url, user, password);
+            connection = DriverManager.getConnection(url, user, password);           
         } catch (ClassNotFoundException c) {
             logger.error("JBDC Driver not found {}", c.getMessage(), c);
         } catch (SQLException s) {
