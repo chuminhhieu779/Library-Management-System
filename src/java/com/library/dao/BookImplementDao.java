@@ -23,15 +23,14 @@ import org.slf4j.LoggerFactory;
 public class BookImplementDao implements BookDao {
 
     private static final Logger logger = LoggerFactory.getLogger(BookImplementDao.class);
-    private Connection conn = DBConnection.getInstance().getConnection();
-
     @Override
     public List<Books> getALLBook() {
         List<Books> list = new ArrayList<>();
-        String sql = "select * from books ";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+        String sql = "SELECT * FROM books";
+
+        try (   Connection conn = DBConnection.getInstance().getConnection(); 
+                PreparedStatement ps = conn.prepareStatement(sql); 
+                ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 Books b = new Books();
                 b.setBookID(rs.getInt("book_id"));
@@ -39,17 +38,20 @@ public class BookImplementDao implements BookDao {
                 b.setCoverImage(rs.getString("cover_image"));
                 list.add(b);
             }
-        } catch (SQLException s) {
-            logger.error("Error executing: {}", s.getMessage(), s);
+
+        } catch (SQLException e) {
+            logger.error("Error executing: {}", e.getMessage(), e);
         }
+
         return list;
     }
 
     @Override
     public Books showBookDetail(String slug, int bookID) {
         String sql = "select * from books join categories on books.category_id = categories.category_id where books.slug = ? and books.book_id = ? ";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
+        try (
+            Connection conn = DBConnection.getInstance().getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)){
             ps.setString(1, slug);
             ps.setInt(2, bookID);
             ResultSet rs = ps.executeQuery();
@@ -77,9 +79,10 @@ public class BookImplementDao implements BookDao {
     public int totalBook() {
         int sum = 0;
         String sql = "select count(*) as total from Books";
-        try {
+        try (
+            Connection conn = DBConnection.getInstance().getConnection();
             PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+            ResultSet rs = ps.executeQuery()){
             if (rs.next()) {
                 sum = rs.getInt("total");
             }
@@ -94,8 +97,9 @@ public class BookImplementDao implements BookDao {
         List<Books> list = new ArrayList<>();
         String sql = "select * from books\n"
                 + "where title_unaccented like ? ";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
+        try (
+            Connection conn = DBConnection.getInstance().getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)){
             ps.setString(1, "%" + query + "%");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -119,8 +123,9 @@ public class BookImplementDao implements BookDao {
     @Override
     public void favoriteBook(int bookID, int userID) {
         String sql = "insert into favorites(user_id, book_id) values (? , ? )";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
+        try (
+            Connection conn = DBConnection.getInstance().getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)){
             ps.setInt(1, userID);
             ps.setInt(2, bookID);
             ps.executeUpdate();
@@ -133,8 +138,9 @@ public class BookImplementDao implements BookDao {
     public Books addBookToFavorite(int bookID) {
         String sql = "select * from books join favorites on favorites.book_id = books.book_id"
                 + " join users on users.user_id = favorites.user_id where favorites.book_id = ? ";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
+        try (
+            Connection conn = DBConnection.getInstance().getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)){
             ps.setInt(1, bookID);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -156,10 +162,10 @@ public class BookImplementDao implements BookDao {
     }
 
     @Override
-    public void decreaseQuantity(Connection conn2, int bookID) {
+    public void decreaseQuantity(Connection conn, int bookID) {
         String sql = "update books set books.quantity = books.quantity - 1 where books.book_id = ? ";
-        try {
-            PreparedStatement ps = conn2.prepareStatement(sql);
+        try (            
+            PreparedStatement ps = conn.prepareStatement(sql)){
             ps.setInt(1, bookID);
             ps.executeUpdate();
         } catch (SQLException s) {

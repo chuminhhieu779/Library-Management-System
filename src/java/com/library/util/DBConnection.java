@@ -16,36 +16,36 @@ import org.slf4j.LoggerFactory;
  * @author hieuchu
  */
 public class DBConnection {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(DBConnection.class);
     private static DBConnection instance;
-    private Connection connection;
-    private static final String url = "jdbc:sqlserver://localhost:1433;databaseName=LibraryManagement;encrypt=true;trustServerCertificate=true";
-    private static final String user = "sa";
-    private static final String password = "123";
-    
-    
-    
-    
+
+    private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=LibraryManagement;encrypt=true;trustServerCertificate=true";
+    private static final String USER = "sa";
+    private static final String PASSWORD = "123";
+
     private DBConnection() {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            connection = DriverManager.getConnection(url, user, password);           
-        } catch (ClassNotFoundException c) {
-            logger.error("JBDC Driver not found {}", c.getMessage(), c);
-        } catch (SQLException s) {
-            logger.error("Database connection failed: {} ", s.getMessage(), s);
+        } catch (ClassNotFoundException e) {
+            logger.error("SQL Server JDBC Driver not found: {}", e.getMessage(), e);
         }
     }
-    
-    public static DBConnection getInstance() {
+
+    public static synchronized DBConnection getInstance() {
         if (instance == null) {
             instance = new DBConnection();
         }
         return instance;
     }
-    
+
     public Connection getConnection() {
-        return connection;
+        try {
+            Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            return conn;
+        } catch (SQLException e) {
+            logger.error("Error getting connection: {}", e.getMessage(), e);
+            throw new RuntimeException(e);
+        }
     }
 }

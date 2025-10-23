@@ -26,14 +26,14 @@ import org.slf4j.LoggerFactory;
 public class CategoryImplement implements CategoryDao {
 
     private static final Logger logger = LoggerFactory.getLogger(CategoryImplement.class);
-    private Connection conn = DBConnection.getInstance().getConnection();
 
     @Override
     public List<Books> categorizeBook(String category) {       
         List<Books> list = new ArrayList<>();         
         String sql = "select * from categories join books on categories.category_id = books.category_id where categories.name = ? ";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
+        try (
+            Connection conn = DBConnection.getInstance().getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)){
             ps.setString(1, category);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -52,8 +52,9 @@ public class CategoryImplement implements CategoryDao {
     public List<Books> getAllBook() {
         List<Books> list = new ArrayList<>();
         String sql = "select * from books ";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
+        try (
+            Connection conn = DBConnection.getInstance().getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)){
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Books b = new Books();
