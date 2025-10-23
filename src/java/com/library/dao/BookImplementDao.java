@@ -154,4 +154,16 @@ public class BookImplementDao implements BookDao {
         }
         return null;
     }
+
+    @Override
+    public void decreaseQuantity(Connection conn2, int bookID) {
+        String sql = "update books set books.quantity = books.quantity - 1 where books.book_id = ? ";
+        try {
+            PreparedStatement ps = conn2.prepareStatement(sql);
+            ps.setInt(1, bookID);
+            ps.executeUpdate();
+        } catch (SQLException s) {
+            logger.error("Error excecuting{}", s.getMessage(), s);
+        }
+    }
 }

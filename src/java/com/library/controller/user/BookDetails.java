@@ -33,9 +33,7 @@ public class BookDetails extends HttpServlet {
            request.setAttribute("slug", slug);   
 //            
            Books b = bookDao.showBookDetail(slug, getBookId);
-           String referer = request.getHeader("referer"); // take previous url 
-           
-           request.setAttribute("previousPage", referer);                      
+                                       
            request.setAttribute("book", b);
            request.getRequestDispatcher("/WEB-INF/views/user/bookdetail.jsp").forward(request, response);
     } 

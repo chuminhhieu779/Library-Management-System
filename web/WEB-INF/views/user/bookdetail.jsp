@@ -133,6 +133,18 @@
                 cursor: pointer;
             }
             .btn-primary {
+                background: linear-gradient(90deg, #667eea, #764ba2);
+                color: #fff;
+                border: none;
+                transition: 0.3s;
+            }
+
+            .btn-primary:hover {
+                background: linear-gradient(90deg, #5a67d8, #6b46c1);
+                transform: scale(1.05);
+            }
+
+            .btn-primary {
                 background: #2a6df4;
                 color: #fff;
                 border-color: #2a6df4;
@@ -207,10 +219,15 @@
                         </p>
                     </div>
                     <div class="detail-actions">
-                        <form action="${pageContext.request.contextPath}/user/favorite-book" method="get">
+                        <!-- Form favorite -->
+                        <form action="${pageContext.request.contextPath}/user/favorite-book" method="get" style="display:inline;">
                             <input type="hidden" name="slug" value="${book.slug}">
-                            <button class="btn btn-primary" type="button">Want to read</button>
-                            <button class="btn" type="submit" name="bookID" value="${book.bookID}">Favorite</button>
+                            <button class="btn btn-primary" type="submit" name="bookID" value="${book.bookID}">Favorite</button>
+                        </form>                       
+                        <!-- Form borrow book -->
+                        <form action="${pageContext.request.contextPath}/user/borrow-book" method="get" style="display:inline;">
+                            <input type="hidden" name="slug" value="${book.slug}">
+                            <button class="btn btn-primary" type="submit" name="bookID" value="${book.bookID}">Borrow Book</button>
                         </form>
                     </div>
                     <c:if test="${not empty success}">
