@@ -33,4 +33,7 @@ public interface BorrowingDao {
     boolean isBookAvailable(String slug , int bookID);
     
     void insertBook(Connection conn , int bookID, int userID);
+    
+     boolean hasUserBorrowedBook(int bookID, int userID);
+
 }

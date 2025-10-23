@@ -38,13 +38,13 @@ public class BorrowBook extends HttpServlet {
         String slug = request.getParameter("slug");
         int bookID = Integer.parseInt(request.getParameter("bookID"));
         String account = (String) session.getAttribute("account");
-        int userID = userDao.findUserID(account);
-        
-        boolean checkBorrowBook = borrowService.borrowBook(slug, bookID, userID);
-        if (checkBorrowBook) {
-            session.setAttribute("success", "you borrow book !!");            
+        int userID = userDao.findUserID(account);     
+           
+        if (borrowService.canBorrowBook(bookID, userID)) {
+            borrowService.borrowBook(slug, bookID, userID);
+            session.setAttribute("success", "you borrowed book !!");            
         } else {
-            session.setAttribute("failed", "borrow book failed !!");
+            session.setAttribute("failed", "you already borrowed this book !!!");
         }        
         response.sendRedirect(request.getContextPath() + "/user/bookdetail?slug=" + slug + "&bookID=" + bookID);
     }
