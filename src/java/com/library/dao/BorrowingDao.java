@@ -6,6 +6,7 @@ package com.library.dao;
 
 import com.library.model.Books;
 import com.library.model.BorrowedBookDTO;
+import java.sql.Connection;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -28,4 +29,8 @@ public interface BorrowingDao {
     boolean extendDueDay(int bookID, LocalDate dueDate, String account);
     
     LocalDate getBorrowDate(int bookID);
+    
+    boolean isBookAvailable(String slug , int bookID);
+    
+    void insertBook(Connection conn , int bookID, int userID);
 }

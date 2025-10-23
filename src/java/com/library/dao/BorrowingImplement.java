@@ -166,13 +166,47 @@ public class BorrowingImplement implements BorrowingDao {
             ps.setInt(1, bookID);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-               LocalDate currentBorrowDate = rs.getDate("borrow_date").toLocalDate();
+                LocalDate currentBorrowDate = rs.getDate("borrow_date").toLocalDate();
                 return currentBorrowDate;
-            }   
+            }
         } catch (SQLException s) {
             logger.error("Error executing: {}", s.getMessage(), s);
         }
-        return null ;
+        return null;
+    }
+
+    @Override
+    public boolean isBookAvailable(String slug, int bookID) {
+        String sql = "select * from books where books.book_id = ? and slug = ? ";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, bookID);
+            ps.setString(2, slug);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                if (rs.getInt("quantity") > 0) {
+                    return true;
+                }
+            }
+        } catch (SQLException s) {
+            logger.error("Error executing: {}", s.getMessage(), s);
+        }
+        return false;
+    }
+
+    @Override
+    public void insertBook(Connection conn2 ,int bookID, int userID) {
+        String sql = "INSERT INTO borrowings (user_id, book_id, borrow_date, due_date, return_date, late_days, fine_amount, fine_paid, status) "
+                + "VALUES (?, ?, GETDATE(), DATEADD(MONTH, 2, GETDATE()), NULL, 0, 0.00, 'Unpaid', 'borrowing')";
+        try {
+             PreparedStatement ps = conn2.prepareStatement(sql);
+             ps.setInt(1, userID);
+             ps.setInt(2, bookID);
+             ps.executeUpdate();           
+        } catch (SQLException s) {
+            logger.error("Error executing: {}", s.getMessage(), s);
+
+        }
     }
 
 }

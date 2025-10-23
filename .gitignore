@@ -56,3 +56,4 @@ Thumbs.db
 *.war
 *.ear
 
+/UploadBook/nbproject/private/

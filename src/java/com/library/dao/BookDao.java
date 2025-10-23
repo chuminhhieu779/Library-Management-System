@@ -5,6 +5,7 @@
 package com.library.dao;
 
 import com.library.model.Books;
+import java.sql.Connection;
 import java.util.List;
 
 /**
@@ -18,4 +19,5 @@ public interface BookDao {
      List<Books> searchBook(String query );    
      void favoriteBook(int bookID, int  userID);
      Books addBookToFavorite(int bookID); 
+     void decreaseQuantity(Connection conn, int bookID);
 }
