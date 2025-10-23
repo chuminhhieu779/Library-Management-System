@@ -27,21 +27,26 @@ public class BorrowingService {
     private final UserDao userDao = new UserImplementDao();
     private final BookDao bookDao = new BookImplementDao();
 
-    public boolean borrowBook(String slug, int bookID, int userID) {
+    public boolean canBorrowBook(int bookID, int userID) {
+        if (borrowDao.hasUserBorrowedBook(bookID, userID)) {
+            return true;
+        }
+        return false;
+    }
+
+    public void borrowBook(String slug, int bookID, int userID) {
         try (Connection conn = DBConnection.getInstance().getConnection()) {
             conn.setAutoCommit(false);
             try {
                 borrowDao.insertBook(conn, bookID, userID);
                 bookDao.decreaseQuantity(conn, bookID);
                 conn.commit();
-                return true;
             } catch (SQLException s) {
                 conn.rollback();
-                return false;
             }
-        }catch(SQLException s1){
+        } catch (SQLException s1) {
             s1.printStackTrace();
-            return false;
-        }                
+        }
+
     }
 }

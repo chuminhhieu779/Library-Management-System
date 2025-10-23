@@ -198,7 +198,7 @@ public class BorrowingImplement implements BorrowingDao {
         String sql = "INSERT INTO borrowings (user_id, book_id, borrow_date, due_date, return_date, late_days, fine_amount, fine_paid, status) "
                 + "VALUES (?, ?, GETDATE(), DATEADD(MONTH, 2, GETDATE()), NULL, 0, 0.00, 'Unpaid', 'borrowing')";
         try (
-            PreparedStatement ps = conn.prepareStatement(sql)){
+                PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, userID);
             ps.setInt(2, bookID);
             ps.executeUpdate();
@@ -208,4 +208,20 @@ public class BorrowingImplement implements BorrowingDao {
         }
     }
 
+    @Override
+    public boolean hasUserBorrowedBook(int bookID, int userID) {
+        String sql = "select * from borrowings where book_id = ? and user_id = ?  ";
+        try (
+             Connection conn = DBConnection.getInstance().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);) {
+            ps.setInt(1, bookID);
+            ps.setInt(2, userID);            
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return false;
+            }
+        } catch (Exception e) {
+        }
+        return true ;
+    }
 }

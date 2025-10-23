@@ -20,4 +20,5 @@ public interface BookDao {
      void favoriteBook(int bookID, int  userID);
      Books addBookToFavorite(int bookID); 
      void decreaseQuantity(Connection conn, int bookID);
+    
 }
