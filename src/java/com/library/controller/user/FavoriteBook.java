@@ -9,6 +9,7 @@ import com.library.dao.BookImplementDao;
 import com.library.dao.UserDao;
 import com.library.dao.UserImplementDao;
 import com.library.model.Books;
+import com.library.service.FavoriteService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -26,10 +27,8 @@ import java.util.List;
  */
 @WebServlet(name = "Favorite", urlPatterns = {"/user/favorite-book"})
 public class FavoriteBook extends HttpServlet {
-
-    UserDao userDao = new UserImplementDao();
-    BookDao bookDao = new BookImplementDao();
-
+    
+    FavoriteService favService = new FavoriteService();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -40,19 +39,17 @@ public class FavoriteBook extends HttpServlet {
             return;
         }
         String account = (String) session.getAttribute("account");
-        int userID = userDao.findUserID(account);
+        int userID = favService.getUserIdByAccount(account);
         int bookID = Integer.valueOf(request.getParameter("bookID"));
-
-        bookDao.favoriteBook(bookID, userID); /// insert into favorite table 
-        List<Books> favoriteBooks = new ArrayList<>();
-        favoriteBooks.add(bookDao.addBookToFavorite(bookID));
-        if (favoriteBooks != null && !favoriteBooks.isEmpty()) {
+        
+        /// insert into favorite table 
+        if (favService.addBookToFavorite(bookID, userID)) {
             session.setAttribute("success", "Book added to favorite list");
-        } else {
-            session.setAttribute("failed", "Failed to add the book to favorite list");
         }
+        else {
+            session.setAttribute("failed", "you already favorited this book ");
+        }           
         String slug = request.getParameter("slug");
-        request.setAttribute("favoriteBooks", favoriteBooks);
         response.sendRedirect(request.getContextPath() + "/user/bookdetail?slug=" + slug + "&bookID=" + bookID);
 
     }
