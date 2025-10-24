@@ -2,11 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package com.library.controller.user;
+package com.library.controller.favorite;
 
+import com.library.dao.BookDao;
+import com.library.dao.BookImplementDao;
 import com.library.dao.UserDao;
 import com.library.dao.UserImplementDao;
-import com.library.service.BorrowingService;
+import com.library.model.Books;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,44 +17,41 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  *
  * @author hieuchu
  */
-@WebServlet(name = "BorrowBook", urlPatterns = {"/user/borrow-book"})
-public class BorrowBook extends HttpServlet {
-    
-    BorrowingService borrowService = new BorrowingService();
+@WebServlet(name = "ListFavoriteBook", urlPatterns = {"/favorite/books"})
+public class ListFavoriteBook extends HttpServlet {
+
     UserDao userDao = new UserImplementDao();
-    
+    BookDao bookDao = new BookImplementDao();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("account") == null) {
-            response.sendRedirect("/Login");
+            response.sendRedirect(request.getContextPath() + "/Login");
             return;
         }
-        String slug = request.getParameter("slug");
-        int bookID = Integer.parseInt(request.getParameter("bookID"));
         String account = (String) session.getAttribute("account");
-        int userID = userDao.findUserID(account);     
-           
-        if (borrowService.canBorrowBook(bookID, userID)) {
-            borrowService.borrowBook(slug, bookID, userID);
-            session.setAttribute("success", "you borrowed book !!");            
-        } else {
-            session.setAttribute("failed", "you already borrowed this book !!!");
-        }        
-        response.sendRedirect(request.getContextPath() + "/user/bookdetail?slug=" + slug + "&bookID=" + bookID);
+        int userID = userDao.findUserID(account);
+
+        List<Books> favoriteBooks = bookDao.showBookFromFavorite(userID);
+        request.setAttribute("favoriteBooks", favoriteBooks);
+        request.getRequestDispatcher("/WEB-INF/views/favorite/favoritebook.jsp").forward(request, response);
+        return;
+
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
     }
-    
+
 }

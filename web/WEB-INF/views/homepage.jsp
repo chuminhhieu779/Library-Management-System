@@ -25,8 +25,8 @@
                 <li><a href="/HomePage/Home.html">Home</a></li>
                 <li><a href="/HomePage/About.html">About</a></li>
                 <li><a href="/HomePage/Contact.html">Contact</a></li>
-                <li><a href="${pageContext.request.contextPath}/Login"> User Login</a></li>
-                <li><a href="${pageContext.request.contextPath}/Admin">Admin Login </a></li>
+                <li><a href="${pageContext.request.contextPath}/user/login"> User Login</a></li>
+                <li><a href="${pageContext.request.contextPath}/admin/login">Admin Login </a></li>
             </ul>
         </nav>
         <main>
@@ -39,7 +39,7 @@
             
                         
             <div class="login">
-                <form action="Login" method="post">
+                <form action="user/login" method="post">
                     <div class="title">
                         <h3> Login Form </h3>
                     </div>

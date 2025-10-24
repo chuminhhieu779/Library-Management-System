@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package com.library.controller.user;
+package com.library.controller.borrowing;
 
 import com.library.dao.BorrowingDao;
 import com.library.dao.BorrowingImplement;
@@ -22,7 +22,7 @@ import java.util.List;
  *
  * @author hieuchu
  */
-@WebServlet(name="ReturnedBooks", urlPatterns={"/user/returned-books"})
+@WebServlet(name="ReturnedBooks", urlPatterns={"/borrowing/returned"})
 public class ReturnedBooksList extends HttpServlet {
    
         BorrowingDao borrowDao = new BorrowingImplement();
@@ -38,7 +38,7 @@ public class ReturnedBooksList extends HttpServlet {
         String account = (String)session.getAttribute("account");
         List<Books> list = borrowDao.returnedBooksList(account);
         request.setAttribute("returnedBooks", list);
-        request.getRequestDispatcher("/WEB-INF/views/user/returnedbook.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/borrowing/returnedbook.jsp").forward(request, response);
     } 
 
   

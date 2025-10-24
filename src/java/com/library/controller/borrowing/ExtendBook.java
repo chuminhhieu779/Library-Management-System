@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package com.library.controller.user;
+package com.library.controller.borrowing;
 
 import com.library.dao.BorrowingDao;
 import com.library.dao.BorrowingImplement;
@@ -23,7 +23,7 @@ import java.util.List;
  *
  * @author hieuchu
  */
-@WebServlet(name = "ExtendBook", urlPatterns = {"/user/extend-books"})
+@WebServlet(name = "ExtendBook", urlPatterns = {"/borrowing/extend"})
 public class ExtendBook extends HttpServlet {
 
     BorrowingDao borrowDao = new BorrowingImplement();
@@ -56,13 +56,13 @@ public class ExtendBook extends HttpServlet {
             List<BorrowedBookDTO> borrowedBooks = borrowDao.borrowedBooksList(account);
             request.setAttribute("borrowedBooks", borrowedBooks);
             request.setAttribute("targetBookID", bookID); // show popup when update book is failed 
-            request.getRequestDispatcher("/WEB-INF/views/user/borrowedbooks.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/borrowing/borrowedbooks.jsp").forward(request, response);
             return;
         }
         boolean commitExtraDate = borrowDao.extendDueDay(bookID, newDueDate, account);
         if (commitExtraDate) {
             session.setAttribute("extendSuccess", " Due date updated successfully!");
-            response.sendRedirect(request.getContextPath() + "/user/borrowed-books?bookID=" + bookID);
+            response.sendRedirect(request.getContextPath() + "/borrowing/borrowed?bookID=" + bookID);
         }
     }
 

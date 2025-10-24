@@ -256,7 +256,7 @@
                     <a href="${pageContext.request.contextPath}/user/profile" class="dropdown-item">
                         <i class="fa-solid fa-user"></i> Profile
                     </a>     
-                    <a href="${pageContext.request.contextPath}/user/favorite" class="dropdown-item">
+                    <a href="${pageContext.request.contextPath}/favorite/books" class="dropdown-item">
                         <i class="fa-solid fa-user"></i> Favorite 
                     </a>     
                     <a href="${pageContext.request.contextPath}/logout" class="dropdown-item logout">
@@ -271,19 +271,19 @@
             <h2>User Dashboard</h2>
 
             <div class="stats">
-                <a href="${pageContext.request.contextPath}/user/booklist" class="card">
+                <a href="${pageContext.request.contextPath}/book/list" class="card">
                     <i class="fa-solid fa-book-open icon blue"></i>
                     <h3>${totalBook}</h3>
                     <p>Total Books</p>
                 </a>
 
-                <a href="${pageContext.request.contextPath}/user/borrowed-books" class="card">
+                <a href="${pageContext.request.contextPath}/borrowing/borrowed" class="card">
                     <i class="fa-solid fa-recycle icon green"></i>
                     <h3>${totalBorrowedBook}</h3>
                     <p>Borrowed Books</p>
                 </a>
 
-                <a href="${pageContext.request.contextPath}/user/returned-books" class="card">
+                <a href="${pageContext.request.contextPath}/borrowing/returned" class="card">
                     <i class="fa-solid fa-hand-holding icon orange"></i>
                     <h3>${totalReturnedBooks}</h3>
                     <p>Returned Books</p>

@@ -3,10 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package com.library.controller.user;
+package com.library.controller.book;
 
 import com.library.dao.BookDao;
 import com.library.dao.BookImplementDao;
+import com.library.dao.BorrowingDao;
+import com.library.dao.BorrowingImplement;
 import com.library.model.Books;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,26 +17,33 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 /**
  *
  * @author hieuchu
  */
-@WebServlet(name="SearchBook", urlPatterns={"/user/search-books"})
-public class SearchBook extends HttpServlet {   
-    BookDao bookDao = new BookImplementDao();
-    
+@WebServlet(name="LoadImage", urlPatterns={"/book/list"})
+public class BookList extends HttpServlet {
+   
+    BookDao bookDao = new BookImplementDao() ;
+          
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String query = request.getParameter("query");
-        List<Books>  b = bookDao.searchBook(query);
-        request.setAttribute("searchBook", b);
-        request.getRequestDispatcher("/WEB-INF/views/user/searchbook.jsp").forward(request, response);
+        HttpSession session = request.getSession();
+        if(session.getAttribute("account")==null){
+            response.sendRedirect(request.getContextPath()+"/Login");
+            return;
+        }
+        List<Books> bookList = bookDao.getALLBook();                 
+
+        request.setAttribute("bookList", bookList);        
+        request.getRequestDispatcher("/WEB-INF/views/book/booklist.jsp").forward(request, response);
     } 
 
-  
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {

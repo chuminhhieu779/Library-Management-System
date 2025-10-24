@@ -94,7 +94,7 @@ public class BookImplementDao implements BookDao {
         String sql = "select * from books\n"
                 + "where title_unaccented like ? ";
         try (
-               Connection conn = DBConnection.getInstance().getConnection();
+              Connection conn = DBConnection.getInstance().getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, "%" + query + "%");
             ResultSet rs = ps.executeQuery();

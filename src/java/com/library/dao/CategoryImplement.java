@@ -37,7 +37,8 @@ public class CategoryImplement implements CategoryDao {
             ps.setString(1, category);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Books b = new Books();
+                Books b = new Books();               
+                b.setBookID(rs.getInt("book_id"));
                 b.setSlug(rs.getString("slug"));
                 b.setCoverImage(rs.getString("cover_image"));
                 list.add(b);              

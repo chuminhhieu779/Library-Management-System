@@ -228,7 +228,7 @@
                         <p><strong>Due Date:</strong> ${book.dueDate}</p>
 
                         <div class="btn-group">
-                            <a href="${pageContext.request.contextPath}/user/return-books?slug=${book.slug}" class="btn return">Return Book</a>
+                            <a href="${pageContext.request.contextPath}/borrowing/return?slug=${book.slug}" class="btn return">Return Book</a>
                             <button class="btn extend" onclick="document.getElementById('extendBox${loop.index}').style.display = 'block'">Extend</button>
                         </div>
 
@@ -243,7 +243,7 @@
                                 </p>
                             </c:if>
 
-                            <form action="${pageContext.request.contextPath}/user/extend-books" method="post">
+                            <form action="${pageContext.request.contextPath}/borrowing/extend" method="post">
                                 <label>Choose new due date:</label><br>
                                 <input type="date" name="newDueDate" min="${book.borrowDate}" required>
                                 <input type="hidden" name="bookID" value="${book.bookID}">
