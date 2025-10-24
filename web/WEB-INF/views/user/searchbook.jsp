@@ -270,7 +270,7 @@
             <div class="book-container">        
                 <div class="book-gallery">
                     <c:forEach var="book" items="${searchBook}">
-                        <a href="${pageContext.request.contextPath}/user/bookdetail?name=${book.slug}" class="book-card" >
+                        <a href="${pageContext.request.contextPath}/user/bookdetail?slug=${book.slug}&bookID=${book.bookID}" class="book-card" >                            
                             <img src="${pageContext.request.contextPath}/resources/images/${book.coverImage}" alt="Book cover">
                         </a>
                     </c:forEach>
