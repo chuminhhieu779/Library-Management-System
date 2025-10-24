@@ -13,7 +13,6 @@
                 box-sizing: border-box;
             }
 
-            /* Toàn trang */
             body {
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                 background: #f4f6f8;
@@ -26,17 +25,16 @@
             /* ==== NAVIGATION ==== */
             nav {
                 background: rgb(19, 24, 39);
-                padding: 15px 0;
+                padding: 15px 30px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
             }
 
             nav ul {
                 display: flex;
-                justify-content: center;
                 list-style: none;
-            }
-
-            nav li {
-                margin: 0 20px;
+                gap: 20px;
             }
 
             nav a {
@@ -46,8 +44,44 @@
                 transition: color 0.3s;
             }
 
+            nav a:hover {
+                color: #e0e7ff;
+            }
 
-            /* ==== MAIN CONTENT ==== */
+            /* === LOGIN SIGNUP BUTTONS === */
+            .auth-buttons {
+                display: flex;
+                gap: 15px;
+            }
+
+            .auth-buttons a {
+                color: white;
+                text-decoration: none;
+                padding: 8px 16px;
+                border-radius: 6px;
+                transition: all 0.3s ease;
+                font-weight: 500;
+            }
+
+            .auth-buttons a.login {
+                background: linear-gradient(135deg, #4f46e5, #6d28d9);
+            }
+
+            .auth-buttons a.signup {
+                background: transparent;
+                border: 1.5px solid #6d28d9;
+            }
+
+            .auth-buttons a.login:hover {
+                opacity: 0.9;
+            }
+
+            .auth-buttons a.signup:hover {
+                background: #6d28d9;
+                color: #fff;
+            }
+
+            /* ==== MAIN ==== */
             .search-container {
                 flex: 1;
                 padding: 40px 60px;
@@ -60,7 +94,6 @@
                 color: #3f3f46;
             }
 
-            /* ==== SEARCH BOX ==== */
             .search-wrapper {
                 max-width: 600px;
                 margin: 0 auto 40px;
@@ -74,11 +107,6 @@
                 padding: 5px;
                 border-radius: 50px;
                 box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-                transition: box-shadow 0.3s ease;
-            }
-
-            .search-form:focus-within {
-                box-shadow: 0 6px 20px rgba(79, 70, 229, 0.25);
             }
 
             .search-input {
@@ -90,10 +118,6 @@
                 border-radius: 50px;
                 color: #333;
                 background: transparent;
-            }
-
-            .search-input::placeholder {
-                color: #9ca3af;
             }
 
             .search-btn {
@@ -109,60 +133,6 @@
                 display: flex;
                 align-items: center;
                 gap: 8px;
-            }
-
-            .search-btn:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 5px 15px rgba(79, 70, 229, 0.4);
-            }
-
-            .search-btn:active {
-                transform: translateY(0);
-            }
-
-
-
-            /* ==== RESULTS INFO ==== */
-            .results-info {
-                margin-bottom: 25px;
-                color: #6b7280;
-                font-size: 15px;
-            }
-
-            .results-info strong {
-                color: #4f46e5;
-                font-weight: 600;
-            }
-
-            /* ==== NO RESULTS ==== */
-            .no-results {
-                text-align: center;
-                padding: 60px 20px;
-            }
-
-            .no-results i {
-                font-size: 80px;
-                color: #d1d5db;
-                margin-bottom: 20px;
-            }
-
-            .no-results h3 {
-                font-size: 24px;
-                color: #6b7280;
-                margin-bottom: 10px;
-            }
-
-            .no-results p {
-                color: #9ca3af;
-                font-size: 16px;
-            }
-
-            /* ==== BOOK GALLERY ==== */
-            .book-container option {
-                padding: 10px;
-                font-size: 15px;
-                color: #333;
-                background-color: #fff;
             }
 
             .book-gallery {
@@ -192,7 +162,6 @@
                 object-fit: cover;
             }
 
-            /* ==== FOOTER ==== */
             .footer {
                 background: #111827;
                 color: #e5e7eb;
@@ -200,38 +169,10 @@
                 padding: 10px 5px;
             }
 
-            .footer-section h3 {
-                margin-bottom: 10px;
-                font-size: 15px;
-                color: #a5b4fc;
-            }
-
-            .footer-section p {
-                font-size: 14px;
-                line-height: 1.6;
-                max-width: 600px;
-                margin: 0 auto 20px;
-            }
-
-            /* ==== RESPONSIVE ==== */
             @media (max-width: 768px) {
-                .search-container {
-                    padding: 30px 20px;
-                }
-
-                .search-form {
+                nav {
                     flex-direction: column;
-                    border-radius: 15px;
-                }
-
-                .search-btn {
-                    justify-content: center;
-                    border-radius: 10px;
-                }
-
-                .book-gallery {
-                    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-                    gap: 20px;
+                    gap: 10px;
                 }
             }
         </style>
@@ -240,16 +181,28 @@
     <body>
         <nav>
             <ul>
-                <li><a href="${pageContext.request.contextPath}/user/dashboard">Dashboard</a></li>
-                <li><a href="${pageContext.request.contextPath}/book/list"> Book List </a></li>
-                <li><a href="${pageContext.request.contextPath}/book/category">Category</a></li>      
+                <li><a href="${pageContext.request.contextPath}/book/list">Book List</a></li>
+                <li><a href="${pageContext.request.contextPath}/book/category">Category</a></li>
+                <li><a href="${pageContext.request.contextPath}/book/search">Search Book</a></li>      
             </ul>
+
+            <!-- Auth Buttons -->
+            <div class="auth-buttons">
+                <c:choose>
+                    <c:when test="${not empty sessionScope.user}">
+                        <a href="${pageContext.request.contextPath}/LogOut" class="signup">Logout</a>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="${pageContext.request.contextPath}/user/login" class="login">Login</a>
+                        <a href="${pageContext.request.contextPath}/user/register" class="signup">Sign up</a>
+                    </c:otherwise>
+                </c:choose>
+            </div>
         </nav>
 
         <div class="search-container">
             <h2>Search Books</h2>
 
-            <!-- Search Form -->
             <div class="search-wrapper">
                 <form action="${pageContext.request.contextPath}/book/search" method="get" class="search-form">
                     <input 
@@ -266,7 +219,6 @@
                 </form>
             </div>
 
-            <!-- Book Gallery -->
             <div class="book-container">        
                 <div class="book-gallery">
                     <c:forEach var="book" items="${searchBook}">

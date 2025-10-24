@@ -12,7 +12,6 @@
                 box-sizing: border-box;
             }
 
-            /* Toàn trang */
             body {
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                 background: #f4f6f8;
@@ -25,17 +24,21 @@
             /* ==== NAVIGATION ==== */
             nav {
                 background: rgb(19, 24, 39);
-                padding: 15px 0;
-            }
-
-            nav ul {
+                padding: 15px 60px;
                 display: flex;
                 justify-content: center;
+                align-items: center;
+                position: relative;
+            }
+
+            /* Căn giữa các menu */
+            .nav-center ul {
+                display: flex;
                 list-style: none;
             }
 
-            nav li {
-                margin: 0 20px;
+            .nav-center li {
+                margin: 0 25px;
             }
 
             nav a {
@@ -46,18 +49,43 @@
             }
 
             nav a:hover {
-                color: #e0e7ff;
+                color: #a5b4fc;
             }
-            .category{
-                position: absolute;
-                top:80px;
-                left: 20px;
 
+            /* Login / Sign Up góc phải */
+            .nav-right {
+                position: absolute;
+                right: 60px;
+                display: flex;
+                align-items: center;
             }
+
+            .nav-right a {
+                margin-left: 15px;
+                background-color: #4f46e5;
+                color: white;
+                padding: 8px 16px;
+                border-radius: 8px;
+                font-size: 14px;
+                font-weight: 500;
+                transition: background-color 0.3s;
+            }
+
+            .nav-right a:hover {
+                background-color: #6366f1;
+            }
+
+            /* ==== CATEGORY ==== */
+            .category {
+                position: absolute;
+                top: 80px;
+                left: 20px;
+            }
+
             .category form select {
                 padding: 10px 14px;
                 border-radius: 8px;
-                border: 1.5px solid #6c63ff;  /* màu tím nhạt */
+                border: 1.5px solid #6c63ff;
                 background: linear-gradient(135deg, #ffffff, #f4f4ff);
                 font-size: 16px;
                 font-weight: bold;
@@ -68,20 +96,17 @@
                 cursor: pointer;
             }
 
-            /* Khi hover */
             .category form select:hover {
                 border-color: #4b47e0;
                 box-shadow: 0 0 8px rgba(108, 99, 255, 0.3);
             }
 
-            /* Khi focus (đang chọn) */
             .category form select:focus {
                 border-color: #3f3bd1;
                 box-shadow: 0 0 10px rgba(63, 59, 209, 0.4);
                 background: #fff;
             }
 
-            /* Tùy chỉnh option */
             .category form select option {
                 background-color: #fff;
                 color: #333;
@@ -99,8 +124,9 @@
                 margin-bottom: 30px;
                 color: #3f3f46;
             }
+
             .book-container select {
-                position: relative; /* không nên absolute */
+                position: relative;
                 display: inline-block;
                 padding: 10px 14px;
                 font-size: 16px;
@@ -114,20 +140,21 @@
                 outline: none;
                 margin-bottom: 25px;
             }
+
             .book-container select:hover,
             .book-container select:focus {
                 border-color: #764ba2;
                 box-shadow: 0 0 8px rgba(118,75,162,0.3);
             }
 
-            /* ==== OPTION ==== */
             .book-container option {
                 padding: 10px;
                 font-size: 15px;
                 color: #333;
                 background-color: #fff;
             }
-            /* Gallery sách */
+
+            /* ==== GALLERY ==== */
             .book-gallery {
                 display: grid;
                 grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -176,18 +203,23 @@
                 margin: 0 auto 20px;
             }
 
-
-
         </style>
     </head>
 
     <body>
         <nav>
-            <ul>                
-                <li><a href="${pageContext.request.contextPath}/user/dashboard">Dashboard</a></li>
-                <li><a href="${pageContext.request.contextPath}/book/list"> Book List </a></li>
-                <li><a href="${pageContext.request.contextPath}/book/category">Category</a></li>      
-            </ul>
+            <div class="nav-center">
+                <ul>                
+                    <li><a href="${pageContext.request.contextPath}/book/list">Book List</a></li>
+                    <li><a href="${pageContext.request.contextPath}/book/category">Category</a></li>
+                    <li><a href="${pageContext.request.contextPath}/book/search">Search Book</a></li>      
+                </ul>
+            </div>
+
+            <div class="nav-right">
+                <a href="${pageContext.request.contextPath}/user/login">Login</a>
+                <a href="${pageContext.request.contextPath}/user/register">Sign Up</a>
+            </div>
         </nav>
 
         <div class="category">
@@ -207,7 +239,7 @@
 
             <div class="book-gallery">
                 <c:forEach var="book" items="${categorizeBook}">
-                    <a href="${pageContext.request.contextPath}/book/detail?slug=${book.slug}&bookID=${book.bookID}" class="book-card" >
+                    <a href="${pageContext.request.contextPath}/book/detail?slug=${book.slug}&bookID=${book.bookID}" class="book-card">
                         <img src="${pageContext.request.contextPath}/resources/images/${book.coverImage}" alt="Book cover">
                     </a>
                 </c:forEach>

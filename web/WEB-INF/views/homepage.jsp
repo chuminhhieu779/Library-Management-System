@@ -22,7 +22,7 @@
         </header>
         <nav>
             <ul>
-                <li><a href="/HomePage/Home.html">Home</a></li>
+                <li><a href="${pageContext.request.contextPath}/book/list">Home</a></li>
                 <li><a href="/HomePage/About.html">About</a></li>
                 <li><a href="/HomePage/Contact.html">Contact</a></li>
                 <li><a href="${pageContext.request.contextPath}/user/login"> User Login</a></li>
@@ -39,7 +39,7 @@
             
                         
             <div class="login">
-                <form action="user/login" method="post">
+                <form action="${pageContext.request.contextPath}/user/login" method="post">
                     <div class="title">
                         <h3> Login Form </h3>
                     </div>

@@ -230,6 +230,9 @@
                             <button class="btn btn-primary" type="submit" name="bookID" value="${book.bookID}">Borrow Book</button>
                         </form>
                     </div>
+                        <%if(request.getAttribute("error")!= null){%>
+                        <p style="color: red"><%= request.getAttribute("error")%></p>
+                        <%}%>
                     <c:if test="${not empty success}">
                         <div style="margin-top:10px; color:green; font-weight:500;">${success}</div>
                         <c:remove var="success" scope="session" />

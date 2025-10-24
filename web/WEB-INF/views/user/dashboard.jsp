@@ -259,7 +259,7 @@
                     <a href="${pageContext.request.contextPath}/favorite/books" class="dropdown-item">
                         <i class="fa-solid fa-user"></i> Favorite 
                     </a>     
-                    <a href="${pageContext.request.contextPath}/logout" class="dropdown-item logout">
+                    <a href="${pageContext.request.contextPath}/LogOut" class="dropdown-item logout">
                         <i class="fa-solid fa-right-from-bracket"></i> Logout
                     </a>
                 </div>
