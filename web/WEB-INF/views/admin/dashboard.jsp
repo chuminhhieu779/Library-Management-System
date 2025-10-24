@@ -1,6 +1,6 @@
 <%-- 
-    Document   : AdminDashboard
-    Created on : Oct 21, 2025, 1:41:45 AM
+    Document   : dashboard
+    Created on : Oct 24, 2025, 3:57:00 PM
     Author     : laptop gigabyte
 --%>
 
@@ -12,6 +12,6 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Hello Worlddddd!</h1>
     </body>
 </html>

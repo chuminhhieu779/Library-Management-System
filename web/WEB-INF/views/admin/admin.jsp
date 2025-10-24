@@ -215,7 +215,7 @@
                 <div class="alert alert-success">${requestScope.successMessage}</div>
             </c:if>
 
-            <form action="dashboard" method="post"> 
+            <form action="${pageContext.request.contextPath}/admin/login" method="post">
                 <div class="form-group">
                     <label for="username">Enter Username</label>
                     <input type="text" id="username" name="adminUsername" class="form-control"  required>
