@@ -1,279 +1,80 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Book Gallery - Library Management</title>
-        <style>
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
 
-            body {
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                background: #f9f9ff;
-                min-height: 100vh;
-                display: flex;
-                flex-direction: column;
-            }
+<c:set var="pageTitle" value="My Borrowed Books" />
+<%@ include file="/WEB-INF/views/components/header.jsp" %>
 
-            .navbar {
-                background: #111827;
-                color: #e5e7eb;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 12px 40px;
-            }
+<main class="container">
+    <div class="page-header">
+        <h1>My Borrowed Books</h1>
+        <p>Here are the books you are currently borrowing.</p>
+    </div>
 
-            .navbar .logo {
-                font-weight: 600;
-                font-size: 18px;
-            }
-
-            .book-container {
-                flex: 1;
-                padding: 40px 60px;
-                text-align: center;
-            }
-            .back-link {
-                display: flex;
-                margin: 0 0 16px;
-                text-decoration: none;
-                color: #2a6df4;
-            }
-            .book-container h2 {
-                font-size: 28px;
-                margin-bottom: 30px;
-                color: #3f3f46;
-            }
-
-            .book-gallery {
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-                gap: 25px;
-                justify-items: center;
-            }
-
-            .book-card {
-                background: #fff;
-                border-radius: 12px;
-                overflow: hidden;
-                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-                transition: transform 0.25s ease, box-shadow 0.25s ease;
-                width: 150px;
-                cursor: pointer;
-            }
-
-            .book-card:hover {
-                transform: translateY(-6px);
-                box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-            }
-
-            .book-card img {
-                width: 100%;
-                height: 200px;
-                object-fit: cover;
-            }
-
-            dialog {
-                border: none;
-                border-radius: 12px;
-                padding: 25px 30px;
-                width: 380px;
-                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-                text-align: center;
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                background: #fff;
-            }
-
-            dialog::backdrop {
-                background: rgba(0, 0, 0, 0.6);
-            }
-
-            dialog h3 {
-                color: #333;
-                margin-bottom: 15px;
-                font-weight: 700;
-            }
-
-            dialog p {
-                margin: 8px 0;
-                color: #555;
-            }
-
-            .btn-group {
-                margin-top: 20px;
-                display: flex;
-                justify-content: center;
-                gap: 15px;
-            }
-
-            .btn {
-                padding: 10px 18px;
-                border: none;
-                border-radius: 6px;
-                font-weight: 600;
-                cursor: pointer;
-                color: white;
-                text-decoration: none;
-            }
-
-            .btn.return {
-                background: #ef4444;
-            }
-            .btn.extend {
-                background: #2563eb;
-            }
-
-            .close-btn {
-                position: absolute;
-                top: 10px;
-                right: 15px;
-                font-size: 24px;
-                color: #888;
-                background: none;
-                border: none;
-                cursor: pointer;
-            }
-
-            .extend-box {
-                display: none;
-                margin-top: 15px;
-                background: #f3f4f6;
-                padding: 15px;
-                border-radius: 8px;
-            }
-
-            .extend-box input {
-                width: 70%;
-                padding: 6px;
-                border-radius: 6px;
-                border: 1px solid #ccc;
-                margin: 10px 0;
-            }
-
-            .footer {
-                background: #111827;
-                color: #e5e7eb;
-                text-align: center;
-                padding: 20px 20px;
-            }
-
-            /* ✅ Toast notification (return success) */
-            .toast {
-                position: fixed;
-                top: 20%;
-                left: 50%;
-                transform: translate(-50%, -50%) scale(0.9);
-                background: rgb(19, 24, 39);
-                color: #fff;
-                padding: 16px 28px;
-                border-radius: 12px;
-                font-weight: 600;
-                font-size: 16px;
-                text-align: center;
-                box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-                opacity: 0;
-                transition: all 0.4s ease;
-                z-index: 9999;
-            }
-
-            .toast.show {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
-            }
-        </style>
-    </head>
-
-    <body>
-        <nav class="navbar">
-            <span class="logo">📚 Library System</span>
-        </nav>
-
-        <div class="book-container">
-            <h2> Borrowed Books </h2>
-            <a class="back-link" href="${pageContext.request.contextPath}/user/dashboard">← Back to DashBoard </a>
-
-            <div class="book-gallery">
+    <c:choose>
+        <c:when test="${empty borrowedBooks}">
+            <div class="no-results-message">
+                <i class="fas fa-book-reader"></i>
+                <h2>No Books Borrowed</h2>
+                <p>You haven't borrowed any books yet. Go explore our collection!</p>
+            </div>
+        </c:when>
+        <c:otherwise>
+            <div class="borrowed-book-list">
                 <c:forEach var="book" items="${borrowedBooks}" varStatus="loop">
-                    <div class="book-card" onclick="document.getElementById('popup${loop.index}').showModal()">
-                        <img src="${pageContext.request.contextPath}/resources/images/${book.coverImage}" alt="Book cover">
+                    <div class="borrowed-book-card">
+                        <a href="${pageContext.request.contextPath}/book/detail?slug=${book.slug}&bookID=${book.bookID}" class="borrowed-book__cover">
+                            <img src="${pageContext.request.contextPath}/resources/images/${book.coverImage}" alt="Cover of ${book.title}">
+                        </a>
+                        <div class="borrowed-book__info">
+                            <a href="${pageContext.request.contextPath}/book/detail?slug=${book.slug}&bookID=${book.bookID}" class="borrowed-book__title-link">
+                                <h3 class="borrowed-book__title">${book.title}</h3>
+                            </a>
+                            <div class="borrowed-book__meta">
+                                <span><strong>Borrowed:</strong> ${book.borrowDate}</span>
+                                <span><strong>Due:</strong> ${book.dueDate}</span>
+                            </div>
+                        </div>
+                        <div class="borrowed-book__actions">
+                            <a href="${pageContext.request.contextPath}/borrowing/return?slug=${book.slug}&bookID=${book.bookID}" class="btn btn--secondary">Return</a>
+                            <button class="btn btn--primary" onclick="document.getElementById('popup${loop.index}').showModal()">Extend</button>
+                        </div>
                     </div>
 
-                    <!-- Popup dialog -->
-                    <dialog id="popup${loop.index}" 
-                            ${(targetBookID == book.bookID) || (param.bookID == (book.bookID).toString()) ? "open" : ""}>
-                        <button class="close-btn" onclick="this.closest('dialog').close()">&times;</button>
-                        <h3>Borrowing Information</h3>
-
-                        <!-- ✅ Extend success -->
-                        <c:if test="${not empty sessionScope.extendSuccess && (param.bookID == (book.bookID).toString())}">
-                            <p style="background:#ecfdf5;color:#065f46;border:1px solid #10b981;
-                               padding:10px;border-radius:8px;font-weight:600;margin-bottom:10px;
-                               display:flex;align-items:center;justify-content:center;gap:6px;">
-                                <span style="font-size:18px;">✅</span>
-                                ${sessionScope.extendSuccess}
-                            </p>
-                            <c:remove var="extendSuccess" scope="session" />
-                        </c:if>
-
-                        <p><strong>Borrow Date:</strong> ${book.borrowDate}</p>
-                        <p><strong>Due Date:</strong> ${book.dueDate}</p>
-
-                        <div class="btn-group">
-                            <a href="${pageContext.request.contextPath}/borrowing/return?slug=${book.slug}" class="btn return">Return Book</a>
-                            <button class="btn extend" onclick="document.getElementById('extendBox${loop.index}').style.display = 'block'">Extend</button>
-                        </div>
-
-                        <!-- Extend form -->
-                        <div id="extendBox${loop.index}" 
-                             class="extend-box"
-                             style="${not empty error && targetBookID == book.bookID ? 'display:block;' : 'display:none;'}">
-
+                    <dialog id="popup${loop.index}" class="modal">
+                        <button class="modal__close-btn" onclick="this.closest('dialog').close()">&times;</button>
+                        <h3>Extend Due Date</h3>
+                        <p><strong>Book:</strong> ${book.title}</p>
+                        <p><strong>Current Due Date:</strong> ${book.dueDate}</p>
+                        
+                        <div class="extend-form-box">
                             <c:if test="${not empty error && targetBookID == book.bookID}">
-                                <p style="color: #ef4444; font-weight: 600; margin-bottom: 8px;">
-                                    ⚠ ${error}
-                                </p>
+                                <div class="message error-message">⚠ ${error}</div>
                             </c:if>
-
+                            
                             <form action="${pageContext.request.contextPath}/borrowing/extend" method="post">
-                                <label>Choose new due date:</label><br>
-                                <input type="date" name="newDueDate" min="${book.borrowDate}" required>
-                                <input type="hidden" name="bookID" value="${book.bookID}">
-                                <div class="btn-group">
-                                    <button type="submit" class="btn extend">Confirm</button>
-                                    <button type="button" class="btn return"
-                                            onclick="this.closest('.extend-box').style.display = 'none'">Cancel</button>
+                                <div class="form-group">
+                                    <label for="newDueDate${loop.index}">Choose new due date:</label>
+                                    <input type="date" id="newDueDate${loop.index}" name="newDueDate" min="${book.borrowDate}" required>
                                 </div>
+                                <input type="hidden" name="bookID" value="${book.bookID}">
+                                <button type="submit" class="btn btn--primary">Confirm Extension</button>
                             </form>
                         </div>
                     </dialog>
                 </c:forEach>
             </div>
-        </div>
+        </c:otherwise>
+    </c:choose>
+</main>
 
-        <footer class="footer">
-            <%@include file="/WEB-INF/views/components/footer.jsp" %>
-        </footer>
+<c:if test="${not empty sessionScope.returnSuccess}">
+    <div id="returnToast" class="toast">✅ ${sessionScope.returnSuccess}</div>
+    <c:remove var="returnSuccess" scope="session" />
+    <script>
+        const toast = document.getElementById('returnToast');
+        setTimeout(() => toast.classList.add('show'), 100);
+        setTimeout(() => toast.classList.remove('show'), 4000);
+    </script>
+</c:if>
 
-        <!--// notice return book--> 
-        <c:if test="${not empty sessionScope.returnSuccess}">
-            <div id="returnToast" class="toast">
-                ✅ ${sessionScope.returnSuccess}
-            </div>
-            <c:remove var="returnSuccess" scope="session" />
-            <script>
-                const toast = document.getElementById('returnToast');
-                setTimeout(() => toast.classList.add('show'), 100); 
-                setTimeout(() => toast.classList.remove('show'), 4000); // behind notification after 4s
-            </script>
-        </c:if>
-    </body>
-</html>
+<%@ include file="/WEB-INF/views/components/footer.jsp" %>

@@ -1,132 +1,44 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Book Gallery - Library Management</title>
-        <style>
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
 
-            html, body {
-                height: 100%;
-            }
+<c:set var="pageTitle" value="My Book History" />
+<%@ include file="/WEB-INF/views/components/header.jsp" %>
 
-            body {
-                display: flex;
-                flex-direction: column;
-                min-height: 100vh;
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                background: #f9f9ff;
-            }
+<main class="container">
+    <div class="page-header">
+        <h1>Returned Books</h1>
+        <p>This is the history of books you have borrowed and returned.</p>
+    </div>
 
-            /* ==== NAVIGATION ==== */
-            .navbar {
-                background: #111827;
-                color: #e5e7eb;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 12px 40px;
-            }
-            .navbar .logo {
-                font-weight: 600;
-                font-size: 18px;
-            }
-
-            .back-link {
-                display: flex;
-                margin: 0 0 16px;
-                text-decoration: none;
-                color: #2a6df4;
-            }
-            /* ==== MAIN CONTENT ==== */
-            .book-container {
-                flex: 1;
-                padding: 40px 60px;
-                text-align: center;
-            }
-
-            .book-container h2 {
-                font-size: 28px;
-                margin-bottom: 30px;
-                color: #3f3f46;
-            }
-            /* Gallery sách */
-            .book-gallery {
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-                gap: 25px;
-                justify-items: center;
-            }
-
-            .book-card {
-                background: #fff;
-                border-radius: 12px;
-                overflow: hidden;
-                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-                transition: transform 0.25s ease, box-shadow 0.25s ease;
-                width: 150px;
-            }
-
-            .book-card:hover {
-                transform: translateY(-6px);
-                box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
-            }
-
-            .book-card img {
-                width: 100%;
-                height: 200px;
-                object-fit: cover;
-            }
-
-            /* ==== FOOTER ==== */
-            .footer {
-                background: #111827;
-                color: #e5e7eb;
-                text-align: center;
-                padding: 20px 20px;
-            }
-
-            .footer-section h3 {
-                margin-bottom: 10px;
-                font-size: 20px;
-                color: #a5b4fc;
-            }
-
-            .footer-section p {
-                font-size: 14px;
-                line-height: 1.6;
-                max-width: 600px;
-                margin: 0 auto 20px;
-            }
-
-
-        </style>
-    </head>
-
-    <body>
-        <nav class="navbar">
-            <span class="logo">📚 Library System</span>           
-        </nav>
-        <div class="book-container">
-            <h2> Returned Books </h2>            
-            <a class="back-link" href="${pageContext.request.contextPath}/user/dashboard">← Back to DashBoard </a>
-            <div class="book-gallery">
+    <c:choose>
+        <c:when test="${empty returnedBooks}">
+            <div class="no-results-message">
+                <i class="fas fa-history"></i>
+                <h2>No History Yet</h2>
+                <p>You haven't returned any books yet.</p>
+            </div>
+        </c:when>
+        <c:otherwise>
+            <div class="borrowed-book-list">
                 <c:forEach var="book" items="${returnedBooks}">
-                    <a  class="book-card" >
-                        <img src="${pageContext.request.contextPath}/resources/images/${book.coverImage}" alt="Book cover">
-                    </a>
+                    <div class="borrowed-book-card">
+                        <a href="${pageContext.request.contextPath}/book/detail?slug=${book.slug}&bookID=${book.bookID}" class="borrowed-book__cover">
+                            <img src="${pageContext.request.contextPath}/resources/images/${book.coverImage}" alt="Cover of ${book.title}">
+                        </a>
+                        <div class="borrowed-book__info">
+                            <a href="${pageContext.request.contextPath}/book/detail?slug=${book.slug}&bookID=${book.bookID}" class="borrowed-book__title-link">
+                                <h3 class="borrowed-book__title">${book.title}</h3>
+                            </a>
+                            <div class="borrowed-book__meta">
+                                <span><strong>Borrowed:</strong> ${book.borrowDate}</span>
+                                <span><strong>Returned:</strong> ${book.returnDate}</span>
+                            </div>
+                        </div>
+                    </div>
                 </c:forEach>
             </div>
-        </div>
+        </c:otherwise>
+    </c:choose>
+</main>
 
-        <footer class="footer">
-            <%@include file="/WEB-INF/views/components/footer.jsp" %>
-        </footer>
-    </body>
-</html>
+<%@ include file="/WEB-INF/views/components/footer.jsp" %>

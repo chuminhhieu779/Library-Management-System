@@ -1,19 +1,6 @@
-<%-- 
-    Document   : footer
-    Created on : Oct 10, 2025, 9:58:26 PM
-    Author     : hieuchu
---%>
+<footer class="footer">
+    <p>&copy; 2025 Library Management System. All Rights Reserved.</p>
+</footer>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-
-    <body>    
-        <div class="footer-section">
-            <h3>About Library</h3>
-            <p>A modern library management system providing convenient online book borrowing and returning services.</p>             
-        </div>      
-    </body>
-
-
+</body>
 </html>
