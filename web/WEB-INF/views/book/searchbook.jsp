@@ -241,8 +241,8 @@
         <nav>
             <ul>
                 <li><a href="${pageContext.request.contextPath}/user/dashboard">Dashboard</a></li>
-                <li><a href="${pageContext.request.contextPath}/user/booklist"> Book List </a></li>
-                <li><a href="${pageContext.request.contextPath}/user/book-category">Category</a></li>      
+                <li><a href="${pageContext.request.contextPath}/book/list"> Book List </a></li>
+                <li><a href="${pageContext.request.contextPath}/book/category">Category</a></li>      
             </ul>
         </nav>
 
@@ -251,7 +251,7 @@
 
             <!-- Search Form -->
             <div class="search-wrapper">
-                <form action="${pageContext.request.contextPath}/user/search-books" method="get" class="search-form">
+                <form action="${pageContext.request.contextPath}/book/search" method="get" class="search-form">
                     <input 
                         type="text" 
                         name="query" 
@@ -270,7 +270,7 @@
             <div class="book-container">        
                 <div class="book-gallery">
                     <c:forEach var="book" items="${searchBook}">
-                        <a href="${pageContext.request.contextPath}/user/bookdetail?slug=${book.slug}&bookID=${book.bookID}" class="book-card" >                            
+                        <a href="${pageContext.request.contextPath}/book/detail?slug=${book.slug}&bookID=${book.bookID}" class="book-card" >                            
                             <img src="${pageContext.request.contextPath}/resources/images/${book.coverImage}" alt="Book cover">
                         </a>
                     </c:forEach>

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package com.library.controller.user;
+package com.library.controller.favorite;
 
 import com.library.dao.BookDao;
 import com.library.dao.BookImplementDao;
@@ -25,7 +25,7 @@ import java.util.List;
  *
  * @author hieuchu
  */
-@WebServlet(name = "Favorite", urlPatterns = {"/user/favorite-book"})
+@WebServlet(name = "Favorite", urlPatterns = {"/favorite/add-book"})
 public class FavoriteBook extends HttpServlet {
     
     FavoriteService favService = new FavoriteService();
@@ -50,7 +50,7 @@ public class FavoriteBook extends HttpServlet {
             session.setAttribute("failed", "you already favorited this book ");
         }           
         String slug = request.getParameter("slug");
-        response.sendRedirect(request.getContextPath() + "/user/bookdetail?slug=" + slug + "&bookID=" + bookID);
+        response.sendRedirect(request.getContextPath() + "/book/detail?slug=" + slug + "&bookID=" + bookID);
 
     }
 

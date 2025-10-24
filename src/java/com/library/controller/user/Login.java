@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpSession;
  *
  * @author laptop gigabyte
  */
-@WebServlet(name = "Login", urlPatterns = {"/Login"})
+@WebServlet(name = "Login", urlPatterns = {"/user/login"})
 public class Login extends HttpServlet {
 
     UserDao userDao = new UserImplementDao();
@@ -60,11 +60,11 @@ public class Login extends HttpServlet {
 
             if (username.trim().isEmpty()) {
                 session.setAttribute("error", "Vui lòng nhập tên đăng nhập!");
-                response.sendRedirect(request.getContextPath() + "/Login");
+                response.sendRedirect(request.getContextPath() + "/user/login");
                 return;
             } else if (pass.trim().isEmpty()) {
                 session.setAttribute("error", "Vui lòng nhập mật khẩu!");
-                response.sendRedirect(request.getContextPath() + "/Login");
+                response.sendRedirect(request.getContextPath() + "/user/login");
                 return;
             }
             // check login after user enter correcly 
@@ -74,7 +74,7 @@ public class Login extends HttpServlet {
                 return;
             } else {
                 session.setAttribute("error", "Tên đăng nhập hoặc mật khẩu sai!");
-                response.sendRedirect(request.getContextPath() + "/Login");
+                response.sendRedirect(request.getContextPath() + "/user/login");
                 return;
             }
         }

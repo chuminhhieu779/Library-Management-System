@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package com.library.controller.user;
+package com.library.controller.book;
 
 import com.library.dao.CategoryDao;
 import com.library.dao.CategoryImplement;
@@ -22,7 +22,7 @@ import java.util.Map;
  *
  * @author hieuchu
  */
-@WebServlet(name = "BookCategory", urlPatterns = {"/user/book-category"})
+@WebServlet(name = "BookCategory", urlPatterns = {"/book/category"})
 public class BookCategory extends HttpServlet {
 
     CategoryDao categoryDao = new CategoryImplement();
@@ -32,7 +32,7 @@ public class BookCategory extends HttpServlet {
             throws ServletException, IOException {
         List<Books> list = categoryDao.getAllBook();
         request.setAttribute("categorizeBook", list);
-        request.getRequestDispatcher("/WEB-INF/views/user/bookcategory.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/book/bookcategory.jsp").forward(request, response);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class BookCategory extends HttpServlet {
         
         request.setAttribute("categorizeBook", list);
         request.setAttribute("selected", category);
-        request.getRequestDispatcher("/WEB-INF/views/user/bookcategory.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/book/bookcategory.jsp").forward(request, response);
 
     }
 

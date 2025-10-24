@@ -201,7 +201,7 @@
 
 
         <div class="detail-container">
-            <a class="back-link" href="${pageContext.request.contextPath}/user/booklist">← Back to Library Books</a>
+            <a class="back-link" href="${pageContext.request.contextPath}/book/list">← Back to Library Books</a>
 
             <div class="detail-card">
                 <img class="detail-cover" src="${pageContext.request.contextPath}/resources/images/${book.coverImage}" alt="Physics Redefined">
@@ -220,12 +220,12 @@
                     </div>
                     <div class="detail-actions">
                         <!-- Form favorite -->
-                        <form action="${pageContext.request.contextPath}/user/favorite-book" method="get" style="display:inline;">
+                        <form action="${pageContext.request.contextPath}/favorite/add-book" method="get" style="display:inline;">
                             <input type="hidden" name="slug" value="${book.slug}">
                             <button class="btn btn-primary" type="submit" name="bookID" value="${book.bookID}">Favorite</button>
                         </form>                       
                         <!-- Form borrow book -->
-                        <form action="${pageContext.request.contextPath}/user/borrow-book" method="get" style="display:inline;">
+                        <form action="${pageContext.request.contextPath}/borrowing/borrow" method="get" style="display:inline;">
                             <input type="hidden" name="slug" value="${book.slug}">
                             <button class="btn btn-primary" type="submit" name="bookID" value="${book.bookID}">Borrow Book</button>
                         </form>

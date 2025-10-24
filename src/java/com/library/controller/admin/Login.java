@@ -1,5 +1,5 @@
 
-package com.library.controller.user;
+package com.library.controller.admin;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,8 +13,8 @@ import com.library.dao.UserDao;
 import com.library.dao.UserImplementDao;
 
 
-@WebServlet(name="Admin", urlPatterns={"/Admin"})
-public class AdminLogin extends HttpServlet {
+@WebServlet(name="Admin", urlPatterns={"/admin/login"})
+public class Login extends HttpServlet {
     UserDao userDao = new UserImplementDao();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -43,27 +43,27 @@ public class AdminLogin extends HttpServlet {
 
         if (userDao.checkAdminLogin(username, pass)) {
             session.setAttribute("adminAccount", username);
-            response.sendRedirect(request.getContextPath() + "/user/AdminDashBoard");
+            response.sendRedirect(request.getContextPath() + "/admin/dashboard");
         } else {
             session.setAttribute("error", "Tên đăng nhập không tồn tại!");
-
+            
             if (username.trim().isEmpty()) {
                 session.setAttribute("error", "Vui lòng nhập tên đăng nhập!");
-                response.sendRedirect(request.getContextPath() + "/Admin");
+                response.sendRedirect(request.getContextPath() + "/admin/login");
                 return;
             } else if (pass.trim().isEmpty()) {
                 session.setAttribute("error", "Vui lòng nhập mật khẩu!");
-                response.sendRedirect(request.getContextPath() + "/Admin");
+                response.sendRedirect(request.getContextPath() + "/admin/login");
                 return;
             }
             // check login after user enter correcly 
             if (userDao.checkAdminLogin(username, pass)) {
                 session.setAttribute("adminAccount", username);
-                response.sendRedirect(request.getContextPath() + "/user/AdminDashBoard");
+                response.sendRedirect(request.getContextPath() + "/admin/dashboard");
                 return;
             } else {
                 session.setAttribute("error", "Tên đăng nhập hoặc mật khẩu sai!");
-                response.sendRedirect(request.getContextPath() + "/Admin");
+                response.sendRedirect(request.getContextPath() + "/admin/login");
                 return;
             }
         }
