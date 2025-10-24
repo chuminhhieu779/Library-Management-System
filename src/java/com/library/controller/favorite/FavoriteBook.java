@@ -35,7 +35,9 @@ public class FavoriteBook extends HttpServlet {
 
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("account") == null) {
-            response.sendRedirect(request.getContextPath() + "/Login");
+            session.setAttribute("error", "Vui lòng đăng nhập để sử dụng chức năng!");
+            
+            response.sendRedirect(request.getContextPath() + "/book/detail");
             return;
         }
         String account = (String) session.getAttribute("account");

@@ -32,7 +32,8 @@ public class BorrowBook extends HttpServlet {
         
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("account") == null) {
-            response.sendRedirect("/Login");
+            session.setAttribute("error", "Vui lòng đăng nhập để sử dụng chức năng!");
+            response.sendRedirect(request.getContextPath() + "/book/detail");
             return;
         }
         String slug = request.getParameter("slug");

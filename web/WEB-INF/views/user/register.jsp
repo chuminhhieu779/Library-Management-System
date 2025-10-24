@@ -221,7 +221,7 @@ form {
         </header>
         <nav>
             <ul>
-                <li><a href="${pageContext.request.contextPath}/Login">Home</a></li>
+                <li><a href="${pageContext.request.contextPath}/book/list">Home</a></li>
                 <li><a href="/HomePage/About.html">About</a></li>
                 <li><a href="/HomePage/Contact.html">Contact</a></li>
                 <li><a href="${pageContext.request.contextPath}/Login"> User Login</a></li>

@@ -54,7 +54,7 @@ public class Login extends HttpServlet {
 
         if (userDao.checkLogin(username, pass)) {
             session.setAttribute("account", username);
-            response.sendRedirect(request.getContextPath() + "/user/dashboard");
+            response.sendRedirect(request.getContextPath() + "/book/list");
         } else {
             session.setAttribute("error", "Tên đăng nhập không tồn tại!");
 
@@ -70,7 +70,7 @@ public class Login extends HttpServlet {
             // check login after user enter correcly 
             if (userDao.checkLogin(username, pass)) {
                 session.setAttribute("account", username);
-                response.sendRedirect(request.getContextPath() + "/user/dashboard");
+                response.sendRedirect(request.getContextPath() + "/book/list");
                 return;
             } else {
                 session.setAttribute("error", "Tên đăng nhập hoặc mật khẩu sai!");
