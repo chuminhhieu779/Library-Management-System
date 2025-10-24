@@ -193,10 +193,9 @@
         </a>
         <div class="navbar-links">
             <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">User login</a></li>
-                <li><a href="#">User signup</a></li>
-                <li><a href="#" style="color: #007bff;">Admin login</a></li> </ul>
+                <li><a href="${pageContext.request.contextPath}/Login">Home</a></li>
+                <li><a href="${pageContext.request.contextPath}/Login">User login</a></li>
+                <li><a href="${pageContext.request.contextPath}/user/register">User Sign Up</a></li>
         </div>
     </div>
 
@@ -216,14 +215,14 @@
                 <div class="alert alert-success">${requestScope.successMessage}</div>
             </c:if>
 
-            <form action="adminLoginServlet" method="post"> 
+            <form action="Admin" method="post"> 
                 <div class="form-group">
                     <label for="username">Enter Username</label>
-                    <input type="text" id="username" name="adminUsername" class="form-control" value="admin" required>
+                    <input type="text" id="username" name="adminUsername" class="form-control"  required>
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="adminPassword" class="form-control" value="admin@123" required>
+                    <input type="password" id="password" name="adminPassword" class="form-control"  required>
                 </div>
                 <button type="submit" class="btn-login">LOGIN</button>
             </form>

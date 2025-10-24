@@ -108,7 +108,22 @@ public class UserImplementDao implements UserDao {
 
     @Override
     public boolean checkAdminLogin(String username, String pass) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sql = "select * from users where account = ? and password = ? and role = ?";
+        String role = "admin";
+        try (
+            Connection conn = DBConnection.getInstance().getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)){
+            ps.setString(1, username);
+            ps.setString(2, pass);
+            ps.setString(3, role);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @Override

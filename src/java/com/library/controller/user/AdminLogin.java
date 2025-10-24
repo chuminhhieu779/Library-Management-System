@@ -21,7 +21,6 @@ public class AdminLogin extends HttpServlet {
     throws ServletException, IOException {
         HttpSession session = request.getSession(false);
 
-        session = request.getSession(); // create new session if it is not exist
 
         String error = (String) session.getAttribute("error");
         String success = (String) session.getAttribute("success");
@@ -31,7 +30,7 @@ public class AdminLogin extends HttpServlet {
 
         session.removeAttribute("error");
         session.removeAttribute("success");
-        request.getRequestDispatcher("/WEB-INF/views/admin/homepage.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/admin/admin.jsp").forward(request, response);
     } 
 
 
@@ -39,12 +38,12 @@ public class AdminLogin extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String username = request.getParameter("account");
-        String pass = request.getParameter("password");
+        String username = request.getParameter("adminUsername");
+        String pass = request.getParameter("adminPassword");
 
-        if (userDao.checkLogin(username, pass)) {
-            session.setAttribute("account", username);
-            response.sendRedirect(request.getContextPath() + "/admin/AdminDashboard.jsp");
+        if (userDao.checkAdminLogin(username, pass)) {
+            session.setAttribute("adminAccount", username);
+            response.sendRedirect(request.getContextPath() + "/user/AdminDashBoard");
         } else {
             session.setAttribute("error", "Tên đăng nhập không tồn tại!");
 
@@ -58,9 +57,9 @@ public class AdminLogin extends HttpServlet {
                 return;
             }
             // check login after user enter correcly 
-            if (userDao.checkLogin(username, pass)) {
-                session.setAttribute("account", username);
-                response.sendRedirect(request.getContextPath() + "/admin/AdminDashboard.jsp");
+            if (userDao.checkAdminLogin(username, pass)) {
+                session.setAttribute("adminAccount", username);
+                response.sendRedirect(request.getContextPath() + "/user/AdminDashBoard");
                 return;
             } else {
                 session.setAttribute("error", "Tên đăng nhập hoặc mật khẩu sai!");
