@@ -15,6 +15,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -29,8 +31,8 @@ public class BookCategory extends HttpServlet {
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        List<Books> list = categoryDao.getAllBook();
+            throws ServletException, IOException {   
+        List<Books> list = Collections.unmodifiableList(categoryDao.getAllBook());
         request.setAttribute("categorizeBook", list);
         request.getRequestDispatcher("/WEB-INF/views/book/bookcategory.jsp").forward(request, response);
     }
