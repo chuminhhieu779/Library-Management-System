@@ -140,7 +140,7 @@
             .dashboard {
                 flex: 1;
                 padding: 40px;
-                    
+
             }
 
             .dashboard h2 {
@@ -157,7 +157,7 @@
                 justify-content: center;
                 flex-wrap: wrap;
                 gap: 30px;
-                margin-top: 80px;         
+                margin-top: 80px;
             }
 
             .card {
@@ -242,12 +242,12 @@
             <span class="logo">📚 Library System</span>
 
             <div class="user-menu">
-                <img src="${pageContext.request.contextPath}/resources/images/avatar.png" 
+                <img src="${pageContext.request.contextPath}/resources/images/1.jpg" 
                      alt="User Avatar" class="avatar">
 
                 <div class="dropdown">
                     <div class="user-info">
-                        <img src="${pageContext.request.contextPath}/resources/images/avatar.png" 
+                        <img src="${pageContext.request.contextPath}/resources/images/1.jpg" 
                              alt="User Avatar Large" class="avatar-large">
                         <p class="username">${sessionScope.user.name}</p>
                         <p class="role">Library Member</p>
@@ -255,7 +255,10 @@
                     <hr>
                     <a href="${pageContext.request.contextPath}/user/profile" class="dropdown-item">
                         <i class="fa-solid fa-user"></i> Profile
-                    </a>                    
+                    </a>     
+                    <a href="${pageContext.request.contextPath}/user/favorite" class="dropdown-item">
+                        <i class="fa-solid fa-user"></i> Favorite 
+                    </a>     
                     <a href="${pageContext.request.contextPath}/logout" class="dropdown-item logout">
                         <i class="fa-solid fa-right-from-bracket"></i> Logout
                     </a>

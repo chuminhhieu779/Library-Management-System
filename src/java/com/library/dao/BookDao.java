@@ -17,8 +17,8 @@ public interface BookDao {
      Books showBookDetail(String slug, int bookID);
      int totalBook();
      List<Books> searchBook(String query );    
-     void favoriteBook(int bookID, int  userID);
-     Books addBookToFavorite(int bookID); 
+     void insertBookToFavorite(int bookID, int  userID);
+     List<Books> showBookFromFavorite(int userID); 
      void decreaseQuantity(Connection conn, int bookID);
-    
+     boolean existsFavorite(int userID, int bookID) ;                                                                                                                                                                                                                                                                                                                                                                     
 }
