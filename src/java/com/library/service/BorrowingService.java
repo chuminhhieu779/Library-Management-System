@@ -26,7 +26,7 @@ public class BorrowingService {
     private final BorrowingDao borrowDao = new BorrowingImplement();
     private final UserDao userDao = new UserImplementDao();
     private final BookDao bookDao = new BookImplementDao();
-
+                    
     public boolean canBorrowBook(int bookID, int userID) {
         if (borrowDao.hasUserBorrowedBook(bookID, userID)) {
             return true;
