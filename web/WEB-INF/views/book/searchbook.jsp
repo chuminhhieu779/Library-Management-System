@@ -325,14 +325,24 @@
                         type="text" 
                         name="query" 
                         class="search-input" 
-                        placeholder="Search by title, author, or category..."
+                        placeholder="Search by title "
                         value="${param.query}"
-                        required>
+                        >
                     <button type="submit" class="search-btn">
                         <i class="fas fa-search"></i>
                         Search
                     </button>
                 </form>
+                        <c:if test="${not empty error}">
+                            <div style="color: red; margin: 10px ;">
+                                ${error}
+                            </div>                            
+                        </c:if>
+                          <c:if test="${not empty found}">
+                            <div style="color: red; margin: 10px ;">
+                                ${found}
+                            </div>                            
+                        </c:if>    
             </div>
 
             <div class="book-container">        
