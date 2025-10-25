@@ -24,7 +24,7 @@ public interface BorrowingDao {
 
     List<Books> returnedBooksList(String account);
     
-    boolean returnBook(String account, String slug);
+    boolean updateBookStatus(Connection conn , String account, String slug);
     
     boolean extendDueDay(int bookID, LocalDate dueDate, String account);
     
@@ -34,6 +34,6 @@ public interface BorrowingDao {
     
     void insertBook(Connection conn , int bookID, int userID);
     
-     boolean hasUserBorrowedBook(int bookID, int userID);
+    boolean hasUserBorrowedBook(int bookID, int userID);
 
 }

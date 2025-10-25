@@ -4,6 +4,10 @@
  */
 package com.library.controller.borrowing;
 
+
+import com.library.dao.BookDao;
+import com.library.dao.BorrowingDao;
+import com.library.dao.DaoFactory;
 import com.library.dao.UserDao;
 import com.library.dao.UserImplementDao;
 import com.library.service.BorrowingService;
@@ -23,9 +27,13 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet(name = "BorrowBook", urlPatterns = {"/borrowing/borrow"})
 public class BorrowBook extends HttpServlet {
     
-    BorrowingService borrowService = new BorrowingService();
-    UserDao userDao = new UserImplementDao();
+    private final BorrowingService borrowService  = new BorrowingService(
+            DaoFactory.getBorrowingDao(),
+            DaoFactory.getUserDao(),
+            DaoFactory.getBookDao()
+    );
     
+  
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -39,7 +47,8 @@ public class BorrowBook extends HttpServlet {
         String slug = request.getParameter("slug");
         int bookID = Integer.parseInt(request.getParameter("bookID"));
         String account = (String) session.getAttribute("account");
-        int userID = userDao.findUserID(account);     
+        
+        int userID = borrowService.getUserIDByAccount(account);
            
         if (borrowService.canBorrowBook(bookID, userID)) {
             borrowService.borrowBook(slug, bookID, userID);
