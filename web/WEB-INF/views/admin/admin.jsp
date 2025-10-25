@@ -10,7 +10,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f0f2f5; /* Nền xám nhạt */
+            background-color: #f0f2f5; 
             color: #333;
         }
 
@@ -22,7 +22,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 50px; /* Thêm padding ngang */
+            padding: 10px 50px; 
         }
 
         .navbar-brand {
@@ -35,7 +35,7 @@
         }
 
         .navbar-brand img {
-            height: 40px; /* Kích thước logo */
+            height: 40px; 
             margin-right: 10px;
         }
 
