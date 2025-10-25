@@ -33,10 +33,29 @@
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                 background: #f9f9ff;
             }
+
+            /* ==== NAVBAR ==== */
+            .navbar {
+                background: #111827;
+                color: #e5e7eb;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 5px;
+            }
+
+            .navbar .logo {
+                font-weight: 600;
+                font-size: 16px;
+                padding-left: 20px;
+            }
+
+            /* ==== USER MENU ==== */
             .user-menu {
                 position: relative;
                 display: inline-block;
             }
+
             .user-menu::after {
                 content: "";
                 position: absolute;
@@ -46,7 +65,6 @@
                 height: 20px;
             }
 
-            /* Avatar small */
             .avatar {
                 width: 38px;
                 height: 38px;
@@ -56,11 +74,12 @@
                 border: 2px solid #a5b4fc;
                 transition: transform 0.2s ease;
             }
+
             .avatar:hover {
                 transform: scale(1.05);
             }
 
-            /* Dropdown */
+            /* Dropdown menu */
             .dropdown {
                 opacity: 0;
                 visibility: hidden;
@@ -87,19 +106,22 @@
             .dropdown .user-info {
                 text-align: center;
             }
+
             .avatar-large {
                 width: 60px;
                 height: 60px;
                 border-radius: 50%;
-                border: 2px solid #a5b4fc;
+                border: 2px solid #6366f1;
                 object-fit: cover;
                 margin-bottom: 8px;
             }
+
             .username {
                 font-weight: 600;
                 font-size: 16px;
                 margin: 2px 0;
             }
+
             .role {
                 font-size: 13px;
                 color: #9ca3af;
@@ -111,53 +133,57 @@
                 text-decoration: none;
                 font-size: 14px;
                 padding: 8px 0;
+                transition: color 0.25s;
             }
+
             .dropdown-item:hover {
                 color: #a5b4fc;
             }
+
             .logout {
                 color: #f87171;
             }
+
             .logout:hover {
                 color: #ef4444;
             }
 
-            /* Navbar */
-            .navbar {
-                background: #111827;
-                color: #e5e7eb;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 12px 40px;
-            }
-            .navbar .logo {
-                font-weight: 600;
-                font-size: 18px;
-            }
-
-            /* Dashboard */
+            /* ==== DASHBOARD CONTENT ==== */
             .dashboard {
                 flex: 1;
                 padding: 40px;
-
+                text-align: center;
             }
 
+            /* ✅ Title with gradient underline */
             .dashboard h2 {
-                display: flex;
-                justify-content: center;
-                margin-top: 20px;
                 font-size: 22px;
-                font-weight: 600;
-                color: #444;
+                font-weight: 700;
+                color: #1f2937;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                position: relative;
+                display: inline-block;
+                margin-top: 20px;
             }
 
+            .dashboard h2::after {
+                content: "";
+                display: block;
+                width: 60%;
+                height: 3px;
+                background: linear-gradient(90deg, #4f46e5, #6366f1);
+                margin: 6px auto 0;
+                border-radius: 2px;
+            }
+
+            /* ==== STAT CARDS ==== */
             .stats {
                 display: flex;
                 justify-content: center;
                 flex-wrap: wrap;
                 gap: 30px;
-                margin-top: 80px;
+                margin-top: 70px;
             }
 
             .card {
@@ -171,6 +197,7 @@
                 text-align: center;
                 transition: transform 0.2s ease, box-shadow 0.2s ease;
             }
+
             .card:hover {
                 transform: translateY(-5px);
                 box-shadow: 0 6px 18px rgba(99,102,241,0.15);
@@ -184,9 +211,11 @@
             .blue {
                 color: #3b82f6;
             }
+
             .green {
                 color: #22c55e;
             }
+
             .orange {
                 color: #f59e0b;
             }
@@ -202,26 +231,39 @@
                 font-size: 14px;
             }
 
-            /* Footer */
+            /* ==== FOOTER ==== */
             .footer {
-                background: #111827;
-                color: #e5e7eb;
+                background: linear-gradient(135deg, #111827, #1f2937);
+                color: #d1d5db;
                 text-align: center;
-                padding: 25px 10px;
-                border-top: 1px solid #1f2937;
+                padding: 15px 20px;
+                font-size: 14px;
+                border-top: 2px solid #4f46e5;
+                margin-top: auto;
             }
 
-            .footer-section h3 {
-                margin-bottom: 6px;
-                font-size: 18px;
+            .footer-content {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 40px;
+                flex-wrap: wrap;
+            }
+
+            .footer-content a {
                 color: #a5b4fc;
+                text-decoration: none;
+                transition: color 0.3s ease;
             }
 
-            .footer-section p {
+            .footer-content a:hover {
+                color: #818cf8;
+            }
+
+            .footer p {
+                margin-top: 10px;
                 font-size: 13px;
-                line-height: 1.5;
-                max-width: 600px;
-                margin: 0 auto;
+                color: #9ca3af;
             }
 
             @media (max-width: 768px) {
@@ -229,6 +271,7 @@
                     flex-direction: column;
                     align-items: center;
                 }
+
                 .card {
                     width: 80%;
                 }
@@ -257,7 +300,7 @@
                         <i class="fa-solid fa-user"></i> Profile
                     </a>     
                     <a href="${pageContext.request.contextPath}/favorite/books" class="dropdown-item">
-                        <i class="fa-solid fa-user"></i> Favorite 
+                        <i class="fa-solid fa-heart"></i> Favorite 
                     </a>     
                     <a href="${pageContext.request.contextPath}/LogOut" class="dropdown-item logout">
                         <i class="fa-solid fa-right-from-bracket"></i> Logout
@@ -293,7 +336,12 @@
 
         <!-- Footer -->
         <footer class="footer">
-            <%@include file="/WEB-INF/views/components/footer.jsp" %>
+            <div class="footer-content">
+                <a href="${pageContext.request.contextPath}/about">About</a>
+                <a href="${pageContext.request.contextPath}/contact">Contact</a>
+                <a href="${pageContext.request.contextPath}/terms">Terms of Service</a>
+            </div>
+            <p>&copy; 2025 Library Management System — All rights reserved.</p>
         </footer>
     </body>
 </html>

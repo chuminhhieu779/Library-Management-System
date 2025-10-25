@@ -25,16 +25,21 @@
             /* ==== NAVIGATION ==== */
             nav {
                 background: rgb(19, 24, 39);
-                padding: 15px 30px;
+                padding: 15px 60px;
                 display: flex;
-                justify-content: space-between;
+                justify-content: center;
                 align-items: center;
+                position: relative;
+                z-index: 10;
             }
 
-            nav ul {
+            .nav-center ul {
                 display: flex;
                 list-style: none;
-                gap: 20px;
+            }
+
+            .nav-center li {
+                margin: 0 25px;
             }
 
             nav a {
@@ -45,40 +50,112 @@
             }
 
             nav a:hover {
-                color: #e0e7ff;
+                color: #a5b4fc;
             }
 
-            /* === LOGIN SIGNUP BUTTONS === */
-            .auth-buttons {
+            /* ==== USER / AUTH AREA ==== */
+            .nav-right {
+                position: absolute;
+                right: 30px;
                 display: flex;
-                gap: 15px;
+                align-items: center;
+                gap: 10px;
             }
 
-            .auth-buttons a {
+            .nav-right a {
+                background-color: #4f46e5;
                 color: white;
-                text-decoration: none;
                 padding: 8px 16px;
-                border-radius: 6px;
-                transition: all 0.3s ease;
+                border-radius: 8px;
+                font-size: 14px;
                 font-weight: 500;
+                text-decoration: none;
+                transition: background-color 0.3s;
             }
 
-            .auth-buttons a.login {
-                background: linear-gradient(135deg, #4f46e5, #6d28d9);
+            .nav-right a:hover {
+                background-color: #6366f1;
             }
 
-            .auth-buttons a.signup {
-                background: transparent;
-                border: 1.5px solid #6d28d9;
+            /* ==== USER MENU ==== */
+            .user-menu {
+                position: relative;
+                display: inline-block;
             }
 
-            .auth-buttons a.login:hover {
-                opacity: 0.9;
+            .avatar {
+                width: 42px;
+                height: 42px;
+                border-radius: 50%;
+                cursor: pointer;
+                object-fit: cover;
+                border: 2px solid #4f46e5;
+                transition: transform 0.2s;
             }
 
-            .auth-buttons a.signup:hover {
-                background: #6d28d9;
-                color: #fff;
+            .avatar:hover {
+                transform: scale(1.05);
+            }
+
+            .dropdown {
+                display: none;
+                position: absolute;
+                top: 55px;
+                right: 0;
+                background: #1f2937;
+                border-radius: 12px;
+                box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+                min-width: 210px;
+                overflow: hidden;
+                z-index: 100;
+            }
+
+            .dropdown.show {
+                display: block;
+            }
+
+            .user-info {
+                text-align: center;
+                padding: 15px 10px;
+                border-bottom: 1px solid #374151;
+            }
+
+            .avatar-large {
+                width: 70px;
+                height: 70px;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 2px solid #4f46e5;
+                margin-bottom: 8px;
+            }
+
+            .username {
+                font-weight: 600;
+                color: #f9fafb;
+                font-size: 15px;
+            }
+
+            .role {
+                font-size: 13px;
+                color: #9ca3af;
+            }
+
+            .dropdown-item {
+                display: block;
+                padding: 10px 16px;
+                color: #f9fafb;
+                text-decoration: none;
+                font-size: 14px;
+                transition: background 0.2s;
+            }
+
+            .dropdown-item:hover {
+                background-color: #374151;
+            }
+
+            .logout {
+                color: #f87171;
+                font-weight: 500;
             }
 
             /* ==== MAIN ==== */
@@ -163,43 +240,82 @@
             }
 
             .footer {
-                background: #111827;
-                color: #e5e7eb;
+                background: linear-gradient(135deg, #111827, #1f2937);
+                color: #d1d5db;
                 text-align: center;
-                padding: 10px 5px;
+                padding: 15px 20px;
+                font-size: 14px;
+                border-top: 2px solid #4f46e5;
+                margin-top: auto;
             }
 
-            @media (max-width: 768px) {
-                nav {
-                    flex-direction: column;
-                    gap: 10px;
-                }
+            .footer-content {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 40px;
+                flex-wrap: wrap;
+            }
+
+            .footer-content a {
+                color: #a5b4fc;
+                text-decoration: none;
+                transition: color 0.3s ease;
+            }
+
+            .footer-content a:hover {
+                color: #818cf8;
+            }
+
+            .footer p {
+                margin-top: 10px;
+                font-size: 13px;
+                color: #9ca3af;
             }
         </style>
     </head>
 
     <body>
+        <!-- ======= NAVIGATION ======= -->
         <nav>
-            <ul>
-                <li><a href="${pageContext.request.contextPath}/book/list">Book List</a></li>
-                <li><a href="${pageContext.request.contextPath}/book/category">Category</a></li>
-                <li><a href="${pageContext.request.contextPath}/book/search">Search Book</a></li>      
-            </ul>
+            <div class="nav-center">
+                <ul>
+                    <li><a href="${pageContext.request.contextPath}/book/list">Dashboard</a></li>
+                    <li><a href="${pageContext.request.contextPath}/book/category">Category</a></li>
+                    <li><a href="${pageContext.request.contextPath}/book/search">Search Book</a></li>
+                </ul>
+            </div>
 
-            <!-- Auth Buttons -->
-            <div class="auth-buttons">
-                <c:choose>
-                    <c:when test="${not empty sessionScope.user}">
-                        <a href="${pageContext.request.contextPath}/LogOut" class="signup">Logout</a>
-                    </c:when>
-                    <c:otherwise>
-                        <a href="${pageContext.request.contextPath}/user/login" class="login">Login</a>
-                        <a href="${pageContext.request.contextPath}/user/register" class="signup">Sign up</a>
-                    </c:otherwise>
-                </c:choose>
+            <div class="nav-right">
+                <!-- Nếu chưa đăng nhập -->
+                <c:if test="${sessionScope.account == null}">
+                    <a href="${pageContext.request.contextPath}/user/login">Login</a>
+                    <a href="${pageContext.request.contextPath}/user/register">Sign Up</a>
+                </c:if>
+
+                <!-- Nếu đã đăng nhập -->
+                <c:if test="${sessionScope.account != null}">
+                    <div class="user-menu">
+                        <img src="${pageContext.request.contextPath}/resources/images/1.jpg"
+                             alt="User Avatar" class="avatar" id="avatarBtn">
+
+                        <div class="dropdown" id="userDropdown">
+                            <div class="user-info">
+                                <img src="${pageContext.request.contextPath}/resources/images/1.jpg" 
+                                     alt="User Avatar Large" class="avatar-large">
+                                <p class="username">${sessionScope.account}</p>
+                                <p class="role">Library Member</p>
+                            </div>
+                            <a href="${pageContext.request.contextPath}/user/dashboard" class="dropdown-item">Profile</a>
+                            <a href="${pageContext.request.contextPath}/favorite/books" class="dropdown-item">Favorite</a>
+                            <a href="${pageContext.request.contextPath}/LogOut" class="dropdown-item logout">Logout</a>
+                        </div>
+                    </div>
+                </c:if>
             </div>
         </nav>
 
+        <!-- ======= MAIN SEARCH ======= -->
         <div class="search-container">
             <h2>Search Books</h2>
 
@@ -231,7 +347,30 @@
         </div>
 
         <footer class="footer">
-            <%@include file="/WEB-INF/views/components/footer.jsp" %>
+            <div class="footer-content">
+                <a href="${pageContext.request.contextPath}/about">About</a>
+                <a href="${pageContext.request.contextPath}/contact">Contact</a>
+                <a href="${pageContext.request.contextPath}/terms">Terms of Service</a>
+            </div>
+            <p>&copy; 2025 Library Management System — All rights reserved.</p>
         </footer>
+
+        <script>
+            const avatarBtn = document.getElementById('avatarBtn');
+            const dropdown = document.getElementById('userDropdown');
+
+            if (avatarBtn && dropdown) {
+                avatarBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    dropdown.classList.toggle('show');
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (!dropdown.contains(e.target) && e.target !== avatarBtn) {
+                        dropdown.classList.remove('show');
+                    }
+                });
+            }
+        </script>
     </body>
 </html>

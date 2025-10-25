@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Book Gallery - Library Management</title>
+        <title>Returned Books - Library Management</title>
         <style>
             * {
                 margin: 0;
@@ -24,7 +24,7 @@
                 background: #f9f9ff;
             }
 
-            /* ==== NAVIGATION ==== */
+            /* ==== NAVBAR ==== */
             .navbar {
                 background: #111827;
                 color: #e5e7eb;
@@ -33,17 +33,28 @@
                 align-items: center;
                 padding: 12px 40px;
             }
+
             .navbar .logo {
                 font-weight: 600;
                 font-size: 18px;
             }
 
+            /* ==== BACK LINK ==== */
             .back-link {
                 display: flex;
                 margin: 0 0 16px;
                 text-decoration: none;
-                color: #2a6df4;
+                color: #2563eb;
+                font-weight: 500;
+                align-items: center;
+                gap: 6px;
             }
+
+            .back-link:hover {
+                text-decoration: underline;
+                color: #1d4ed8;
+            }
+
             /* ==== MAIN CONTENT ==== */
             .book-container {
                 flex: 1;
@@ -51,17 +62,39 @@
                 text-align: center;
             }
 
-            .book-container h2 {
-                font-size: 28px;
-                margin-bottom: 30px;
-                color: #3f3f46;
+            /* ✅ PAGE TITLE (22px + gradient underline) */
+            .page-title {
+                text-align: center;
+                margin-bottom: 25px;
             }
-            /* Gallery sách */
+
+            .page-title h2 {
+                font-size: 22px;
+                font-weight: 700;
+                color: #1f2937;
+                text-transform: uppercase;
+                display: inline-block;
+                position: relative;
+                letter-spacing: 0.5px;
+            }
+
+            .page-title h2::after {
+                content: "";
+                display: block;
+                width: 60%;
+                height: 3px;
+                background: linear-gradient(90deg, #4f46e5, #6366f1);
+                margin: 6px auto 0;
+                border-radius: 2px;
+            }
+
+            /* ==== BOOK GALLERY ==== */
             .book-gallery {
                 display: grid;
                 grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
                 gap: 25px;
                 justify-items: center;
+                margin-top: 15px;
             }
 
             .book-card {
@@ -86,39 +119,56 @@
 
             /* ==== FOOTER ==== */
             .footer {
-                background: #111827;
-                color: #e5e7eb;
+                background: linear-gradient(135deg, #111827, #1f2937);
+                color: #d1d5db;
                 text-align: center;
-                padding: 20px 20px;
-            }
-
-            .footer-section h3 {
-                margin-bottom: 10px;
-                font-size: 20px;
-                color: #a5b4fc;
-            }
-
-            .footer-section p {
+                padding: 15px 20px;
                 font-size: 14px;
-                line-height: 1.6;
-                max-width: 600px;
-                margin: 0 auto 20px;
+                border-top: 2px solid #4f46e5;
+                margin-top: auto;
             }
 
+            .footer-content {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 40px;
+                flex-wrap: wrap;
+            }
 
+            .footer-content a {
+                color: #a5b4fc;
+                text-decoration: none;
+                transition: color 0.3s ease;
+            }
+
+            .footer-content a:hover {
+                color: #818cf8;
+            }
+
+            .footer p {
+                margin-top: 10px;
+                font-size: 13px;
+                color: #9ca3af;
+            }
         </style>
     </head>
 
     <body>
         <nav class="navbar">
-            <span class="logo">📚 Library System</span>           
+            <span class="logo">📚 Library System</span>
         </nav>
+
         <div class="book-container">
-            <h2> Returned Books </h2>            
-            <a class="back-link" href="${pageContext.request.contextPath}/user/dashboard">← Back to DashBoard </a>
+            <div class="page-title">
+                <h2>Returned Books</h2>
+            </div>
+
+            <a class="back-link" href="${pageContext.request.contextPath}/user/dashboard">← Back to Dashboard</a>
+
             <div class="book-gallery">
                 <c:forEach var="book" items="${returnedBooks}">
-                    <a  class="book-card" >
+                    <a class="book-card">
                         <img src="${pageContext.request.contextPath}/resources/images/${book.coverImage}" alt="Book cover">
                     </a>
                 </c:forEach>
@@ -126,7 +176,12 @@
         </div>
 
         <footer class="footer">
-            <%@include file="/WEB-INF/views/components/footer.jsp" %>
+            <div class="footer-content">
+                <a href="${pageContext.request.contextPath}/about">About</a>
+                <a href="${pageContext.request.contextPath}/contact">Contact</a>
+                <a href="${pageContext.request.contextPath}/terms">Terms of Service</a>
+            </div>
+            <p>&copy; 2025 Library Management System — All rights reserved.</p>
         </footer>
     </body>
 </html>

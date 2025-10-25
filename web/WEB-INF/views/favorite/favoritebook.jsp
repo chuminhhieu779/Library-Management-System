@@ -138,10 +138,37 @@
 
             /* ==== FOOTER ==== */
             .footer {
-                background: #111827;
-                color: #e5e7eb;
+                background: linear-gradient(135deg, #111827, #1f2937);
+                color: #d1d5db;
                 text-align: center;
-                padding: 10px;
+                padding: 15px 20px;
+                font-size: 14px;
+                border-top: 2px solid #4f46e5;
+                margin-top: auto;
+            }
+
+            .footer-content {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 40px;
+                flex-wrap: wrap;
+            }
+
+            .footer-content a {
+                color: #a5b4fc;
+                text-decoration: none;
+                transition: color 0.3s ease;
+            }
+
+            .footer-content a:hover {
+                color: #818cf8;
+            }
+
+            .footer p {
+                margin-top: 10px;
+                font-size: 13px;
+                color: #9ca3af;
             }
 
         </style>
@@ -175,7 +202,12 @@
         </div>
 
         <footer class="footer">
-            <%@include file="/WEB-INF/views/components/footer.jsp" %>
+            <div class="footer-content">
+                <a href="${pageContext.request.contextPath}/about">About</a>
+                <a href="${pageContext.request.contextPath}/contact">Contact</a>
+                <a href="${pageContext.request.contextPath}/terms">Terms of Service</a>
+            </div>
+            <p>&copy; 2025 Library Management System — All rights reserved.</p>
         </footer>
     </body>
 </html>
