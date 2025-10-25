@@ -12,8 +12,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,8 +52,9 @@ public class BookImplementDao implements BookDao {
     @Override
     public Books showBookDetail(String slug, int bookID) {
         String sql = "select * from books join categories on books.category_id = categories.category_id where books.slug = ? and books.book_id = ? ";
+      
         try (
-               Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, slug);
             ps.setInt(2, bookID);
             ResultSet rs = ps.executeQuery();
@@ -94,13 +97,15 @@ public class BookImplementDao implements BookDao {
         return sum;
     }
 
+
     @Override
     public List<Books> searchBook(String query) {
         List<Books> list = new ArrayList<>();
-        String sql = "select * from books\n"
+        String sql = "select * from books\n "
                 + "where title_unaccented like ? ";
+         logger.info("Searching {} book", query);
         try (
-                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+             Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, "%" + query + "%");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -117,7 +122,6 @@ public class BookImplementDao implements BookDao {
             return list;
         } catch (SQLException s) {
             logger.error("Error excecuting{}", s.getMessage(), s);
-
         }
         return null;
     }

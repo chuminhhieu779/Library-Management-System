@@ -32,4 +32,5 @@ public interface BookDao {
     void increaseQuantity(Connection conn, String slug);
 
     boolean existsFavorite(int userID, int bookID);
+    
 }
