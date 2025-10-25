@@ -13,12 +13,22 @@ import java.util.List;
  * @author hieuchu
  */
 public interface BookDao {
-     List<Books> getALLBook();
-     Books showBookDetail(String slug, int bookID);
-     int totalBook();
-     List<Books> searchBook(String query );    
-     void insertBookToFavorite(int bookID, int  userID);
-     List<Books> showBookFromFavorite(int userID); 
-     void decreaseQuantity(Connection conn, int bookID);
-     boolean existsFavorite(int userID, int bookID) ;                                                                                                                                                                                                                                                                                                                                                                     
+
+    List<Books> getALLBook();
+
+    Books showBookDetail(String slug, int bookID);
+
+    int totalBook();
+
+    List<Books> searchBook(String query);
+
+    void insertBookToFavorite(int bookID, int userID);
+
+    List<Books> showBookFromFavorite(int userID);
+
+    void decreaseQuantity(Connection conn, int bookID);
+
+    void increaseQuantity(Connection conn, String slug);
+
+    boolean existsFavorite(int userID, int bookID);
 }

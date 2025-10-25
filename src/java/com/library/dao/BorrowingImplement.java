@@ -117,15 +117,15 @@ public class BorrowingImplement implements BorrowingDao {
     }
 
     @Override
-    public boolean returnBook(String account, String slug) {
+    public boolean updateBookStatus(Connection conn , String account, String slug) {
         String sql = "UPDATE b "
                 + "SET b.status = 'returned', b.return_date = GETDATE() "
                 + "FROM borrowings b "
                 + "JOIN users u ON u.user_id = b.user_id "
                 + "JOIN books bk ON bk.book_id = b.book_id "
                 + "WHERE bk.slug = ? AND u.account = ? AND b.status = 'borrowing'";
-        try (
-                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (                
+            PreparedStatement ps = conn.prepareStatement(sql)){
             ps.setString(1, slug);
             ps.setString(2, account);
             int row = ps.executeUpdate();

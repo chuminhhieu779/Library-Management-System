@@ -94,8 +94,7 @@ public class BookImplementDao implements BookDao {
         String sql = "select * from books\n"
                 + "where title_unaccented like ? ";
         try (
-              Connection conn = DBConnection.getInstance().getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, "%" + query + "%");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -121,14 +120,13 @@ public class BookImplementDao implements BookDao {
     public void insertBookToFavorite(int bookID, int userID) {
         String sql = "insert into favorites(user_id, book_id) values (? , ? )";
         try (
-              Connection conn = DBConnection.getInstance().getConnection(); 
-            PreparedStatement ps = conn.prepareStatement(sql)) {
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, userID);
             ps.setInt(2, bookID);
             ps.executeUpdate();
         } catch (SQLException s) {
             logger.error("Error excecuting{}", s.getMessage(), s);
-        }   
+        }
     }
 
     @Override
@@ -165,6 +163,18 @@ public class BookImplementDao implements BookDao {
                 PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, bookID);
             ps.executeUpdate();
+        } catch (SQLException s) {
+            logger.error("Error excecuting{}", s.getMessage(), s);
+        }
+    }
+
+    @Override
+    public void increaseQuantity(Connection conn, String slug) {
+        String sql = "update books set quantity = quantity + 1 where slug =  ? ";
+        try (
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, slug);
+            ps.executeUpdate();         
         } catch (SQLException s) {
             logger.error("Error excecuting{}", s.getMessage(), s);
         }

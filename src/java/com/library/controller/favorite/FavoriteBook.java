@@ -6,6 +6,7 @@ package com.library.controller.favorite;
 
 import com.library.dao.BookDao;
 import com.library.dao.BookImplementDao;
+import com.library.dao.DaoFactory;
 import com.library.dao.UserDao;
 import com.library.dao.UserImplementDao;
 import com.library.model.Books;
@@ -28,7 +29,11 @@ import java.util.List;
 @WebServlet(name = "Favorite", urlPatterns = {"/favorite/add-book"})
 public class FavoriteBook extends HttpServlet {
     
-    FavoriteService favService = new FavoriteService();
+    FavoriteService favService = new FavoriteService(
+            DaoFactory.getUserDao(),
+            DaoFactory.getBookDao()
+    
+    );
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
