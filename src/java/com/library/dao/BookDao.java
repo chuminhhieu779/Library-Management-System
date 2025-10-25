@@ -4,6 +4,7 @@
  */
 package com.library.dao;
 
+import com.library.exception.BookDataAccessException;
 import com.library.model.Books;
 import java.sql.Connection;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
  */
 public interface BookDao {
 
-    List<Books> getALLBook();
+    List<Books> getAllBook()throws BookDataAccessException;
 
     Books showBookDetail(String slug, int bookID);
 
