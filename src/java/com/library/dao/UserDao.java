@@ -26,5 +26,7 @@ public interface UserDao {
       int findUserID(String account);
       
       Users getUser(String account);
+      
+      boolean updateUser(String account , String avatar, String fullName, int userID);
 
 }

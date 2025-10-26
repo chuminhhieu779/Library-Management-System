@@ -31,9 +31,17 @@ public class UserService {
            dto.setAccount(u.getAccount());
            dto.setFullName(u.getFullname());
            dto.setUserID(u.getUserID());
+           dto.setAvatar(u.getAvatar());
            return dto ;
         }
         return null ;
     }
-
+ 
+    public boolean updateProfileUser(String account , String avatar , String fullName, int userID){
+        if(this.userDao.updateUser(account, avatar, fullName, userID)){
+            
+            return true ;
+        }
+      return false;          
+    }
 }

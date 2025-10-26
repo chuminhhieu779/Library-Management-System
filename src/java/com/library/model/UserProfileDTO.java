@@ -56,7 +56,11 @@ public class UserProfileDTO {
         this.avatar = avatar;
     }
 
-    
+    public void setNewProfile(String fullName, String account , String avatar){
+        this.account = account;
+        this.fullName = fullName;
+        this.avatar = avatar ;
+    }
   
     
 }
