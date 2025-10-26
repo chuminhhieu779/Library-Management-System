@@ -9,6 +9,7 @@ import com.library.model.BorrowedBookDTO;
 import java.sql.Connection;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -22,7 +23,7 @@ public interface BorrowingDao {
 
     List<BorrowedBookDTO> borrowedBooksList(String account);
 
-    List<Books> returnedBooksList(String account);
+    Map<Integer, String> returnedBooksList(String account);
     
     boolean updateBookStatus(Connection conn , String account, String slug);
     
