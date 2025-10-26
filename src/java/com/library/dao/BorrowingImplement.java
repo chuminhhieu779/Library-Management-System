@@ -14,7 +14,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -94,9 +96,9 @@ public class BorrowingImplement implements BorrowingDao {
     }
 
     @Override
-    public List<Books> returnedBooksList(String account) {
-        List<Books> list = new ArrayList<>();
-        String sql = "SELECT bk.cover_image "
+    public Map<Integer, String> returnedBooksList(String account) {
+        Map<Integer, String> map = new HashMap<>();
+        String sql = "SELECT bk.cover_image , b.book_id "
                 + "FROM borrowings b "
                 + "JOIN users u ON u.user_id = b.user_id "
                 + "JOIN books bk ON bk.book_id = b.book_id "
@@ -105,15 +107,13 @@ public class BorrowingImplement implements BorrowingDao {
                 Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, account);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Books b = new Books();
-                b.setCoverImage(rs.getString("cover_image"));
-                list.add(b);
+            while (rs.next()) {         
+                map.put(rs.getInt("book_id"), rs.getString("cover_image"));
             }
         } catch (SQLException s) {
             logger.error("Error executing: {}", s.getMessage(), s);
         }
-        return list;
+        return map;
     }
 
     @Override
@@ -210,12 +210,13 @@ public class BorrowingImplement implements BorrowingDao {
 
     @Override
     public boolean hasUserBorrowedBook(int bookID, int userID) {
-        String sql = "select * from borrowings where book_id = ? and user_id = ?  ";
+        String sql = "select * from borrowings where book_id = ? and user_id = ? and status = ?  ";
         try (
              Connection conn = DBConnection.getInstance().getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);) {
             ps.setInt(1, bookID);
             ps.setInt(2, userID);            
+            ps.setString(3, "borrowing");
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return false;
