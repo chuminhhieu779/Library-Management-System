@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -36,8 +37,8 @@ public class ReturnedBooksList extends HttpServlet {
             return ;
         }
         String account = (String)session.getAttribute("account");
-        List<Books> list = borrowDao.returnedBooksList(account);
-        request.setAttribute("returnedBooks", list);
+        Map<Integer, String> map = borrowDao.returnedBooksList(account);
+        request.setAttribute("returnedBooks", map);
         request.getRequestDispatcher("/WEB-INF/views/borrowing/returnedbook.jsp").forward(request, response);
     } 
 

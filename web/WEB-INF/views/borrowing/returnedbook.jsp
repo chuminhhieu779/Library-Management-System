@@ -169,7 +169,7 @@
             <div class="book-gallery">
                 <c:forEach var="book" items="${returnedBooks}">
                     <a class="book-card">
-                        <img src="${pageContext.request.contextPath}/resources/images/${book.coverImage}" alt="Book cover">
+                        <img src="${pageContext.request.contextPath}/resources/images/${book.value}" alt="Book cover">
                     </a>
                 </c:forEach>
             </div>
