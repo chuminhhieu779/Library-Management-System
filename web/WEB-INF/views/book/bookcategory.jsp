@@ -55,7 +55,7 @@
             /* ==== USER / AUTH AREA ==== */
             .nav-right {
                 position: absolute;
-                right: 10px;
+                right: 25px;
                 display: flex;
                 align-items: center;
                 gap: 12px;
@@ -274,7 +274,7 @@
             }
 
             /* ==== FOOTER ==== */
-   
+
             .footer {
                 background: linear-gradient(135deg, #111827, #1f2937);
                 color: #d1d5db;
@@ -282,7 +282,7 @@
                 padding: 15px 20px;
                 font-size: 14px;
                 border-top: 2px solid #4f46e5;
-                margin-top: auto; 
+                margin-top: auto;
             }
 
             .footer-content {
@@ -314,7 +314,7 @@
 
     <body>
         <!-- ======= NAVIGATION ======= -->
-      <nav>
+        <nav>
             <div class="nav-center">
                 <ul>
                     <li><a href="${pageContext.request.contextPath}/book/list">Dashboard</a></li>
@@ -333,19 +333,19 @@
 
                 <c:if test="${sessionScope.account != null}">
                     <div class="user-menu">
-                        <img src="${pageContext.request.contextPath}/resources/images/1.jpg" 
+                        <img src="${pageContext.request.contextPath}/resources/images/${sessionScope.user.avatar}" 
                              alt="User Avatar" class="avatar">
 
                         <div class="dropdown">
                             <div class="user-info">
-                                <img src="${pageContext.request.contextPath}/resources/images/1.jpg" 
+                                <img src="${pageContext.request.contextPath}/resources/images/${sessionScope.user.avatar}" 
                                      alt="User Avatar Large" class="avatar-large">
                                 <p class="username">${sessionScope.user.name}</p>
                                 <p class="role">Library Member</p>
                             </div>
                             <hr>
                             <a href="${pageContext.request.contextPath}/user/dashboard" class="dropdown-item">
-                                <i class="fa-solid fa-user"></i> Profile
+                                <i class="fa-solid fa-user"></i> Dashboard
                             </a>     
                             <a href="${pageContext.request.contextPath}/favorite/books" class="dropdown-item">
                                 <i class="fa-solid fa-heart"></i> Favorite 
@@ -360,7 +360,7 @@
                     </div>
                 </c:if>
             </div>
-      </nav>
+        </nav>
 
         <!-- ======= PAGE TITLE ======= -->
         <div class="page-title">

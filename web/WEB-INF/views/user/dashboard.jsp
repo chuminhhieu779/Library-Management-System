@@ -285,19 +285,19 @@
             <span class="logo">📚 Library System</span>
 
             <div class="user-menu">
-                <img src="${pageContext.request.contextPath}/resources/images/1.jpg" 
+                <img src="${pageContext.request.contextPath}/resources/images/${sessionScope.user.avatar}" 
                      alt="User Avatar" class="avatar">
 
                 <div class="dropdown">
                     <div class="user-info">
-                        <img src="${pageContext.request.contextPath}/resources/images/1.jpg" 
+                        <img src="${pageContext.request.contextPath}/resources/images/${sessionScope.user.avatar}" 
                              alt="User Avatar Large" class="avatar-large">
                         <p class="username">${sessionScope.user.fullName}</p>
                         <p class="role">Library Member</p>
                     </div>
                     <hr>
-                    <a href="${pageContext.request.contextPath}/user/profile" class="dropdown-item">
-                        <i class="fa-solid fa-user"></i> Profile
+                    <a href="${pageContext.request.contextPath}/user/dashboard" class="dropdown-item">
+                        <i class="fa-solid fa-user"></i> DashBoard
                     </a>     
                     <a href="${pageContext.request.contextPath}/favorite/books" class="dropdown-item">
                         <i class="fa-solid fa-heart"></i> Favorite 
