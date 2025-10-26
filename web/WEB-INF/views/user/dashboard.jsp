@@ -292,7 +292,7 @@
                     <div class="user-info">
                         <img src="${pageContext.request.contextPath}/resources/images/1.jpg" 
                              alt="User Avatar Large" class="avatar-large">
-                        <p class="username">${sessionScope.user.name}</p>
+                        <p class="username">${sessionScope.user.fullName}</p>
                         <p class="role">Library Member</p>
                     </div>
                     <hr>
