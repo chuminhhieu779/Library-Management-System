@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author hieuchu
  */
-@WebServlet(name = "LoadImage", urlPatterns = {"/book/list"})
+@WebServlet(name = "BookList", urlPatterns = {"/book/list"})
 public class BookList extends HttpServlet {
 
     private static final Logger logger = LoggerFactory.getLogger(BookList.class);

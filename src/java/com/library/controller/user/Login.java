@@ -20,7 +20,7 @@ import jakarta.servlet.http.HttpSession;
  * @author laptop gigabyte
  */
 @WebServlet(name = "Login", urlPatterns = {"/user/login"})
-public class Login extends HttpServlet {
+public class LogIn extends HttpServlet {
 
     UserDao userDao = new UserImplementDao();
 

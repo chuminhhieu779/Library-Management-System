@@ -145,10 +145,10 @@ public class UserImplementDao implements UserDao {
         String sql = "select * from users where account = ? ";
         logger.info("Getting the data of {} account ", account);
         try (
-             Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, account);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {             
+            if (rs.next()) {
                 Users u = new Users();
                 u.setUserID(rs.getInt("user_id"));
                 u.setFullname(rs.getString("fullname"));
@@ -161,6 +161,24 @@ public class UserImplementDao implements UserDao {
             logger.error("Error excecuting{}", s.getMessage(), s);
         }
         return null;
+    }
+
+    @Override
+    public boolean updateUser(String account, String avatar, String fullName, int userID) {
+        String sql = "UPDATE users SET avatar = ?, fullname = ? , account = ?  WHERE user_id = ?";
+        logger.info("Updating user -> account: {}, avatar: {}, fullname: {}", account, avatar, fullName);
+        try (
+            Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, avatar);
+            ps.setString(2, fullName);
+            ps.setString(3, account);
+            ps.setInt(4, userID);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException s) {
+            logger.error("Error updating user (account: {}): {}", account, s.getMessage(), s);
+        }
+        return false;
     }
 
 }

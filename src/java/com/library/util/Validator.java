@@ -18,7 +18,7 @@ public class Validator {
             throw new ValidationException(" cannot be empty!");
         }
     }
-    
+
     // Validate username (3-20 characters, only letters/numbers/_)
     public static void validateUsername(String username) {
         requireNotEmpty(username);
@@ -26,12 +26,17 @@ public class Validator {
             throw new ValidationException("Username must contain 3–20 letters, digits, or underscores only!");
         }
     }
-    
-    public static void validateSearchBook(String value){
-        if(!value.matches("^[\\p{L}\\s]+$")){
+
+    public static void validateSearchBook(String value) {
+        if (!value.matches("^[\\p{L}\\s]+$")) {
             throw new ValidationException("Title must contain only letters!");
         }
     }
-   
-    
+
+    public static void validateUserAccount(String account) {
+        if (!account.matches("^[a-z0-9]{5,10}$")) {
+            throw new ValidationException( "Account must be 5–10 characters long and contain only lowercase letters or digits!" );
+        }
+    }
+
 }
