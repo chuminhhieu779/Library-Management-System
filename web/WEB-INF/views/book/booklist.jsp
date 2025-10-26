@@ -5,6 +5,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Book Gallery - Library Management</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
         <style>
             * {
                 margin: 0;
@@ -23,7 +25,7 @@
 
             /* ==== NAVIGATION ==== */
             nav {
-                background: rgb(19, 24, 39);
+                background: #111827;
                 padding: 15px 60px;
                 display: flex;
                 justify-content: center;
@@ -48,95 +50,110 @@
                 transition: color 0.3s;
             }
 
-            nav a:hover {
-                color: #a5b4fc;
-            }
 
-            /* ==== USER / AUTH AREA ==== */
+
+            /* ==== RIGHT AREA ==== */
             .nav-right {
                 position: absolute;
-                right: 30px;
+                right: 10px;
                 display: flex;
                 align-items: center;
                 gap: 12px;
             }
-
-            .user-menu {
-                margin-left: 25px;
+            .user-menu1 {
+                display: flex;
+                gap: 15px;
+                align-items: center;
+                justify-content: center;
+                margin-right: -20px;
             }
 
-            .nav-right a {
-                background-color: #4f46e5;
-                color: white;
-                padding: 8px 16px;
-                border-radius: 8px;
-                font-size: 14px;
-                font-weight: 500;
+            .user-menu1 a {
                 text-decoration: none;
-                transition: background-color 0.3s;
+                color: #fff;
+                background: linear-gradient(135deg, #4f46e5, #3b82f6);
+                padding: 4px 10px;
+                border-radius: 8px;
+                font-weight: 500;
+                font-size: 15px;
+                transition: all 0.3s ease;
             }
 
-            .nav-right a:hover {
-                background-color: #6366f1;
+            .user-menu1 a:hover {
+                background: linear-gradient(135deg, #3b82f6, #2563eb);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 10px rgba(59,130,246,0.3);
             }
 
-
-            /* ==== USER MENU ==== */
             .user-menu {
                 position: relative;
                 display: inline-block;
             }
+
+            .user-menu::after {
+                content: "";
+                position: absolute;
+                top: 38px;
+                right: 0;
+                width: 100%;
+                height: 20px;
+            }
+
             .avatar {
-                width: 42px;
-                height: 42px;
+                width: 38px;
+                height: 38px;
                 border-radius: 50%;
-                cursor: pointer;
                 object-fit: cover;
-                border: 2px solid #6366f1;
-                transition: transform 0.2s;
+                cursor: pointer;
+                border: 2px solid #a5b4fc;
+                transition: transform 0.2s ease;
             }
 
             .avatar:hover {
                 transform: scale(1.05);
             }
 
+            /* Dropdown menu */
             .dropdown {
-                display: none;
+                opacity: 0;
+                visibility: hidden;
                 position: absolute;
-                top: 55px;
                 right: 0;
+                top: 55px;
                 background: #1f2937;
-                border-radius: 16px;
-                box-shadow: 0 4px 14px rgba(0,0,0,0.25);
-                min-width: 220px;
-                overflow: hidden;
-                z-index: 100;
+                color: #e5e7eb;
+                width: 220px;
+                border-radius: 12px;
+                box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+                z-index: 10;
+                padding: 15px;
+                transition: opacity 0.2s ease, transform 0.2s ease;
+                transform: translateY(-5px);
             }
 
-            .dropdown.show {
-                display: block;
+            .user-menu:hover .dropdown {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
             }
 
-            .user-info {
+            .dropdown .user-info {
                 text-align: center;
-                padding: 18px 10px;
-                border-bottom: 1px solid #374151;
-                background: linear-gradient(145deg, #232946, #1f2937);
             }
 
             .avatar-large {
-                width: 70px;
-                height: 70px;
+                width: 60px;
+                height: 60px;
                 border-radius: 50%;
-                object-fit: cover;
                 border: 2px solid #6366f1;
+                object-fit: cover;
                 margin-bottom: 8px;
             }
 
             .username {
                 font-weight: 600;
-                color: #e5e7eb;
-                font-size: 15px;
+                font-size: 16px;
+                margin: 2px 0;
             }
 
             .role {
@@ -144,26 +161,25 @@
                 color: #9ca3af;
             }
 
-            /* ==== MENU ITEMS ==== */
             .dropdown-item {
                 display: block;
-                padding: 12px 18px;
-                color: #f9fafb;
+                color: #e5e7eb;
                 text-decoration: none;
                 font-size: 14px;
-                background: #2d2f3a;
-                border-bottom: 1px solid #3a3d4a;
-                transition: background 0.25s, transform 0.15s;
+                padding: 8px 0;
+                transition: color 0.25s;
             }
 
             .dropdown-item:hover {
-                background: linear-gradient(90deg, #4f46e5, #7c3aed);
-                transform: translateX(4px);
+                color: #a5b4fc;
             }
 
             .logout {
                 color: #f87171;
-                font-weight: 600;
+            }
+
+            .logout:hover {
+                color: #ef4444;
             }
 
             /* ==== PAGE TITLE ==== */
@@ -193,7 +209,7 @@
                 border-radius: 2px;
             }
 
-            /* ==== MAIN CONTENT ==== */
+            /* ==== BOOK LIST ==== */
             .book-container {
                 flex: 1;
                 padding: 0 60px 40px 60px;
@@ -261,6 +277,8 @@
                 font-size: 13px;
                 color: #9ca3af;
             }
+
+
         </style>
     </head>
 
@@ -276,28 +294,38 @@
             </div>
 
             <div class="nav-right">
-                <!-- Nếu chưa đăng nhập -->
                 <c:if test="${sessionScope.account == null}">
-                    <a href="${pageContext.request.contextPath}/user/login">Login</a>
-                    <a href="${pageContext.request.contextPath}/user/register">Sign Up</a>
+                    <div class="user-menu1">
+                        <a href="${pageContext.request.contextPath}/user/login">Login</a>
+                        <a href="${pageContext.request.contextPath}/user/register">Sign Up</a>
+                    </div>                   
                 </c:if>
 
-                <!-- Nếu đã đăng nhập -->
                 <c:if test="${sessionScope.account != null}">
                     <div class="user-menu">
-                        <img src="${pageContext.request.contextPath}/resources/images/1.jpg"
-                             alt="User Avatar" class="avatar" id="avatarBtn">
+                        <img src="${pageContext.request.contextPath}/resources/images/1.jpg" 
+                             alt="User Avatar" class="avatar">
 
-                        <div class="dropdown" id="userDropdown">
+                        <div class="dropdown">
                             <div class="user-info">
                                 <img src="${pageContext.request.contextPath}/resources/images/1.jpg" 
                                      alt="User Avatar Large" class="avatar-large">
-                                <p class="username">${sessionScope.account}</p>
+                                <p class="username">${sessionScope.user.name}</p>
                                 <p class="role">Library Member</p>
                             </div>
-                            <a href="${pageContext.request.contextPath}/user/dashboard" class="dropdown-item">Profile</a>
-                            <a href="${pageContext.request.contextPath}/favorite/books" class="dropdown-item">Favorite</a>
-                            <a href="${pageContext.request.contextPath}/LogOut" class="dropdown-item logout">Logout</a>
+                            <hr>
+                            <a href="${pageContext.request.contextPath}/user/dashboard" class="dropdown-item">
+                                <i class="fa-solid fa-user"></i> Profile
+                            </a>     
+                            <a href="${pageContext.request.contextPath}/favorite/books" class="dropdown-item">
+                                <i class="fa-solid fa-heart"></i> Favorite 
+                            </a> 
+                            <a href="${pageContext.request.contextPath}/user/setting" class="dropdown-item">
+                               <i class="fa-solid fa-gear"></i> Setting
+                            </a>    
+                            <a href="${pageContext.request.contextPath}/LogOut" class="dropdown-item logout">
+                                <i class="fa-solid fa-right-from-bracket"></i> Logout
+                            </a>
                         </div>
                     </div>
                 </c:if>
@@ -320,6 +348,7 @@
             </div>
         </div>
 
+        <!-- ======= FOOTER ======= -->
         <footer class="footer">
             <div class="footer-content">
                 <a href="${pageContext.request.contextPath}/about">About</a>
@@ -328,23 +357,5 @@
             </div>
             <p>&copy; 2025 Library Management System — All rights reserved.</p>
         </footer>
-
-        <script>
-            const avatarBtn = document.getElementById('avatarBtn');
-            const dropdown = document.getElementById('userDropdown');
-
-            if (avatarBtn && dropdown) {
-                avatarBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    dropdown.classList.toggle('show');
-                });
-
-                document.addEventListener('click', (e) => {
-                    if (!dropdown.contains(e.target) && e.target !== avatarBtn) {
-                        dropdown.classList.remove('show');
-                    }
-                });
-            }
-        </script>
     </body>
 </html>
