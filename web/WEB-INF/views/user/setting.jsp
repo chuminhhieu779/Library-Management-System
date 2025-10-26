@@ -78,13 +78,13 @@
                 position: absolute;
                 right: 0;
                 top: 55px;
-                background: #2d3748;
+                background: #1f2937;
                 color: #e5e7eb;
-                width: 240px;
+                width: 220px;
                 border-radius: 12px;
-                box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+                box-shadow: 0 5px 20px rgba(0,0,0,0.2);
                 z-index: 10;
-                padding: 20px;
+                padding: 15px;
                 transition: opacity 0.2s ease, transform 0.2s ease;
                 transform: translateY(-5px);
             }
@@ -97,24 +97,26 @@
 
             .dropdown .user-info {
                 text-align: center;
-                padding-bottom: 15px;
-                border-bottom: 1px solid #4a5568;
-                margin-bottom: 15px;
             }
 
             .avatar-large {
-                width: 70px;
-                height: 70px;
+                width: 60px;
+                height: 60px;
                 border-radius: 50%;
                 border: 2px solid #6366f1;
                 object-fit: cover;
-                margin: 0 auto 10px;
+                margin-bottom: 8px;
+            }
+
+            .username {
+                font-weight: 600;
+                font-size: 16px;
+                margin: 2px 0;
             }
 
             .role {
-                font-size: 14px;
-                color: #a0aec0;
-                font-weight: 400;
+                font-size: 13px;
+                color: #9ca3af;
             }
 
             .dropdown-item {
@@ -130,10 +132,6 @@
                 color: #a5b4fc;
             }
 
-            .dropdown-item i {
-                margin-right: 6px;
-            }
-
             .logout {
                 color: #f87171;
             }
@@ -141,6 +139,7 @@
             .logout:hover {
                 color: #ef4444;
             }
+
 
             /* ==== MAIN CONTENT ==== */
             .settings-container {
@@ -473,17 +472,35 @@
         </style>
 
         <script>
-            // Toggle edit mode for input fields
+     
             function toggleEdit(fieldId) {
                 const input = document.getElementById(fieldId);
                 const saveBtn = document.getElementById('saveProfileBtn');
 
-                if (input.readOnly) {
-                    input.readOnly = false;
-                    input.focus();
+                // Kiểm tra xem input có phải là type="file" không
+                const isFile = input.type === 'file';
+
+                let isCurrentlyLocked = isFile ? input.disabled : input.readOnly;
+
+                if (isCurrentlyLocked) {
+                    // Mở khóa trường nhập liệu
+                    if (isFile) {
+                        input.disabled = false; // Dùng disabled cho file
+                    } else {
+                        input.readOnly = false; // Dùng readOnly cho text
+                        input.focus();
+                    }
+
+ 
                     saveBtn.style.display = 'inline-flex';
                 } else {
-                    input.readOnly = true;
+       
+                    if (isFile) {
+                        input.disabled = true;
+                    } else {
+                        input.readOnly = true;
+                    }
+  
                 }
             }
 
@@ -506,24 +523,26 @@
             <span class="logo">📚 Library System</span>
 
             <div class="user-menu">
-                <img src="${pageContext.request.contextPath}/resources/images/1.jpg" 
+                <img src="${pageContext.request.contextPath}/resources/images/${sessionScope.user.avatar}" 
                      alt="User Avatar" class="avatar">
 
                 <div class="dropdown">
                     <div class="user-info">
-                        <img src="${pageContext.request.contextPath}/resources/images/1.jpg" 
+                        <img src="${pageContext.request.contextPath}/resources/images/${sessionScope.user.avatar}" 
                              alt="User Avatar Large" class="avatar-large">
+                        <p class="username">${sessionScope.user.fullName}</p>
                         <p class="role">Library Member</p>
                     </div>
+                    <hr>
                     <a href="${pageContext.request.contextPath}/user/dashboard" class="dropdown-item">
-                        <i class="fa-solid fa-user"></i> Profile
+                        <i class="fa-solid fa-user"></i> DashBoard
                     </a>     
                     <a href="${pageContext.request.contextPath}/favorite/books" class="dropdown-item">
                         <i class="fa-solid fa-heart"></i> Favorite 
-                    </a> 
+                    </a>     
                     <a href="${pageContext.request.contextPath}/user/setting" class="dropdown-item">
                         <i class="fa-solid fa-gear"></i> Setting
-                    </a>    
+                    </a> 
                     <a href="${pageContext.request.contextPath}/LogOut" class="dropdown-item logout">
                         <i class="fa-solid fa-right-from-bracket"></i> Logout
                     </a>
@@ -565,6 +584,9 @@
                         </c:choose>
 
                     </div>
+                    <c:if test="${not empty isUpdated}">
+                        <div class="alert alert-info">${isUpdated}</div>
+                    </c:if>
 
                     <form action="${pageContext.request.contextPath}/user/update-profile" method="post" enctype="multipart/form-data">
                         <div class="form-group">
@@ -576,8 +598,8 @@
                         <div class="form-group">
                             <label for="fullname">Full Name</label>
                             <div style="display: flex; gap: 10px;">
-                                <<input type="text" id="fullname" name="fullname" class="form-control" 
-                                        value="${sessionScope.user.fullName}" readonly required>
+                                <input type="text" id="fullname" name="fullName" class="form-control" 
+                                       value="${sessionScope.user.fullName}" readonly required>
                                 <button type="button" class="btn btn-secondary" onclick="toggleEdit('fullname')">
                                     <i class="fa-solid fa-pen"></i> Edit
                                 </button>
@@ -608,7 +630,6 @@
                                 Current: ${sessionScope.user.avatar != null ? sessionScope.user.avatar : 'Default avatar'}
                             </small>
                         </div>
-
 
                         <button type="submit" class="btn btn-primary" id="saveProfileBtn" style="display: none;">
                             <i class="fa-solid fa-floppy-disk"></i> Save Changes
