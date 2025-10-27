@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -514,8 +515,8 @@
                     <i class="fa-solid fa-users"></i>
                 </div>
                 <div class="stat-info">
-                    <h4>${totalUsers != null ? totalUsers : '128'}</h4>
-                    <p>Total Users</p>
+                    <h4>${onlineUser}</h4>
+                    <p>Total Online Users </p>
                 </div>
             </div>
 
@@ -524,7 +525,7 @@
                     <i class="fa-solid fa-book-open-reader"></i>
                 </div>
                 <div class="stat-info">
-                    <h4>${activeBorrowings != null ? activeBorrowings : '45'}</h4>
+                    <h4></h4>
                     <p>Active Borrowings</p>
                 </div>
             </div>
@@ -540,44 +541,7 @@
             </div>
         </div>
 
-        <!-- Quick Actions -->
-        <div class="quick-actions">
-            <h3 class="section-header">Quick Actions</h3>
-            <div class="actions-grid">
-                <a href="${pageContext.request.contextPath}/admin/books/add" class="action-card">
-                    <div class="action-icon">
-                        <i class="fa-solid fa-plus-circle"></i>
-                    </div>
-                    <h5>Add New Book</h5>
-                    <p>Add books to library</p>
-                </a>
-
-                <a href="${pageContext.request.contextPath}/admin/users/add" class="action-card">
-                    <div class="action-icon">
-                        <i class="fa-solid fa-user-plus"></i>
-                    </div>
-                    <h5>Add New User</h5>
-                    <p>Register new member</p>
-                </a>
-
-                <a href="${pageContext.request.contextPath}/admin/borrowing/new" class="action-card">
-                    <div class="action-icon">
-                        <i class="fa-solid fa-hand-holding"></i>
-                    </div>
-                    <h5>New Borrowing</h5>
-                    <p>Process book loan</p>
-                </a>
-
-                <a href="${pageContext.request.contextPath}/admin/reports" class="action-card">
-                    <div class="action-icon">
-                        <i class="fa-solid fa-chart-line"></i>
-                    </div>
-                    <h5>View Reports</h5>
-                    <p>Analytics & stats</p>
-                </a>
-            </div>
-        </div>
-
+    
         <!-- Recent Activity -->
         <div class="recent-activity">
             <h3 class="section-header">Recent Activity</h3>

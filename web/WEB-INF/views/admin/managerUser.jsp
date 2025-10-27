@@ -35,6 +35,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-shrink: 0;
         }
 
         .logo-section {
@@ -174,7 +175,7 @@
 
         /* ==== MAIN CONTENT ==== */
         main {
-            flex: 1;
+            flex: 1 0 auto;
             padding: 40px 60px;
         }
 
@@ -299,17 +300,6 @@
             background: linear-gradient(135deg, #d97706, #b45309);
             transform: translateY(-1px);
             box-shadow: 0 3px 8px rgba(245, 158, 11, 0.3);
-        }
-
-        .btn-info {
-            background: linear-gradient(135deg, #0ea5e9, #0284c7);
-            color: #fff;
-        }
-
-        .btn-info:hover {
-            background: linear-gradient(135deg, #0284c7, #0369a1);
-            transform: translateY(-1px);
-            box-shadow: 0 3px 8px rgba(14, 165, 233, 0.3);
         }
 
         /* ==== ALERTS ==== */
@@ -565,6 +555,7 @@
             padding: 15px 20px;
             font-size: 14px;
             border-top: 2px solid #4f46e5;
+            flex-shrink: 0;
             margin-top: auto;
         }
 
@@ -797,32 +788,6 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr>
-                            <td>#003</td>
-                            <td>
-                                <div class="user-info">
-                                    <img src="${pageContext.request.contextPath}/resources/images/avatar.jpg" 
-                                         alt="User" class="user-avatar">
-                                    <div class="user-details">
-                                        <h4>Mike Johnson</h4>
-                                        <p>mike.johnson@email.com</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>mikejohnson789</td>
-                            <td>1 book</td>
-                            <td><span class="status-badge status-inactive">Inactive</span></td>
-                            <td>
-                                <div class="actions">
-                                    <button class="btn btn-info btn-sm" onclick="logoutUser(3, 'Inactive')">
-                                        <i class="fa-solid fa-right-to-bracket"></i> Logout
-                                    </button>
-                                    <button class="btn btn-danger btn-sm">
-                                        <i class="fa-solid fa-trash"></i> Delete
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
                     </c:if>
                 </tbody>
             </table>
@@ -913,11 +878,15 @@
         }
 
         function logoutUser(userId) {
-            window.location.href = '${pageContext.request.contextPath}/admin/users/logout?id=' + userId;
+            if (confirm('Are you sure you want to logout this user?')) {
+                window.location.href = '${pageContext.request.contextPath}/admin/users/logout?id=' + userId;
+            }
         }
 
         function deleteUser(userId) {
-            window.location.href = '${pageContext.request.contextPath}/admin/users/delete?id=' + userId;
+            if (confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
+                window.location.href = '${pageContext.request.contextPath}/admin/users/delete?id=' + userId;
+            }
         }
 
         function searchUsers() {
@@ -932,6 +901,13 @@
                 closeModal();
             }
         }
+
+        // Enter key for search
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchUsers();
+            }
+        });
     </script>
 </body>
 </html>
