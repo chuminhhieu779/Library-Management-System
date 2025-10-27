@@ -5,6 +5,8 @@
 
 package com.library.controller.admin;
 
+
+import com.library.service.TrackingUserService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -28,7 +30,8 @@ public class DashBoard extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/admin/login");
             return ;
         }
-        
+        int onlineUser = TrackingUserService.getSize();
+        request.setAttribute("onlineUser", onlineUser);
         request.getRequestDispatcher("/WEB-INF/views/admin/dashboard.jsp").forward(request, response);
     } 
 
