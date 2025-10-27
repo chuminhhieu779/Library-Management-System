@@ -1,6 +1,8 @@
 
 package com.library.controller.user;
 
+
+import com.library.service.TrackingUserService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -29,10 +31,11 @@ public class LogOut extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        
+        HttpSession session = request.getSession(false);
+        String userName = (String)session.getAttribute("account");
         if(session!=null){
             session.removeAttribute("account");
+            TrackingUserService.remove(userName);
         }
         response.sendRedirect(request.getContextPath() + "/book/list");
     } 
