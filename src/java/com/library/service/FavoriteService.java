@@ -19,11 +19,17 @@ public class FavoriteService {
 
     private static final Logger logger = LoggerFactory.getLogger(FavoriteService.class);
 
-    private final UserDao userDao = new UserImplementDao();
-    private final BookDao bookDao = new BookImplementDao();
+    private  final UserDao userDao ;
+    private  final BookDao bookDao ;
+
+    public FavoriteService(UserDao userDao, BookDao bookDao) {
+        this.userDao = userDao;
+        this.bookDao = bookDao;
+    }
+     
 
     public int getUserIdByAccount(String account) {
-        int userID = userDao.findUserID(account);
+        int userID = this.userDao.findUserID(account);
         if (userID <= 0) {
             logger.warn("User not found for account: {}", account);
             return -1;
@@ -32,8 +38,8 @@ public class FavoriteService {
     }
 
     public boolean addBookToFavorite(int bookID, int userID) {        
-        if(!bookDao.existsFavorite(userID, bookID)){
-            bookDao.insertBookToFavorite(bookID, userID);
+        if(!this.bookDao.existsFavorite(userID, bookID)){
+            this.bookDao.insertBookToFavorite(bookID, userID);
             return true ;
         }
         return false;     

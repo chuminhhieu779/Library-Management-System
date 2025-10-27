@@ -4,6 +4,7 @@
  */
 package com.library.dao;
 
+import com.library.exception.BookDataAccessException;
 import com.library.model.Books;
 import com.library.model.Categories;
 import com.library.util.DBConnection;
@@ -11,8 +12,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,10 +28,10 @@ public class BookImplementDao implements BookDao {
     private static final Logger logger = LoggerFactory.getLogger(BookImplementDao.class);
 
     @Override
-    public List<Books> getALLBook() {
+    public List<Books> getAllBook() throws BookDataAccessException {
         List<Books> list = new ArrayList<>();
         String sql = "SELECT * FROM books";
-
+        logger.debug("Executing SQL : ", sql);
         try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 Books b = new Books();
@@ -37,9 +40,10 @@ public class BookImplementDao implements BookDao {
                 b.setCoverImage(rs.getString("cover_image"));
                 list.add(b);
             }
-
+            logger.info("Retrieved {} books from database", list.size());
         } catch (SQLException e) {
-            logger.error("Error executing: {}", e.getMessage(), e);
+            logger.error("Error retrieving books from database", e);
+            throw new BookDataAccessException("Failed to retrieve books from database ", e);
         }
 
         return list;
@@ -48,12 +52,13 @@ public class BookImplementDao implements BookDao {
     @Override
     public Books showBookDetail(String slug, int bookID) {
         String sql = "select * from books join categories on books.category_id = categories.category_id where books.slug = ? and books.book_id = ? ";
+
         try (
                 Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, slug);
             ps.setInt(2, bookID);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 Books b = new Books();
                 b.setSlug(rs.getString("slug"));
                 b.setBookID(rs.getInt("book_id"));
@@ -65,7 +70,10 @@ public class BookImplementDao implements BookDao {
                 Categories c = new Categories();
                 c.setName(rs.getString("name"));
                 b.setCategory(c);
+                logger.info("Book found: {}", b.getTitle());
                 return b;
+            } else {
+                logger.warn("No book found for slug={} and bookID={}", slug, bookID);
             }
         } catch (SQLException s) {
             logger.error("Error excecuting{}", s.getMessage(), s);
@@ -81,6 +89,7 @@ public class BookImplementDao implements BookDao {
                 Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             if (rs.next()) {
                 sum = rs.getInt("total");
+                logger.info("Total Books: {}", sum);
             }
         } catch (SQLException s) {
             logger.error("Error excecuting{}", s.getMessage(), s);
@@ -91,11 +100,11 @@ public class BookImplementDao implements BookDao {
     @Override
     public List<Books> searchBook(String query) {
         List<Books> list = new ArrayList<>();
-        String sql = "select * from books\n"
+        String sql = "select * from books\n "
                 + "where title_unaccented like ? ";
+        logger.info("Searching {} book", query);
         try (
-              Connection conn = DBConnection.getInstance().getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, "%" + query + "%");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -112,7 +121,6 @@ public class BookImplementDao implements BookDao {
             return list;
         } catch (SQLException s) {
             logger.error("Error excecuting{}", s.getMessage(), s);
-
         }
         return null;
     }
@@ -121,14 +129,13 @@ public class BookImplementDao implements BookDao {
     public void insertBookToFavorite(int bookID, int userID) {
         String sql = "insert into favorites(user_id, book_id) values (? , ? )";
         try (
-              Connection conn = DBConnection.getInstance().getConnection(); 
-            PreparedStatement ps = conn.prepareStatement(sql)) {
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, userID);
             ps.setInt(2, bookID);
             ps.executeUpdate();
         } catch (SQLException s) {
             logger.error("Error excecuting{}", s.getMessage(), s);
-        }   
+        }
     }
 
     @Override
@@ -171,6 +178,18 @@ public class BookImplementDao implements BookDao {
     }
 
     @Override
+    public void increaseQuantity(Connection conn, String slug) {
+        String sql = "update books set quantity = quantity + 1 where slug =  ? ";
+        try (
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, slug);
+            ps.executeUpdate();
+        } catch (SQLException s) {
+            logger.error("Error excecuting{}", s.getMessage(), s);
+        }
+    }
+
+    @Override
     public boolean existsFavorite(int userID, int bookID) {
         String sql = "select * from favorites where user_id = ? and book_id = ? ";
         try (
@@ -185,6 +204,23 @@ public class BookImplementDao implements BookDao {
             logger.error("Error excecuting{}", s.getMessage(), s);
         }
         return false;
+    }
+
+    @Override
+    public int getCurrentQuantity(Connection conn, int bookID) {
+        String sql = "select * from books where book_id = ? ";
+        logger.info("Counting quantity of {} book", bookID);
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, bookID);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("quantity");
+            }
+        } catch (SQLException s) {
+            logger.error("Error excecuting{}", s.getMessage(), s);
+        }
+        return -1;
     }
 
 }

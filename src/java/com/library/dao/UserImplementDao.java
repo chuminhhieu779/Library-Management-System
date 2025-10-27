@@ -4,6 +4,7 @@
  */
 package com.library.dao;
 
+import com.library.model.UserProfileDTO;
 import com.library.model.Users;
 import com.library.util.DBConnection;
 import java.sql.Connection;
@@ -12,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import jdk.internal.net.http.common.Log;
 import org.apache.catalina.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,8 +31,7 @@ public class UserImplementDao implements UserDao {
         List<Users> list = new ArrayList<>();
         String sql = "select * from users ";
         try (
-            Connection conn = DBConnection.getInstance().getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql)) {
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Users u = new Users();
@@ -53,8 +54,7 @@ public class UserImplementDao implements UserDao {
         String sql = "select * from users where account = ? and password = ? and role = ?";
         String role = "user";
         try (
-            Connection conn = DBConnection.getInstance().getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql)){
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, username);
             ps.setString(2, pass);
             ps.setString(3, role);
@@ -73,8 +73,7 @@ public class UserImplementDao implements UserDao {
         String sql = "select * from users where account = ?";
 
         try (
-            Connection conn = DBConnection.getInstance().getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql)){
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -93,8 +92,7 @@ public class UserImplementDao implements UserDao {
         String avatar = "ava.jpg";
 
         try (
-            Connection conn = DBConnection.getInstance().getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql)){
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, username);
             ps.setString(2, account);
             ps.setString(3, password);
@@ -111,8 +109,7 @@ public class UserImplementDao implements UserDao {
         String sql = "select * from users where account = ? and password = ? and role = ?";
         String role = "admin";
         try (
-            Connection conn = DBConnection.getInstance().getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql)){
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, username);
             ps.setString(2, pass);
             ps.setString(3, role);
@@ -130,8 +127,7 @@ public class UserImplementDao implements UserDao {
     public int findUserID(String account) {
         String sql = "select * from users where users.account = ? ";
         try (
-            Connection conn = DBConnection.getInstance().getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql)){
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, account);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -142,6 +138,47 @@ public class UserImplementDao implements UserDao {
 
         }
         return -1;
+    }
+
+    @Override
+    public Users getUser(String account) {
+        String sql = "select * from users where account = ? ";
+        logger.info("Getting the data of {} account ", account);
+        try (
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, account);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Users u = new Users();
+                u.setUserID(rs.getInt("user_id"));
+                u.setFullname(rs.getString("fullname"));
+                u.setAccount(rs.getString("account"));
+                u.setAvatar(rs.getString("avatar"));
+                u.setRole(rs.getString("role"));
+                return u;
+            }
+        } catch (SQLException s) {
+            logger.error("Error excecuting{}", s.getMessage(), s);
+        }
+        return null;
+    }
+
+    @Override
+    public boolean updateUser(String account, String avatar, String fullName, int userID) {
+        String sql = "UPDATE users SET avatar = ?, fullname = ? , account = ?  WHERE user_id = ?";
+        logger.info("Updating user -> account: {}, avatar: {}, fullname: {}", account, avatar, fullName);
+        try (
+            Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, avatar);
+            ps.setString(2, fullName);
+            ps.setString(3, account);
+            ps.setInt(4, userID);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException s) {
+            logger.error("Error updating user (account: {}): {}", account, s.getMessage(), s);
+        }
+        return false;
     }
 
 }

@@ -23,12 +23,27 @@ import org.slf4j.LoggerFactory;
 public class BorrowingService {
 
     private static final Logger logger = LoggerFactory.getLogger(BorrowingService.class);
-    private final BorrowingDao borrowDao = new BorrowingImplement();
-    private final UserDao userDao = new UserImplementDao();
-    private final BookDao bookDao = new BookImplementDao();
-                    
+
+    private final BorrowingDao borrowDao;
+    private final UserDao userDao;
+    private final BookDao bookDao;
+
+    public BorrowingService(BorrowingDao borrowDao, UserDao userDao, BookDao bookDao) {
+        this.borrowDao = borrowDao;
+        this.userDao = userDao;
+        this.bookDao = bookDao;
+    }
+
+    public int getUserIDByAccount(String account) {
+        int userID = this.userDao.findUserID(account);
+        if (userID > 0) {
+            return userID;
+        }
+        return -1;
+    }
+
     public boolean canBorrowBook(int bookID, int userID) {
-        if (borrowDao.hasUserBorrowedBook(bookID, userID)) {
+        if (this.borrowDao.hasUserBorrowedBook(bookID, userID)) {
             return true;
         }
         return false;
@@ -38,9 +53,11 @@ public class BorrowingService {
         try (Connection conn = DBConnection.getInstance().getConnection()) {
             conn.setAutoCommit(false);
             try {
-                borrowDao.insertBook(conn, bookID, userID);
-                bookDao.decreaseQuantity(conn, bookID);
-                conn.commit();
+                if (this.bookDao.getCurrentQuantity(conn, bookID) > 0) {
+                    this.borrowDao.insertBook(conn, bookID, userID);
+                    this.bookDao.decreaseQuantity(conn, bookID);
+                    conn.commit();
+                }
             } catch (SQLException s) {
                 conn.rollback();
             }

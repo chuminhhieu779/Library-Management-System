@@ -4,210 +4,225 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Admin Login - Online Library Management System</title>
+    <title>Admin Login - Library Management System</title>
     <style>
+        /* ==== RESET ==== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f2f5; /* Nền xám nhạt */
-            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(
+                rgba(17, 24, 39, 0.85),
+                rgba(17, 24, 39, 0.85)
+            ),
+            url("${pageContext.request.contextPath}/resources/images/1.jpg") center/cover no-repeat;
+            background-attachment: fixed;
+            color: #f9fafb;
         }
 
-        /* --- Header / Navigation Bar --- */
-        .navbar {
-            background-color: #fff;
-            padding: 15px 0;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        /* ==== HEADER + NAV MERGED ==== */
+        header {
+            background: rgba(17, 24, 39, 0.9);
+            border-bottom: 2px solid #4f46e5;
+            padding: 12px 60px;
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            align-items: center;
-            padding: 10px 50px; /* Thêm padding ngang */
         }
 
-        .navbar-brand {
+        .logo-section {
             display: flex;
             align-items: center;
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
-            text-decoration: none;
         }
 
-        .navbar-brand img {
-            height: 40px; /* Kích thước logo */
+        .logo-section img {
+            height: 42px;
+            width: 42px;
+            border-radius: 50%;
+            object-fit: cover;
             margin-right: 10px;
+            border: 2px solid #6366f1;
         }
 
-        .navbar-links ul {
+        .logo-section h3 {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #e5e7eb;
+        }
+
+        nav ul {
             list-style: none;
-            margin: 0;
-            padding: 0;
             display: flex;
+            gap: 30px;
         }
 
-        .navbar-links li {
-            margin-left: 25px;
-        }
-
-        .navbar-links a {
-            color: #555;
+        nav ul li a {
+            color: #fff;
             text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s ease;
+            font-weight: 500;
+            font-size: 16px;
+            transition: color 0.3s;
         }
 
-        .navbar-links a:hover {
-            color: #007bff; /* Màu xanh khi hover */
+        nav ul li a:hover {
+            color: #a5b4fc;
         }
 
-        /* --- Horizontal Divider / Purple Line --- */
-        .divider {
-            height: 5px;
-            background-color: #6a0dad; /* Màu tím */
-            margin-bottom: 30px; /* Khoảng cách với nội dung bên dưới */
-        }
-
-        /* --- Main Content Area --- */
+        /* ==== MAIN CONTENT ==== */
         .container {
-            max-width: 1000px;
-            margin: 30px auto;
-            padding: 20px;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 50px 20px;
         }
 
-        /* --- Page Title / Form Heading --- */
-        .page-title {
-            font-size: 28px;
-            font-weight: bold;
-            color: #555;
-            margin-bottom: 25px;
-            text-align: left; /* Đặt lại thành left như trong ảnh */
-        }
-
-        /* --- Login Form Box --- */
         .login-box {
-            background-color: #fff;
+            background-color: rgba(255, 255, 255, 0.95);
             padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            max-width: 450px; /* Rộng hơn một chút so với ảnh */
-            margin: 0 auto; /* Canh giữa */
-            border-top: 5px solid #007bff; /* Viền xanh phía trên như trong ảnh */
+            border-radius: 14px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+            backdrop-filter: blur(5px);
         }
 
         .login-box h3 {
-            font-size: 22px;
-            font-weight: 600;
-            color: #333;
+            font-size: 24px;
+            font-weight: 700;
+            color: #4f46e5;
             margin-bottom: 25px;
-            text-align: center;
         }
 
         .form-group {
             margin-bottom: 20px;
+            text-align: left;
         }
 
         .form-group label {
+            font-weight: 600;
+            color: #374151;
             display: block;
             margin-bottom: 8px;
-            font-weight: 500;
-            color: #444;
         }
 
         .form-control {
             width: 100%;
             padding: 12px;
             border: 1px solid #ced4da;
-            border-radius: 5px;
-            font-size: 16px;
-            box-sizing: border-box; /* Đảm bảo padding không làm tăng width */
-            transition: border-color 0.3s ease;
+            border-radius: 6px;
+            font-size: 15px;
+            transition: 0.3s;
         }
 
         .form-control:focus {
-            border-color: #007bff;
             outline: none;
-            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79,70,229,0.25);
         }
 
         .btn-login {
             width: 100%;
             padding: 12px;
-            background-color: #007bff; /* Màu xanh dương */
-            color: #fff;
+            background: linear-gradient(90deg, #4f46e5, #7c3aed);
+            color: white;
             border: none;
-            border-radius: 5px;
-            font-size: 18px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s;
         }
 
         .btn-login:hover {
-            background-color: #0056b3; /* Xanh đậm hơn khi hover */
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            transform: translateY(-2px);
         }
 
-        /* --- Messages (Optional, for error/success) --- */
+        /* ==== ALERTS ==== */
         .alert {
             padding: 10px;
-            margin-bottom: 20px;
-            border-radius: 5px;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-bottom: 18px;
             text-align: center;
         }
+
         .alert-danger {
             background-color: #f8d7da;
+            border-left: 4px solid #dc3545;
             color: #721c24;
-            border: 1px solid #f5c6cb;
         }
+
         .alert-success {
             background-color: #d4edda;
+            border-left: 4px solid #28a745;
             color: #155724;
-            border: 1px solid #c3e6cb;
         }
 
-        /* --- Scroll Arrows (Not implemented in static HTML, just for visual reference) --- */
-        .scroll-arrow {
-            position: fixed;
-            right: 20px;
-            background-color: #555;
-            color: #fff;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+        /* ==== FOOTER ==== */
+        .footer {
+            background: rgba(17, 24, 39, 0.9);
+            color: #d1d5db;
+            text-align: center;
+            padding: 20px;
+            border-top: 2px solid #4f46e5;
+        }
+
+        .footer-content {
             display: flex;
             justify-content: center;
-            align-items: center;
-            font-size: 20px;
-            cursor: pointer;
-            z-index: 1000;
-            opacity: 0.7;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
         }
-        .scroll-up { top: 100px; } /* Vị trí giả định */
-        .scroll-down { top: 150px; } /* Vị trí giả định */
+
+        .footer-content a {
+            color: #a5b4fc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-content a:hover {
+            color: #818cf8;
+        }
+
+        .footer p {
+            font-size: 13px;
+            color: #9ca3af;
+        }
     </style>
 </head>
+
 <body>
-
-    <div class="navbar">
-        <a href="#" class="navbar-brand">
-            <img src="images/library-logo.png" alt="Library Logo"> Library Management System
-        </a>
-        <div class="navbar-links">
-            <ul>
-                <li><a href="${pageContext.request.contextPath}/Login">Home</a></li>
-                <li><a href="${pageContext.request.contextPath}/Login">User login</a></li>
-                <li><a href="${pageContext.request.contextPath}/user/register">User Sign Up</a></li>
+    <!-- ===== HEADER + NAVIGATION ===== -->
+    <header>
+        <div class="logo-section">
+            <img src="${pageContext.request.contextPath}/resources/images/avatar.jpg" alt="Logo">
+            <h3>Library Management System</h3>
         </div>
-    </div>
+        <nav>
+            <ul>
+                <li><a href="${pageContext.request.contextPath}/book/list">Home</a></li>
+                <li><a href="${pageContext.request.contextPath}/user/login">User Login</a></li>
+                <li><a href="${pageContext.request.contextPath}/user/register">User Sign Up</a></li>
+            </ul>
+        </nav>
+    </header>
 
-    <div class="divider"></div>
-
+    <!-- ===== MAIN CONTENT ===== -->
     <div class="container">
-        <h2 class="page-title">Admin login form</h2>
-
         <div class="login-box">
-            <h3>LOGIN FORM</h3>
+            <h3>Admin Login</h3>
 
-            <%-- Hiển thị thông báo lỗi/thành công từ Servlet --%>
             <c:if test="${not empty requestScope.errorMessage}">
                 <div class="alert alert-danger">${requestScope.errorMessage}</div>
             </c:if>
@@ -218,17 +233,25 @@
             <form action="${pageContext.request.contextPath}/admin/login" method="post">
                 <div class="form-group">
                     <label for="username">Enter Username</label>
-                    <input type="text" id="username" name="adminUsername" class="form-control"  required>
+                    <input type="text" id="username" name="adminUsername" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="adminPassword" class="form-control"  required>
+                    <input type="password" id="password" name="adminPassword" class="form-control" required>
                 </div>
                 <button type="submit" class="btn-login">LOGIN</button>
             </form>
         </div>
     </div>
 
-
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="footer-content">
+            <a href="${pageContext.request.contextPath}/about">About</a>
+            <a href="${pageContext.request.contextPath}/contact">Contact</a>
+            <a href="${pageContext.request.contextPath}/terms">Terms of Service</a>
+        </div>
+        <p>&copy; 2025 Library Management System — All rights reserved.</p>
+    </footer>
 </body>
 </html>

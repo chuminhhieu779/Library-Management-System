@@ -25,16 +25,21 @@
             /* ==== NAVIGATION ==== */
             nav {
                 background: rgb(19, 24, 39);
-                padding: 15px 30px;
+                padding: 15px 60px;
                 display: flex;
-                justify-content: space-between;
+                justify-content: center;
                 align-items: center;
+                position: relative;
+                z-index: 10;
             }
 
-            nav ul {
+            .nav-center ul {
                 display: flex;
                 list-style: none;
-                gap: 20px;
+            }
+
+            .nav-center li {
+                margin: 0 25px;
             }
 
             nav a {
@@ -45,40 +50,137 @@
             }
 
             nav a:hover {
-                color: #e0e7ff;
+                color: #a5b4fc;
             }
 
-            /* === LOGIN SIGNUP BUTTONS === */
-            .auth-buttons {
+            /* ==== USER / AUTH AREA ==== */
+            .nav-right {
+                position: absolute;
+                right: 25px;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+            .user-menu1 {
                 display: flex;
                 gap: 15px;
+                align-items: center;
+                justify-content: center;
+                margin-right: -20px;
             }
 
-            .auth-buttons a {
-                color: white;
+            .user-menu1 a {
                 text-decoration: none;
-                padding: 8px 16px;
-                border-radius: 6px;
-                transition: all 0.3s ease;
-                font-weight: 500;
-            }
-
-            .auth-buttons a.login {
-                background: linear-gradient(135deg, #4f46e5, #6d28d9);
-            }
-
-            .auth-buttons a.signup {
-                background: transparent;
-                border: 1.5px solid #6d28d9;
-            }
-
-            .auth-buttons a.login:hover {
-                opacity: 0.9;
-            }
-
-            .auth-buttons a.signup:hover {
-                background: #6d28d9;
                 color: #fff;
+                background: linear-gradient(135deg, #4f46e5, #3b82f6);
+                padding: 4px 10px;
+                border-radius: 8px;
+                font-weight: 500;
+                font-size: 15px;
+                transition: all 0.3s ease;
+            }
+
+            .user-menu1 a:hover {
+                background: linear-gradient(135deg, #3b82f6, #2563eb);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 10px rgba(59,130,246,0.3);
+            }
+
+            .user-menu {
+                position: relative;
+                display: inline-block;
+            }
+
+            .user-menu::after {
+                content: "";
+                position: absolute;
+                top: 38px;
+                right: 0;
+                width: 100%;
+                height: 20px;
+            }
+
+            .avatar {
+                width: 38px;
+                height: 38px;
+                border-radius: 50%;
+                object-fit: cover;
+                cursor: pointer;
+                border: 2px solid #a5b4fc;
+                transition: transform 0.2s ease;
+            }
+
+            .avatar:hover {
+                transform: scale(1.05);
+            }
+
+            /* Dropdown menu */
+            .dropdown {
+                opacity: 0;
+                visibility: hidden;
+                position: absolute;
+                right: 0;
+                top: 55px;
+                background: #1f2937;
+                color: #e5e7eb;
+                width: 220px;
+                border-radius: 12px;
+                box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+                z-index: 10;
+                padding: 15px;
+                transition: opacity 0.2s ease, transform 0.2s ease;
+                transform: translateY(-5px);
+            }
+
+            .user-menu:hover .dropdown {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+
+            .dropdown .user-info {
+                text-align: center;
+            }
+
+            .avatar-large {
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                border: 2px solid #6366f1;
+                object-fit: cover;
+                margin-bottom: 8px;
+            }
+
+            .username {
+                font-weight: 600;
+                font-size: 16px;
+                margin: 2px 0;
+            }
+
+            .role {
+                font-size: 13px;
+                color: #9ca3af;
+            }
+
+            .dropdown-item {
+                display: block;
+                color: #e5e7eb;
+                text-decoration: none;
+                font-size: 14px;
+                padding: 8px 0;
+                transition: color 0.25s;
+            }
+
+            .dropdown-item:hover {
+                color: #a5b4fc;
+            }
+
+            .logout {
+                color: #f87171;
+            }
+
+            .logout:hover {
+                color: #ef4444;
             }
 
             /* ==== MAIN ==== */
@@ -163,43 +265,93 @@
             }
 
             .footer {
-                background: #111827;
-                color: #e5e7eb;
+                background: linear-gradient(135deg, #111827, #1f2937);
+                color: #d1d5db;
                 text-align: center;
-                padding: 10px 5px;
+                padding: 15px 20px;
+                font-size: 14px;
+                border-top: 2px solid #4f46e5;
+                margin-top: auto;
             }
 
-            @media (max-width: 768px) {
-                nav {
-                    flex-direction: column;
-                    gap: 10px;
-                }
+            .footer-content {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 40px;
+                flex-wrap: wrap;
+            }
+
+            .footer-content a {
+                color: #a5b4fc;
+                text-decoration: none;
+                transition: color 0.3s ease;
+            }
+
+            .footer-content a:hover {
+                color: #818cf8;
+            }
+
+            .footer p {
+                margin-top: 10px;
+                font-size: 13px;
+                color: #9ca3af;
             }
         </style>
     </head>
 
     <body>
+        <!-- ======= NAVIGATION ======= -->
         <nav>
-            <ul>
-                <li><a href="${pageContext.request.contextPath}/book/list">Book List</a></li>
-                <li><a href="${pageContext.request.contextPath}/book/category">Category</a></li>
-                <li><a href="${pageContext.request.contextPath}/book/search">Search Book</a></li>      
-            </ul>
+            <div class="nav-center">
+                <ul>
+                    <li><a href="${pageContext.request.contextPath}/book/list">Dashboard</a></li>
+                    <li><a href="${pageContext.request.contextPath}/book/category">Category</a></li>
+                    <li><a href="${pageContext.request.contextPath}/book/search">Search Book</a></li>
+                </ul>
+            </div>
 
-            <!-- Auth Buttons -->
-            <div class="auth-buttons">
-                <c:choose>
-                    <c:when test="${not empty sessionScope.user}">
-                        <a href="${pageContext.request.contextPath}/LogOut" class="signup">Logout</a>
-                    </c:when>
-                    <c:otherwise>
-                        <a href="${pageContext.request.contextPath}/user/login" class="login">Login</a>
-                        <a href="${pageContext.request.contextPath}/user/register" class="signup">Sign up</a>
-                    </c:otherwise>
-                </c:choose>
+            <div class="nav-right">
+                <c:if test="${sessionScope.account == null}">
+                    <div class="user-menu1">
+                        <a href="${pageContext.request.contextPath}/user/login">Login</a>
+                        <a href="${pageContext.request.contextPath}/user/register">Sign Up</a>
+                    </div>                   
+                </c:if>
+
+                <c:if test="${sessionScope.account != null}">
+                    <div class="user-menu">
+                        <img src="${pageContext.request.contextPath}/resources/images/${sessionScope.user.avatar}" 
+                             alt="User Avatar" class="avatar">
+
+                        <div class="dropdown">
+                            <div class="user-info">
+                                <img src="${pageContext.request.contextPath}/resources/images/${sessionScope.user.avatar}" 
+                                     alt="User Avatar Large" class="avatar-large">
+                                <p class="username">${sessionScope.user.name}</p>
+                                <p class="role">Library Member</p>
+                            </div>
+                            <hr>
+                            <a href="${pageContext.request.contextPath}/user/dashboard" class="dropdown-item">
+                                <i class="fa-solid fa-user"></i> Dashboard
+                            </a>     
+                            <a href="${pageContext.request.contextPath}/favorite/books" class="dropdown-item">
+                                <i class="fa-solid fa-heart"></i> Favorite 
+                            </a> 
+                            <a href="${pageContext.request.contextPath}/user/setting" class="dropdown-item">
+                                <i class="fa-solid fa-gear"></i> Setting
+                            </a>    
+                            <a href="${pageContext.request.contextPath}/LogOut" class="dropdown-item logout">
+                                <i class="fa-solid fa-right-from-bracket"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+                </c:if>
             </div>
         </nav>
 
+
+        <!-- ======= MAIN SEARCH ======= -->
         <div class="search-container">
             <h2>Search Books</h2>
 
@@ -209,14 +361,24 @@
                         type="text" 
                         name="query" 
                         class="search-input" 
-                        placeholder="Search by title, author, or category..."
+                        placeholder="Search by title "
                         value="${param.query}"
-                        required>
+                        >
                     <button type="submit" class="search-btn">
                         <i class="fas fa-search"></i>
                         Search
                     </button>
                 </form>
+                <c:if test="${not empty error}">
+                    <div style="color: red; margin: 10px ;">
+                        ${error}
+                    </div>                            
+                </c:if>
+                <c:if test="${not empty found}">
+                    <div style="color: red; margin: 10px ;">
+                        ${found}
+                    </div>                            
+                </c:if>    
             </div>
 
             <div class="book-container">        
@@ -231,7 +393,30 @@
         </div>
 
         <footer class="footer">
-            <%@include file="/WEB-INF/views/components/footer.jsp" %>
+            <div class="footer-content">
+                <a href="${pageContext.request.contextPath}/about">About</a>
+                <a href="${pageContext.request.contextPath}/contact">Contact</a>
+                <a href="${pageContext.request.contextPath}/terms">Terms of Service</a>
+            </div>
+            <p>&copy; 2025 Library Management System — All rights reserved.</p>
         </footer>
+
+        <script>
+            const avatarBtn = document.getElementById('avatarBtn');
+            const dropdown = document.getElementById('userDropdown');
+
+            if (avatarBtn && dropdown) {
+                avatarBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    dropdown.classList.toggle('show');
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (!dropdown.contains(e.target) && e.target !== avatarBtn) {
+                        dropdown.classList.remove('show');
+                    }
+                });
+            }
+        </script>
     </body>
 </html>
