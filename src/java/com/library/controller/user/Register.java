@@ -32,16 +32,13 @@ public class Register extends HttpServlet {
         session.removeAttribute("error");
         request.getRequestDispatcher("/WEB-INF/views/user/register.jsp").forward(request, response);      
     } 
-
-   
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         HttpSession session = request.getSession();
         String userName = request.getParameter("username");
         String pass = request.getParameter("password");
-        String account = request.getParameter("account");
-        
+        String account = request.getParameter("account");       
         if(userName.trim().isEmpty()){
             session.setAttribute("error", "Vui lòng nhập họ và tên!");
             response.sendRedirect(request.getContextPath() + "/user/register");
