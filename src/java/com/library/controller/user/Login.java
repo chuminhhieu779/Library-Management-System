@@ -13,6 +13,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import com.library.dao.UserDao;
 import com.library.dao.UserImplementDao;
+
+import com.library.service.TrackingUserService;
 import jakarta.servlet.http.HttpSession;
 
 /**
@@ -29,12 +31,9 @@ public class LogIn extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession session = request.getSession(false);
-
         session = request.getSession(); // create new session if it is not exist
-
         String error = (String) session.getAttribute("error");
         String success = (String) session.getAttribute("success");
-
         request.setAttribute("error", error);
         request.setAttribute("success", success);
 
@@ -54,10 +53,10 @@ public class LogIn extends HttpServlet {
 
         if (userDao.checkLogin(username, pass)) {
             session.setAttribute("account", username);
+            TrackingUserService.add(username);
             response.sendRedirect(request.getContextPath() + "/book/list");
         } else {
             session.setAttribute("error", "Tên đăng nhập không tồn tại!");
-
             if (username.trim().isEmpty()) {
                 session.setAttribute("error", "Vui lòng nhập tên đăng nhập!");
                 response.sendRedirect(request.getContextPath() + "/user/login");
@@ -69,7 +68,7 @@ public class LogIn extends HttpServlet {
             }
             // check login after user enter correcly 
             if (userDao.checkLogin(username, pass)) {
-                session.setAttribute("account", username);
+                session.setAttribute("account", username);      
                 response.sendRedirect(request.getContextPath() + "/book/list");
                 return;
             } else {
