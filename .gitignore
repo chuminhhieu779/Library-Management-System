@@ -21,7 +21,7 @@ nbdist/
 
 # NetBeans auto-generated
 nbproject/genfiles.properties
-nbproject/ant-deploy.xml
+
 
 # Compiled class files
 *.class
