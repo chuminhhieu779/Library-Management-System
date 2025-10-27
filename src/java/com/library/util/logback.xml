@@ -1,22 +1,21 @@
 <configuration>
 
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>[%5level] %logger{36} -- %msg%n</pattern>
-        </encoder>
-    </appender>
+  <!-- Only show INFO and above for your app -->
+  <logger name="com.library" level="DEBUG" />
 
-    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>logs/app.log</file>
-        <append>true</append>
-        <encoder>
-            <pattern>[%5level] %logger{36} -- %msg%n</pattern>
-        </encoder>
-    </appender>
+  <!-- Mute Tomcat internal logs -->
+  <logger name="org.apache.catalina" level="WARN" />
+  <logger name="org.apache.jasper" level="WARN" />
 
-    <root level="info">
-        <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="FILE"/>
-    </root>
+  <!-- Console output format -->
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+      <encoder>
+          <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} -- %msg%n</pattern>
+      </encoder>
+  </appender>
+
+  <root level="INFO">
+      <appender-ref ref="CONSOLE" />
+  </root>
 
 </configuration>

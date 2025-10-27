@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package com.library.controller.user;
+package com.library.controller.favorite;
 
 import com.library.dao.BookDao;
 import com.library.dao.BookImplementDao;
@@ -17,15 +17,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  * @author hieuchu
  */
-@WebServlet(name = "Favorite", urlPatterns = {"/user/favorite-book"})
-public class FavoriteBook extends HttpServlet {
+@WebServlet(name = "ListFavoriteBook", urlPatterns = {"/favorite/books"})
+public class ListFavoriteBook extends HttpServlet {
 
     UserDao userDao = new UserImplementDao();
     BookDao bookDao = new BookImplementDao();
@@ -41,19 +40,11 @@ public class FavoriteBook extends HttpServlet {
         }
         String account = (String) session.getAttribute("account");
         int userID = userDao.findUserID(account);
-        int bookID = Integer.valueOf(request.getParameter("bookID"));
 
-        bookDao.favoriteBook(bookID, userID); /// insert into favorite table 
-        List<Books> favoriteBooks = new ArrayList<>();
-        favoriteBooks.add(bookDao.addBookToFavorite(bookID));
-        if (favoriteBooks != null && !favoriteBooks.isEmpty()) {
-            session.setAttribute("success", "Book added to favorite list");
-        } else {
-            session.setAttribute("failed", "Failed to add the book to favorite list");
-        }
-        String slug = request.getParameter("slug");
+        List<Books> favoriteBooks = bookDao.showBookFromFavorite(userID);
         request.setAttribute("favoriteBooks", favoriteBooks);
-        response.sendRedirect(request.getContextPath() + "/user/bookdetail?slug=" + slug + "&bookID=" + bookID);
+        request.getRequestDispatcher("/WEB-INF/views/favorite/favoritebook.jsp").forward(request, response);
+        return;
 
     }
 

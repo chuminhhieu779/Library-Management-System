@@ -20,7 +20,7 @@ import jakarta.servlet.http.HttpSession;
  * @author hieuchu  
  */
 @WebServlet(name="RegisterController", urlPatterns={"/user/register"})
-public class RegisterController extends HttpServlet {
+public class Register extends HttpServlet {
     UserDao userDao = new UserImplementDao();
     
     @Override
@@ -66,7 +66,7 @@ public class RegisterController extends HttpServlet {
         else{
             userDao.addNewUser(userName, account, pass);
             session.setAttribute("success", "Bạn đã đăng kí thành công!");
-            response.sendRedirect(request.getContextPath() + "/Login");
+            response.sendRedirect(request.getContextPath() + "/user/login");
             return;
         }
     }

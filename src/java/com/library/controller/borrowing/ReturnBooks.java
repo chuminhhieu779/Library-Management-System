@@ -2,10 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package com.library.controller.user;
+package com.library.controller.borrowing;
 
 import com.library.dao.BorrowingDao;
 import com.library.dao.BorrowingImplement;
+import com.library.dao.DaoFactory;
+import com.library.service.BorrowingService;
+import com.library.service.ReturnService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -19,10 +22,13 @@ import jakarta.servlet.http.HttpSession;
  *
  * @author hieuchu
  */
-@WebServlet(name = "ReturnBooks", urlPatterns = {"/user/return-books"})
+@WebServlet(name = "ReturnBooks", urlPatterns = {"/borrowing/return"})
 public class ReturnBooks extends HttpServlet {
 
-    BorrowingDao borrowDao = new BorrowingImplement();
+    private final ReturnService returnService = new ReturnService(
+            DaoFactory.getBookDao(),
+            DaoFactory.getBorrowingDao()
+    );
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -34,10 +40,10 @@ public class ReturnBooks extends HttpServlet {
         }
         String account = (String) session.getAttribute("account");
         String slug = request.getParameter("slug");
-        boolean commitReturnBook = borrowDao.returnBook(account, slug);
+        boolean commitReturnBook = returnService.returnBook(account, slug);
         if (commitReturnBook) {
             session.setAttribute("returnSuccess", "The book was returned successfully!");
-            response.sendRedirect(request.getContextPath() + "/user/borrowed-books?slug=" + slug);
+            response.sendRedirect(request.getContextPath() + "/borrowing/borrowed?slug=" + slug);
             return;
         }
     }

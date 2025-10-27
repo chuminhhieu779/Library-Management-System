@@ -133,6 +133,18 @@
                 cursor: pointer;
             }
             .btn-primary {
+                background: linear-gradient(90deg, #667eea, #764ba2);
+                color: #fff;
+                border: none;
+                transition: 0.3s;
+            }
+
+            .btn-primary:hover {
+                background: linear-gradient(90deg, #5a67d8, #6b46c1);
+                transform: scale(1.05);
+            }
+
+            .btn-primary {
                 background: #2a6df4;
                 color: #fff;
                 border-color: #2a6df4;
@@ -157,23 +169,37 @@
                 }
             }
             .footer {
-                background: #111827;
-                color: #e5e7eb;
+                background: linear-gradient(135deg, #111827, #1f2937);
+                color: #d1d5db;
                 text-align: center;
-                padding: 10px 10px;
-            }
-
-            .footer-section h3 {
-                margin-bottom: 10px;
-                font-size: 15px;
-                color: #a5b4fc;
-            }
-
-            .footer-section p {
+                padding: 15px 20px;
                 font-size: 14px;
-                line-height: 1.6;
-                max-width: 600px;
-                margin: 0 auto 20px;
+                border-top: 2px solid #4f46e5;
+                margin-top: auto;
+            }
+
+            .footer-content {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 40px;
+                flex-wrap: wrap;
+            }
+
+            .footer-content a {
+                color: #a5b4fc;
+                text-decoration: none;
+                transition: color 0.3s ease;
+            }
+
+            .footer-content a:hover {
+                color: #818cf8;
+            }
+
+            .footer p {
+                margin-top: 10px;
+                font-size: 13px;
+                color: #9ca3af;
             }
 
 
@@ -189,7 +215,7 @@
 
 
         <div class="detail-container">
-            <a class="back-link" href="${pageContext.request.contextPath}/user/booklist">← Back to Library Books</a>
+            <a class="back-link" href="${pageContext.request.contextPath}/book/list">← Back to Library Books</a>
 
             <div class="detail-card">
                 <img class="detail-cover" src="${pageContext.request.contextPath}/resources/images/${book.coverImage}" alt="Physics Redefined">
@@ -207,12 +233,20 @@
                         </p>
                     </div>
                     <div class="detail-actions">
-                        <form action="${pageContext.request.contextPath}/user/favorite-book" method="get">
+                        <!-- Form favorite -->
+                        <form action="${pageContext.request.contextPath}/favorite/add-book" method="get" style="display:inline;">
                             <input type="hidden" name="slug" value="${book.slug}">
-                            <button class="btn btn-primary" type="button">Want to read</button>
-                            <button class="btn" type="submit" name="bookID" value="${book.bookID}">Favorite</button>
+                            <button class="btn btn-primary" type="submit" name="bookID" value="${book.bookID}">Favorite</button>
+                        </form>                       
+                        <!-- Form borrow book -->
+                        <form action="${pageContext.request.contextPath}/borrowing/borrow" method="get" style="display:inline;">
+                            <input type="hidden" name="slug" value="${book.slug}">
+                            <button class="btn btn-primary" type="submit" name="bookID" value="${book.bookID}">Borrow Book</button>
                         </form>
                     </div>
+                    <%if(request.getAttribute("error")!= null){%>
+                    <p style="color: red"><%= request.getAttribute("error")%></p>
+                    <%}%>
                     <c:if test="${not empty success}">
                         <div style="margin-top:10px; color:green; font-weight:500;">${success}</div>
                         <c:remove var="success" scope="session" />
@@ -225,7 +259,12 @@
             </div>
         </div>
         <footer class="footer">
-            <%@include file="/WEB-INF/views/components/footer.jsp" %>
+            <div class="footer-content">
+                <a href="${pageContext.request.contextPath}/about">About</a>
+                <a href="${pageContext.request.contextPath}/contact">Contact</a>
+                <a href="${pageContext.request.contextPath}/terms">Terms of Service</a>
+            </div>
+            <p>&copy; 2025 Library Management System — All rights reserved.</p>
         </footer>
     </body>
 </html>

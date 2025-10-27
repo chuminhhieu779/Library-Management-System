@@ -14,7 +14,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +27,6 @@ import org.slf4j.LoggerFactory;
 public class BorrowingImplement implements BorrowingDao {
 
     private static final Logger logger = LoggerFactory.getLogger(BorrowingImplement.class);
-    private Connection conn = DBConnection.getInstance().getConnection();
 
     @Override
     public int totalBorrowedBooks(String account) {
@@ -34,8 +35,8 @@ public class BorrowingImplement implements BorrowingDao {
                 + "FROM borrowings b "
                 + "JOIN users u ON u.user_id = b.user_id "
                 + "WHERE b.status = 'borrowing' AND u.account = ?";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
+        try (
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, account);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -54,8 +55,8 @@ public class BorrowingImplement implements BorrowingDao {
                 + "FROM borrowings b "
                 + "JOIN users u ON u.user_id = b.user_id "
                 + "WHERE b.status = 'returned' AND u.account = ?";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
+        try (
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, account);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -75,8 +76,8 @@ public class BorrowingImplement implements BorrowingDao {
                 + "JOIN users u ON u.user_id = b.user_id "
                 + "JOIN books bk ON bk.book_id = b.book_id "
                 + "WHERE b.status = 'borrowing' AND u.account = ?";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
+        try (
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, account);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -95,38 +96,36 @@ public class BorrowingImplement implements BorrowingDao {
     }
 
     @Override
-    public List<Books> returnedBooksList(String account) {
-        List<Books> list = new ArrayList<>();
-        String sql = "SELECT bk.cover_image "
+    public Map<Integer, String> returnedBooksList(String account) {
+        Map<Integer, String> map = new HashMap<>();
+        String sql = "SELECT bk.cover_image , b.book_id "
                 + "FROM borrowings b "
                 + "JOIN users u ON u.user_id = b.user_id "
                 + "JOIN books bk ON bk.book_id = b.book_id "
                 + "WHERE b.status = 'returned' AND u.account = ?";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
+        try (
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, account);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Books b = new Books();
-                b.setCoverImage(rs.getString("cover_image"));
-                list.add(b);
+            while (rs.next()) {         
+                map.put(rs.getInt("book_id"), rs.getString("cover_image"));
             }
         } catch (SQLException s) {
             logger.error("Error executing: {}", s.getMessage(), s);
         }
-        return list;
+        return map;
     }
 
     @Override
-    public boolean returnBook(String account, String slug) {
+    public boolean updateBookStatus(Connection conn , String account, String slug) {
         String sql = "UPDATE b "
                 + "SET b.status = 'returned', b.return_date = GETDATE() "
                 + "FROM borrowings b "
                 + "JOIN users u ON u.user_id = b.user_id "
                 + "JOIN books bk ON bk.book_id = b.book_id "
                 + "WHERE bk.slug = ? AND u.account = ? AND b.status = 'borrowing'";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
+        try (                
+            PreparedStatement ps = conn.prepareStatement(sql)){
             ps.setString(1, slug);
             ps.setString(2, account);
             int row = ps.executeUpdate();
@@ -145,8 +144,8 @@ public class BorrowingImplement implements BorrowingDao {
                 + "JOIN users ON borrowings.user_id = users.user_id\n"
                 + "WHERE borrowings.book_id = ? \n"
                 + "  AND users.account = ? ";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
+        try (
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setDate(1, java.sql.Date.valueOf(dueDate)); // convet LocalDate to Date in JDBC 
             ps.setInt(2, bookID);
             ps.setString(3, account);
@@ -161,18 +160,69 @@ public class BorrowingImplement implements BorrowingDao {
     @Override
     public LocalDate getBorrowDate(int bookID) {
         String sql = "select * from borrowings where borrowings.book_id = ? ";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
+        try (
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, bookID);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-               LocalDate currentBorrowDate = rs.getDate("borrow_date").toLocalDate();
+                LocalDate currentBorrowDate = rs.getDate("borrow_date").toLocalDate();
                 return currentBorrowDate;
-            }   
+            }
         } catch (SQLException s) {
             logger.error("Error executing: {}", s.getMessage(), s);
         }
-        return null ;
+        return null;
     }
 
+    @Override
+    public boolean isBookAvailable(String slug, int bookID) {
+        String sql = "select * from books where books.book_id = ? and slug = ? ";
+        try (
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, bookID);
+            ps.setString(2, slug);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                if (rs.getInt("quantity") > 0) {
+                    return true;
+                }
+            }
+        } catch (SQLException s) {
+            logger.error("Error executing: {}", s.getMessage(), s);
+        }
+        return false;
+    }
+
+    @Override
+    public void insertBook(Connection conn, int bookID, int userID) {
+        String sql = "INSERT INTO borrowings (user_id, book_id, borrow_date, due_date, return_date, late_days, fine_amount, fine_paid, status) "
+                + "VALUES (?, ?, GETDATE(), DATEADD(MONTH, 2, GETDATE()), NULL, 0, 0.00, 'Unpaid', 'borrowing')";
+        try (
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userID);
+            ps.setInt(2, bookID);
+            ps.executeUpdate();
+        } catch (SQLException s) {
+            logger.error("Error executing: {}", s.getMessage(), s);
+
+        }
+    }
+
+    @Override
+    public boolean hasUserBorrowedBook(int bookID, int userID) {
+        String sql = "select * from borrowings where book_id = ? and user_id = ? and status = ?  ";
+        try (
+             Connection conn = DBConnection.getInstance().getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);) {
+            ps.setInt(1, bookID);
+            ps.setInt(2, userID);            
+            ps.setString(3, "borrowing");
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return false;
+            }
+        } catch (Exception e) {
+        }
+        return true ;
+    }
 }

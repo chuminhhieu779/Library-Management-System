@@ -4,10 +4,9 @@
  */
 package com.library.controller.user;
 
-import com.library.dao.BorrowingDao;
-import com.library.dao.BorrowingImplement;
-import com.library.model.Books;
-import com.library.model.BorrowedBookDTO;
+import com.library.dao.DaoFactory;
+import com.library.model.UserProfileDTO;
+import com.library.service.UserService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,31 +15,37 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.List;
 
 /**
  *
  * @author hieuchu
  */
-@WebServlet(name = "BorrowedBooks", urlPatterns = {"/user/borrowed-books"})
-public class BorrowedBooksList extends HttpServlet {
+@WebServlet(name = "Setting", urlPatterns = {"/user/setting"})
+public class Setting extends HttpServlet {
 
-    BorrowingDao borrowDao = new BorrowingImplement();
+    private final UserService userService = new UserService(
+            DaoFactory.getUserDao()
+    );
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false);        
+
+        HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("account") == null) {
-            response.sendRedirect(request.getContextPath() + "/Login");
-            return ;
-        }             
+            response.sendRedirect(request.getContextPath() + "/user/login");
+            return;
+        }
+
         String account = (String) session.getAttribute("account");
-        
-        List<BorrowedBookDTO> borrowedBooks = borrowDao.borrowedBooksList(account);
-        
-        request.setAttribute("borrowedBooks", borrowedBooks);
-        request.getRequestDispatcher("/WEB-INF/views/user/borrowedbooks.jsp").forward(request, response);
+        UserProfileDTO dto = userService.getProfileUserByAccount(account);
+        if (dto == null) {
+            response.sendRedirect(request.getContextPath() + "/user/login");
+            return;
+        }
+        session.setAttribute("user", dto);
+        request.getRequestDispatcher("/WEB-INF/views/user/setting.jsp").forward(request, response);
+        return;
     }
 
     @Override

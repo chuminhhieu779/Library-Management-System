@@ -19,8 +19,8 @@ import jakarta.servlet.http.HttpSession;
  *
  * @author laptop gigabyte
  */
-@WebServlet(name = "Login", urlPatterns = {"/Login"})
-public class Login extends HttpServlet {
+@WebServlet(name = "Login", urlPatterns = {"/user/login"})
+public class LogIn extends HttpServlet {
 
     UserDao userDao = new UserImplementDao();
 
@@ -54,27 +54,27 @@ public class Login extends HttpServlet {
 
         if (userDao.checkLogin(username, pass)) {
             session.setAttribute("account", username);
-            response.sendRedirect(request.getContextPath() + "/user/dashboard");
+            response.sendRedirect(request.getContextPath() + "/book/list");
         } else {
             session.setAttribute("error", "Tên đăng nhập không tồn tại!");
 
             if (username.trim().isEmpty()) {
                 session.setAttribute("error", "Vui lòng nhập tên đăng nhập!");
-                response.sendRedirect(request.getContextPath() + "/Login");
+                response.sendRedirect(request.getContextPath() + "/user/login");
                 return;
             } else if (pass.trim().isEmpty()) {
                 session.setAttribute("error", "Vui lòng nhập mật khẩu!");
-                response.sendRedirect(request.getContextPath() + "/Login");
+                response.sendRedirect(request.getContextPath() + "/user/login");
                 return;
             }
             // check login after user enter correcly 
             if (userDao.checkLogin(username, pass)) {
                 session.setAttribute("account", username);
-                response.sendRedirect(request.getContextPath() + "/user/dashboard");
+                response.sendRedirect(request.getContextPath() + "/book/list");
                 return;
             } else {
                 session.setAttribute("error", "Tên đăng nhập hoặc mật khẩu sai!");
-                response.sendRedirect(request.getContextPath() + "/Login");
+                response.sendRedirect(request.getContextPath() + "/user/login");
                 return;
             }
         }

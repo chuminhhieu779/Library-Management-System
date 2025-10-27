@@ -6,8 +6,10 @@ package com.library.dao;
 
 import com.library.model.Books;
 import com.library.model.BorrowedBookDTO;
+import java.sql.Connection;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -21,11 +23,18 @@ public interface BorrowingDao {
 
     List<BorrowedBookDTO> borrowedBooksList(String account);
 
-    List<Books> returnedBooksList(String account);
+    Map<Integer, String> returnedBooksList(String account);
     
-    boolean returnBook(String account, String slug);
+    boolean updateBookStatus(Connection conn , String account, String slug);
     
     boolean extendDueDay(int bookID, LocalDate dueDate, String account);
     
     LocalDate getBorrowDate(int bookID);
+    
+    boolean isBookAvailable(String slug , int bookID);
+    
+    void insertBook(Connection conn , int bookID, int userID);
+    
+    boolean hasUserBorrowedBook(int bookID, int userID);
+
 }

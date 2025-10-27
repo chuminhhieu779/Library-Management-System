@@ -4,7 +4,9 @@
  */
 package com.library.dao;
 
+import com.library.exception.BookDataAccessException;
 import com.library.model.Books;
+import java.sql.Connection;
 import java.util.List;
 
 /**
@@ -12,10 +14,25 @@ import java.util.List;
  * @author hieuchu
  */
 public interface BookDao {
-     List<Books> getALLBook();
-     Books showBookDetail(String slug, int bookID);
-     int totalBook();
-     List<Books> searchBook(String query );    
-     void favoriteBook(int bookID, int  userID);
-     Books addBookToFavorite(int bookID); 
+
+    List<Books> getAllBook()throws BookDataAccessException;
+
+    Books showBookDetail(String slug, int bookID);
+
+    int totalBook();
+
+    List<Books> searchBook(String query);
+
+    void insertBookToFavorite(int bookID, int userID);
+
+    List<Books> showBookFromFavorite(int userID);
+
+    void decreaseQuantity(Connection conn, int bookID);
+
+    void increaseQuantity(Connection conn, String slug);
+
+    boolean existsFavorite(int userID, int bookID);
+    
+    int getCurrentQuantity(Connection conn , int bookID);
+    
 }

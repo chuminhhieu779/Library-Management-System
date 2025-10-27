@@ -5,6 +5,7 @@
 package com.library.dao;
 
 
+import com.library.model.UserProfileDTO;
 import com.library.model.Users;
 import java.util.List;
 
@@ -23,5 +24,9 @@ public interface UserDao {
       boolean checkAdminLogin(String username,String pass);
       
       int findUserID(String account);
+      
+      Users getUser(String account);
+      
+      boolean updateUser(String account , String avatar, String fullName, int userID);
 
 }

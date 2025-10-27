@@ -4,6 +4,7 @@
  */
 package com.library.dao;
 
+import com.library.model.UserProfileDTO;
 import com.library.model.Users;
 import com.library.util.DBConnection;
 import java.sql.Connection;
@@ -12,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import jdk.internal.net.http.common.Log;
 import org.apache.catalina.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,17 +25,14 @@ import org.slf4j.LoggerFactory;
 public class UserImplementDao implements UserDao {
 
     private static final Logger logger = LoggerFactory.getLogger(UserImplementDao.class);
-    private DBConnection db = DBConnection.getInstance();
-    private Connection conn = db.getConnection();
 
     @Override
     public List<Users> getALLUser() {
         List<Users> list = new ArrayList<>();
         String sql = "select * from users ";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
+        try (
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
-
             while (rs.next()) {
                 Users u = new Users();
                 u.setUserID(rs.getInt("user_id"));
@@ -43,11 +42,9 @@ public class UserImplementDao implements UserDao {
                 u.setRole(rs.getString("role"));
                 u.setAvatar(rs.getString("avatar"));
                 list.add(u);
-
             }
-
         } catch (SQLException s) {
-
+            s.printStackTrace();
         }
         return list;
     }
@@ -56,9 +53,8 @@ public class UserImplementDao implements UserDao {
     public boolean checkLogin(String username, String pass) {
         String sql = "select * from users where account = ? and password = ? and role = ?";
         String role = "user";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
-
+        try (
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, username);
             ps.setString(2, pass);
             ps.setString(3, role);
@@ -76,8 +72,8 @@ public class UserImplementDao implements UserDao {
     public boolean checkUserExistence(String username) {
         String sql = "select * from users where account = ?";
 
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
+        try (
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -95,14 +91,13 @@ public class UserImplementDao implements UserDao {
         String role = "user";
         String avatar = "ava.jpg";
 
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
+        try (
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, username);
             ps.setString(2, account);
             ps.setString(3, password);
             ps.setString(4, role);
             ps.setString(5, avatar);
-
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();;
@@ -111,24 +106,79 @@ public class UserImplementDao implements UserDao {
 
     @Override
     public boolean checkAdminLogin(String username, String pass) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sql = "select * from users where account = ? and password = ? and role = ?";
+        String role = "admin";
+        try (
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            ps.setString(2, pass);
+            ps.setString(3, role);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
-    
+
     @Override
     public int findUserID(String account) {
         String sql = "select * from users where users.account = ? ";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
+        try (
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, account);
             ResultSet rs = ps.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 return rs.getInt("user_id");
-            }                  
+            }
         } catch (SQLException s) {
             logger.error("Error excecuting{}", s.getMessage(), s);
 
         }
-        return -1 ;
+        return -1;
+    }
+
+    @Override
+    public Users getUser(String account) {
+        String sql = "select * from users where account = ? ";
+        logger.info("Getting the data of {} account ", account);
+        try (
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, account);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Users u = new Users();
+                u.setUserID(rs.getInt("user_id"));
+                u.setFullname(rs.getString("fullname"));
+                u.setAccount(rs.getString("account"));
+                u.setAvatar(rs.getString("avatar"));
+                u.setRole(rs.getString("role"));
+                return u;
+            }
+        } catch (SQLException s) {
+            logger.error("Error excecuting{}", s.getMessage(), s);
+        }
+        return null;
+    }
+
+    @Override
+    public boolean updateUser(String account, String avatar, String fullName, int userID) {
+        String sql = "UPDATE users SET avatar = ?, fullname = ? , account = ?  WHERE user_id = ?";
+        logger.info("Updating user -> account: {}, avatar: {}, fullname: {}", account, avatar, fullName);
+        try (
+            Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, avatar);
+            ps.setString(2, fullName);
+            ps.setString(3, account);
+            ps.setInt(4, userID);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException s) {
+            logger.error("Error updating user (account: {}): {}", account, s.getMessage(), s);
+        }
+        return false;
     }
 
 }

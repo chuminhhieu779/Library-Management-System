@@ -34,7 +34,7 @@ public class DashBoard extends HttpServlet {
         
 //        check if the session is null or if the user has not logged in yet 
         if(session == null || session.getAttribute("account") == null){
-            response.sendRedirect(request.getContextPath() + "/Login");
+            response.sendRedirect(request.getContextPath() + "/user/login");
             return ;
         }
 //        take current user account 
