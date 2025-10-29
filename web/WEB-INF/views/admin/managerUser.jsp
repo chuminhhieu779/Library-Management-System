@@ -900,7 +900,7 @@
             if (event.target === modal) {
                 closeModal();
             }
-        }
+        };
 
         // Enter key for search
         document.getElementById('searchInput').addEventListener('keypress', function(e) {

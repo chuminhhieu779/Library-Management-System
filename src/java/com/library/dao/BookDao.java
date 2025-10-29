@@ -35,4 +35,5 @@ public interface BookDao {
     
     int getCurrentQuantity(Connection conn , int bookID);
     
+    boolean deleteBook(int bookID);
 }
