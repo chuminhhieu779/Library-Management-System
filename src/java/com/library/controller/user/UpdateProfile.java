@@ -6,6 +6,7 @@ package com.library.controller.user;
 
 import com.library.dao.DaoFactory;
 import com.library.model.UserProfileDTO;
+import com.library.service.ActivityService;
 import com.library.service.UserService;
 import com.library.util.Validator;
 import java.io.IOException;
@@ -33,7 +34,13 @@ import java.nio.file.StandardCopyOption;
 public class UpdateProfile extends HttpServlet {
 
     private static final String saveFile = "D:\\BTL-PRJ301\\LibraryManagement\\web\\resources\\images\\avatar";
-
+     private final ActivityService activityService = new ActivityService(
+               DaoFactory.getActivityDao(),
+               DaoFactory.getActionDao(),
+               DaoFactory.getUserDao(),
+               DaoFactory.getBookDao()                
+    );
+    
     private final UserService userService = new UserService(
             DaoFactory.getUserDao()
     );
@@ -83,8 +90,9 @@ public class UpdateProfile extends HttpServlet {
         if (checkUpdate) {
             request.setAttribute("isUpdated", "✅ You have updated your profile successfully!");
             session.removeAttribute("user");
-            u.setNewProfile(fullName, account, avatar);
+            u.setNewProfile(fullName, account, avatar);            
             session.setAttribute("user", u);
+            activityService.ActivityUser(2, account);
         } else {
             request.setAttribute("isUpdated", "❌ Failed to update your profile. Please try again!");
         }
