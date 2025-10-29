@@ -27,7 +27,10 @@ public class ReturnService {
         this.bookDao = bookDao;
         this.borrowDao = borrowDao;
     }
-
+    
+    public int getBookIDBySlug(String slug){
+        return this.bookDao.getIDBook(slug);
+    }
     public boolean returnBook(String account, String slug) {
         try (
              Connection conn = DBConnection.getInstance().getConnection()) {
