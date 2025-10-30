@@ -35,6 +35,9 @@ public interface BookDao {
     
     int getCurrentQuantity(Connection conn , int bookID);
     
+    boolean deleteBook(int bookID);
+
     String getBookTitleByID(int bookID);
     int getIDBook(String slug);
+
 }

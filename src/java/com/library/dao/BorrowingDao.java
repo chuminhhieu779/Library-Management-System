@@ -36,5 +36,9 @@ public interface BorrowingDao {
     void insertBook(Connection conn , int bookID, int userID);
     
     boolean hasUserBorrowedBook(int bookID, int userID);
+    
+    boolean canDeleteBook(int bookID);
+    
+    void deleteBorrowingsByBookId(int bookId);
 
 }

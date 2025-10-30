@@ -25,6 +25,8 @@ import jakarta.servlet.http.HttpSession;
  * @author laptop gigabyte
  */
 @WebServlet(name = "Login", urlPatterns = {"/user/login"})
+
+
 public class LogInController extends HttpServlet {
 
     UserDao userDao = new UserImplementDao();

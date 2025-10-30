@@ -30,14 +30,22 @@ public class BookImplementDao implements BookDao {
     @Override
     public List<Books> getAllBook() throws BookDataAccessException {
         List<Books> list = new ArrayList<>();
-        String sql = "SELECT * FROM books";
+        String sql = " SELECT b.book_id, b.title ,b.slug,  b.author, b.quantity, c.category_id AS category_ID , c.name as category_name , b.cover_image FROM books b LEFT JOIN categories c ON b.category_id = c.category_id ";
         logger.debug("Executing SQL : ", sql);
         try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 Books b = new Books();
                 b.setBookID(rs.getInt("book_id"));
+                b.setTitle(rs.getString("title"));
+                b.setAuthor(rs.getString("author"));
+                b.setQuantity(rs.getInt("quantity"));
                 b.setSlug(rs.getString("slug"));
                 b.setCoverImage(rs.getString("cover_image"));
+
+                Categories category = new Categories();
+                category.setCategoryID(rs.getInt("category_ID"));
+                category.setName(rs.getString("category_name"));
+                b.setCategory(category);
                 list.add(b);
             }
             logger.info("Retrieved {} books from database", list.size());
@@ -101,11 +109,13 @@ public class BookImplementDao implements BookDao {
     public List<Books> searchBook(String query) {
         List<Books> list = new ArrayList<>();
         String sql = "select * from books\n "
-                + "where title_unaccented like ? ";
+                + "join categories on books.category_id = categories.category_id\n"
+                + "where title_unaccented like ? or title like ?";
         logger.info("Searching {} book", query);
         try (
                 Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, "%" + query + "%");
+            ps.setString(2, "%" + query + "%");
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Books b = new Books();
@@ -116,6 +126,11 @@ public class BookImplementDao implements BookDao {
                 b.setQuantity(rs.getInt("quantity"));
                 b.setDescription(rs.getString("description"));
                 b.setCoverImage(rs.getString("cover_image"));
+
+                Categories category = new Categories();
+                category.setCategoryID(rs.getInt("category_id"));
+                category.setName(rs.getString("name"));
+                b.setCategory(category);
                 list.add(b);
             }
             return list;
@@ -224,12 +239,28 @@ public class BookImplementDao implements BookDao {
     }
 
     @Override
+
+    public boolean deleteBook(int bookID) {
+        String sql = "DELETE FROM books WHERE book_id = ?;";
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, bookID);
+            int rowsDeleted = ps.executeUpdate();
+            if (rowsDeleted > 0) {
+                return true;
+            }
+        } catch (SQLException s) {
+            logger.error("Error excecuting{}", s.getMessage(), s);
+        }
+        return false;
+    }
+
+    @Override
     public String getBookTitleByID(int bookID) {
         String sql = "select * from books where book_id = ? ";
         try (
                 Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-             ps.setInt(1, bookID);
-            ResultSet rs = ps.executeQuery();         
+            ps.setInt(1, bookID);
+            ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return rs.getString("title");
             }
@@ -243,8 +274,7 @@ public class BookImplementDao implements BookDao {
     public int getIDBook(String slug) {
         String sql = "select * from books where slug = ? ";
         try (
-                Connection conn = DBConnection.getInstance().getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+               Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, slug);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -254,6 +284,7 @@ public class BookImplementDao implements BookDao {
             s.printStackTrace();
         }
         return -1;
+
     }
 
 }
