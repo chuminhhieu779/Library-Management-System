@@ -13,14 +13,16 @@ import java.util.Map;
  */
 public class AdminDashBoardDTO {
     private int totalOnlineUser ;
+    private int totalBook ;
     private List<UserActivityDTO> actionList ;
 
     public AdminDashBoardDTO() {
     }
 
-    public AdminDashBoardDTO(int totalOnlineUser, List<UserActivityDTO> actionList) {
+    public AdminDashBoardDTO(int totalOnlineUser, List<UserActivityDTO> actionList , int totalBook) {
         this.totalOnlineUser = totalOnlineUser;
         this.actionList = actionList;
+        this.totalBook = totalBook;
     }
 
     public int getTotalOnlineUser() {
@@ -39,7 +41,13 @@ public class AdminDashBoardDTO {
         this.actionList = actionList;
     }
 
-  
+    public void setTotalBook(int totalBook){
+        this.totalBook = totalBook ;         
+    }
+   
+    public int getTotalBook(){
+        return totalBook;  
+    }
 
     
   

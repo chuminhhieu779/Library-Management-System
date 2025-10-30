@@ -64,6 +64,5 @@ public class BorrowingService {
         } catch (SQLException s1) {
             s1.printStackTrace();
         }
-
     }
 }

@@ -400,7 +400,7 @@
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-icon blue"><i class="fa-solid fa-book"></i></div>
-                    <div class="stat-info"><h4> </h4><p>Total Books</p></div>
+                    <div class="stat-info"><h4>${dto.totalBook}</h4><p>Total Books</p></div>
                 </div>
 
                 <div class="stat-card">
