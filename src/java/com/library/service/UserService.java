@@ -38,10 +38,10 @@ public class UserService {
     }
  
     public boolean updateProfileUser(String account , String avatar , String fullName, int userID){
-        if(this.userDao.updateUser(account, avatar, fullName, userID)){
-            
+        if(this.userDao.updateUser(account, avatar, fullName, userID)){            
             return true ;
         }
       return false;          
     }
+    
 }

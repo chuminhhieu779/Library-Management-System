@@ -239,6 +239,7 @@ public class BookImplementDao implements BookDao {
     }
 
     @Override
+
     public boolean deleteBook(int bookID) {
         String sql = "DELETE FROM books WHERE book_id = ?;";
         try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -251,6 +252,39 @@ public class BookImplementDao implements BookDao {
             logger.error("Error excecuting{}", s.getMessage(), s);
         }
         return false;
+    }
+
+    @Override
+    public String getBookTitleByID(int bookID) {
+        String sql = "select * from books where book_id = ? ";
+        try (
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, bookID);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("title");
+            }
+        } catch (SQLException s) {
+            s.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public int getIDBook(String slug) {
+        String sql = "select * from books where slug = ? ";
+        try (
+               Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, slug);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("book_id");
+            }
+        } catch (SQLException s) {
+            s.printStackTrace();
+        }
+        return -1;
+
     }
 
 }

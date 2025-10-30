@@ -29,4 +29,12 @@ public class DaoFactory {
     public static  CategoryDao getCategoryDao() {
         return new CategoryImplement();
     }
+    
+    public static ActivityDao getActivityDao(){
+        return new ActivityImpl();
+    }    
+    
+    public static ActionDao getActionDao(){
+        return new ActionDaoImpl();
+    }
 }

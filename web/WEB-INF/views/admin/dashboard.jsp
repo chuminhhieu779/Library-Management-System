@@ -1,617 +1,452 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <title>Admin Dashboard - Library Management System</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <style>
-        /* ==== RESET ==== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+    <head>
+        <meta charset="UTF-8">
+        <title>Admin Dashboard - Library Management System</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+        <style>
+            /* ==== RESET ==== */
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
 
-        html, body {
-            height: 100%;
-        }
+            html, body {
+                height: 100%;
+            }
 
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            background: #f4f6f8;
-            color: #333;
-        }
+            body {
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh;
+                background: #f4f6f8;
+                color: #333;
+            }
 
-        /* ==== HEADER + NAV ==== */
-        header {
-            background: rgba(17, 24, 39, 0.95);
-            border-bottom: 2px solid #4f46e5;
-            padding: 12px 60px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .logo-section {
-            display: flex;
-            align-items: center;
-        }
-
-        .logo-section img {
-            height: 42px;
-            width: 42px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-right: 10px;
-            border: 2px solid #6366f1;
-        }
-
-        .logo-section h3 {
-            font-size: 1.3em;
-            font-weight: 700;
-            color: #e5e7eb;
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 30px;
-        }
-
-        nav ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 16px;
-            transition: color 0.3s;
-        }
-
-        nav ul li a:hover {
-            color: #a5b4fc;
-        }
-
-        /* ==== ADMIN MENU ==== */
-        .admin-menu {
-            position: relative;
-            display: inline-block;
-        }
-
-        .admin-menu::after {
-            content: "";
-            position: absolute;
-            top: 38px;
-            right: 0;
-            width: 100%;
-            height: 20px;
-        }
-
-        .admin-avatar {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            object-fit: cover;
-            cursor: pointer;
-            border: 2px solid #a5b4fc;
-            transition: transform 0.2s ease;
-        }
-
-        .admin-avatar:hover {
-            transform: scale(1.05);
-        }
-
-        .dropdown {
-            opacity: 0;
-            visibility: hidden;
-            position: absolute;
-            right: 0;
-            top: 55px;
-            background: #1f2937;
-            color: #e5e7eb;
-            width: 220px;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-            z-index: 10;
-            padding: 15px;
-            transition: opacity 0.2s ease, transform 0.2s ease;
-            transform: translateY(-5px);
-        }
-
-        .admin-menu:hover .dropdown {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .dropdown .admin-info {
-            text-align: center;
-        }
-
-        .avatar-large {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            border: 2px solid #6366f1;
-            object-fit: cover;
-            margin-bottom: 8px;
-        }
-
-        .admin-name {
-            font-weight: 600;
-            font-size: 16px;
-            margin: 2px 0;
-        }
-
-        .admin-role {
-            font-size: 13px;
-            color: #9ca3af;
-        }
-
-        .dropdown-item {
-            display: block;
-            color: #e5e7eb;
-            text-decoration: none;
-            font-size: 14px;
-            padding: 8px 0;
-            transition: color 0.25s;
-        }
-
-        .dropdown-item:hover {
-            color: #a5b4fc;
-        }
-
-        .logout {
-            color: #f87171;
-        }
-
-        .logout:hover {
-            color: #ef4444;
-        }
-
-        /* ==== MAIN CONTENT ==== */
-        main {
-            flex: 1;
-            padding: 40px 60px;
-        }
-
-        /* ==== PAGE TITLE ==== */
-        .page-title {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .page-title h2 {
-            font-size: 22px;
-            font-weight: 700;
-            color: #1f2937;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            position: relative;
-            display: inline-block;
-        }
-
-        .page-title h2::after {
-            content: "";
-            display: block;
-            width: 60%;
-            height: 3px;
-            background: linear-gradient(90deg, #4f46e5, #6366f1);
-            margin: 8px auto 0;
-            border-radius: 2px;
-        }
-
-        /* ==== STATS CARDS ==== */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-
-        .stat-card {
-            background: #fff;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 18px rgba(99, 102, 241, 0.15);
-        }
-
-        .stat-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-        }
-
-        .stat-icon.blue {
-            background: linear-gradient(135deg, #3b82f6, #2563eb);
-            color: #fff;
-        }
-
-        .stat-icon.green {
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-            color: #fff;
-        }
-
-        .stat-icon.orange {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            color: #fff;
-        }
-
-        .stat-icon.purple {
-            background: linear-gradient(135deg, #a855f7, #9333ea);
-            color: #fff;
-        }
-
-        .stat-info h4 {
-            font-size: 28px;
-            color: #1f2937;
-            margin-bottom: 5px;
-        }
-
-        .stat-info p {
-            color: #6b7280;
-            font-size: 14px;
-        }
-
-        /* ==== QUICK ACTIONS ==== */
-        .quick-actions {
-            margin-bottom: 40px;
-        }
-
-        .section-header {
-            font-size: 18px;
-            font-weight: 700;
-            color: #1f2937;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #f3f4f6;
-        }
-
-        .actions-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .action-card {
-            background: #fff;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-            text-align: center;
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-
-        .action-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 18px rgba(99, 102, 241, 0.15);
-            border-color: #4f46e5;
-        }
-
-        .action-icon {
-            font-size: 36px;
-            margin-bottom: 12px;
-            color: #4f46e5;
-        }
-
-        .action-card h5 {
-            font-size: 16px;
-            color: #1f2937;
-            margin-bottom: 5px;
-        }
-
-        .action-card p {
-            font-size: 13px;
-            color: #6b7280;
-        }
-
-        /* ==== RECENT ACTIVITY ==== */
-        .recent-activity {
-            background: #fff;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-        }
-
-        .activity-list {
-            list-style: none;
-        }
-
-        .activity-item {
-            padding: 15px 0;
-            border-bottom: 1px solid #f3f4f6;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .activity-item:last-child {
-            border-bottom: none;
-        }
-
-        .activity-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            flex-shrink: 0;
-        }
-
-        .activity-icon.success {
-            background: #ecfdf5;
-            color: #22c55e;
-        }
-
-        .activity-icon.warning {
-            background: #fef3c7;
-            color: #f59e0b;
-        }
-
-        .activity-icon.info {
-            background: #dbeafe;
-            color: #3b82f6;
-        }
-
-        .activity-content {
-            flex: 1;
-        }
-
-        .activity-content h6 {
-            font-size: 14px;
-            color: #1f2937;
-            margin-bottom: 3px;
-        }
-
-        .activity-content p {
-            font-size: 12px;
-            color: #6b7280;
-        }
-
-        .activity-time {
-            font-size: 12px;
-            color: #9ca3af;
-        }
-
-        /* ==== FOOTER ==== */
-        .footer {
-            background: linear-gradient(135deg, #111827, #1f2937);
-            color: #d1d5db;
-            text-align: center;
-            padding: 15px 20px;
-            font-size: 14px;
-            border-top: 2px solid #4f46e5;
-            margin-top: auto;
-        }
-
-        .footer-content {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 40px;
-            flex-wrap: wrap;
-        }
-
-        .footer-content a {
-            color: #a5b4fc;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer-content a:hover {
-            color: #818cf8;
-        }
-
-        .footer p {
-            margin-top: 10px;
-            font-size: 13px;
-            color: #9ca3af;
-        }
-
-        /* ==== RESPONSIVE ==== */
-        @media (max-width: 768px) {
+            /* ==== HEADER ==== */
             header {
-                padding: 12px 20px;
+                background: rgba(17, 24, 39, 0.95);
+                border-bottom: 2px solid #4f46e5;
+                padding: 12px 60px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
             }
 
+            .logo-section {
+                display: flex;
+                align-items: center;
+            }
+            .logo-section img {
+                height: 42px;
+                width: 42px;
+                border-radius: 50%;
+                object-fit: cover;
+                margin-right: 10px;
+                border: 2px solid #6366f1;
+            }
+            .logo-section h3 {
+                font-size: 1.3em;
+                font-weight: 700;
+                color: #e5e7eb;
+            }
+
+            nav ul {
+                list-style: none;
+                display: flex;
+                gap: 30px;
+            }
+            nav ul li a {
+                color: #fff;
+                text-decoration: none;
+                font-weight: 500;
+                font-size: 16px;
+                transition: color 0.3s;
+            }
+            nav ul li a:hover {
+                color: #a5b4fc;
+            }
+
+            /* ==== ADMIN MENU ==== */
+            .admin-menu {
+                position: relative;
+                display: inline-block;
+            }
+            .admin-avatar {
+                width: 38px;
+                height: 38px;
+                border-radius: 50%;
+                object-fit: cover;
+                cursor: pointer;
+                border: 2px solid #a5b4fc;
+                transition: transform 0.2s ease;
+            }
+            .admin-avatar:hover {
+                transform: scale(1.05);
+            }
+            .dropdown {
+                opacity: 0;
+                visibility: hidden;
+                position: absolute;
+                right: 0;
+                top: 55px;
+                background: #1f2937;
+                color: #e5e7eb;
+                width: 220px;
+                border-radius: 12px;
+                box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+                z-index: 10;
+                padding: 15px;
+                transition: opacity 0.2s ease, transform 0.2s ease;
+                transform: translateY(-5px);
+            }
+            .admin-menu:hover .dropdown {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+
+            .dropdown .admin-info {
+                text-align: center;
+            }
+            .avatar-large {
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                border: 2px solid #6366f1;
+                object-fit: cover;
+                margin-bottom: 8px;
+            }
+            .admin-name {
+                font-weight: 600;
+                font-size: 16px;
+                margin: 2px 0;
+            }
+            .admin-role {
+                font-size: 13px;
+                color: #9ca3af;
+            }
+            .dropdown-item {
+                display: block;
+                color: #e5e7eb;
+                text-decoration: none;
+                font-size: 14px;
+                padding: 8px 0;
+                transition: color 0.25s;
+            }
+            .dropdown-item:hover {
+                color: #a5b4fc;
+            }
+            .logout {
+                color: #f87171;
+            }
+            .logout:hover {
+                color: #ef4444;
+            }
+
+            /* ==== MAIN ==== */
             main {
-                padding: 20px;
+                flex: 1;
+                padding: 40px 60px;
+            }
+            .page-title {
+                text-align: center;
+                margin-bottom: 40px;
+            }
+            .page-title h2 {
+                font-size: 22px;
+                font-weight: 700;
+                color: #1f2937;
+                letter-spacing: 1px;
+                text-transform: uppercase;
+                position: relative;
+                display: inline-block;
+            }
+            .page-title h2::after {
+                content: "";
+                display: block;
+                width: 60%;
+                height: 3px;
+                background: linear-gradient(90deg, #4f46e5, #6366f1);
+                margin: 8px auto 0;
+                border-radius: 2px;
             }
 
+            /* ==== STATS ==== */
             .stats-grid {
-                grid-template-columns: 1fr;
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 25px;
+                margin-bottom: 40px;
+            }
+            .stat-card {
+                background: #fff;
+                padding: 25px;
+                border-radius: 12px;
+                box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+                display: flex;
+                align-items: center;
+                gap: 20px;
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
+            }
+            .stat-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 6px 18px rgba(99,102,241,0.15);
+            }
+            .stat-icon {
+                width: 60px;
+                height: 60px;
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 28px;
+                color: #fff;
+            }
+            .stat-icon.blue {
+                background: linear-gradient(135deg,#3b82f6,#2563eb);
+            }
+            .stat-icon.green {
+                background: linear-gradient(135deg,#22c55e,#16a34a);
+            }
+            .stat-icon.orange {
+                background: linear-gradient(135deg,#f59e0b,#d97706);
+            }
+            .stat-icon.purple {
+                background: linear-gradient(135deg,#a855f7,#9333ea);
             }
 
-            .actions-grid {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            .stat-info h4 {
+                font-size: 28px;
+                color: #1f2937;
+                margin-bottom: 5px;
             }
-        }
-    </style>
-</head>
+            .stat-info p {
+                color: #6b7280;
+                font-size: 14px;
+            }
 
-<body>
-    <!-- ==== HEADER + NAV ==== -->
-    <header>
-        <div class="logo-section">
-            <img src="${pageContext.request.contextPath}/resources/images/avatar.jpg" alt="Logo">
-            <h3>Library Management System</h3>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="${pageContext.request.contextPath}/admin/dashboard">Dashboard</a></li>
-                <li><a href="${pageContext.request.contextPath}/admin/books">Manage Books</a></li>
-                <li><a href="${pageContext.request.contextPath}/admin/users">Manage Users</a></li>
-                <li><a href="${pageContext.request.contextPath}/admin/borrowing">Borrowing Records</a></li>
-            </ul>
-        </nav>
+            /* ==== RECENT ACTIVITY ==== */
+            .recent-activity {
+                background: #fff;
+                padding: 25px;
+                border-radius: 12px;
+                box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            }
+            .activity-list {
+                list-style: none;
+            }
+            .activity-item {
+                padding: 15px 0;
+                border-bottom: 1px solid #f3f4f6;
+                display: flex;
+                align-items: center;
+                gap: 15px;
+            }
+            .activity-item:last-child {
+                border-bottom: none;
+            }
+            .activity-icon {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 16px;
+                flex-shrink: 0;
+            }
+            .activity-icon.success {
+                background: #ecfdf5;
+                color: #22c55e;
+            }
+            .activity-icon.info {
+                background: #dbeafe;
+                color: #3b82f6;
+            }
+            .activity-icon.warning {
+                background: #fef3c7;
+                color: #f59e0b;
+            }
+            .activity-content {
+                flex: 1;
+            }
+            .activity-content h6 {
+                font-size: 14px;
+                color: #1f2937;
+                margin-bottom: 3px;
+            }
+            .activity-content p {
+                font-size: 12px;
+                color: #6b7280;
+            }
+            .activity-time {
+                font-size: 12px;
+                color: #9ca3af;
+            }
 
-        <div class="admin-menu">
-            <img src="${pageContext.request.contextPath}/resources/images/avatar.jpg" 
-                 alt="Admin Avatar" class="admin-avatar">
+            /* ==== FOOTER ==== */
+            .footer {
+                background: linear-gradient(135deg,#111827,#1f2937);
+                color: #d1d5db;
+                text-align: center;
+                padding: 15px 20px;
+                font-size: 14px;
+                border-top: 2px solid #4f46e5;
+                margin-top: auto;
+            }
+            .footer-content {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 40px;
+                flex-wrap: wrap;
+            }
+            .footer-content a {
+                color: #a5b4fc;
+                text-decoration: none;
+                transition: color 0.3s ease;
+            }
+            .footer-content a:hover {
+                color: #818cf8;
+            }
+            .footer p {
+                margin-top: 10px;
+                font-size: 13px;
+                color: #9ca3af;
+            }
 
-            <div class="dropdown">
-                <div class="admin-info">
-                    <img src="${pageContext.request.contextPath}/resources/images/avatar.jpg" 
-                         alt="Admin Avatar" class="avatar-large">
-                    <p class="admin-name">${sessionScope.admin.username}</p>
-                    <p class="admin-role">Administrator</p>
-                </div>
-                <hr>
-                <a href="${pageContext.request.contextPath}/admin/profile" class="dropdown-item">
-                    <i class="fa-solid fa-user"></i> Profile
-                </a>
-                <a href="${pageContext.request.contextPath}/admin/settings" class="dropdown-item">
-                    <i class="fa-solid fa-gear"></i> Settings
-                </a>
-                <a href="${pageContext.request.contextPath}/admin/logout" class="dropdown-item logout">
-                    <i class="fa-solid fa-right-from-bracket"></i> Logout
-                </a>
-            </div>
-        </div>
-    </header>
+            @media (max-width:768px) {
+                header {
+                    padding: 12px 20px;
+                }
+                main {
+                    padding: 20px;
+                }
+                .stats-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+            /* ==== ACTIVITY TEXT ENHANCEMENT ==== */
 
-    <!-- ==== MAIN CONTENT ==== -->
-    <main>
-        <div class="page-title">
-            <h2>Admin Dashboard</h2>
-        </div>
+            /* Tên hành động (action) */
+            .activity-content h6 {
+                font-size: 15px;
+                font-weight: 700;
+                text-transform: capitalize;
+                color: #111827;
+                margin-bottom: 4px;
+            }
 
-        <!-- Statistics Cards -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon blue">
-                    <i class="fa-solid fa-book"></i>
-                </div>
-                <div class="stat-info">
-                    <h4>${totalBooks != null ? totalBooks : '250'}</h4>
-                    <p>Total Books</p>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon green">
-                    <i class="fa-solid fa-users"></i>
-                </div>
-                <div class="stat-info">
-                    <h4>${onlineUser}</h4>
-                    <p>Total Online Users </p>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon orange">
-                    <i class="fa-solid fa-book-open-reader"></i>
-                </div>
-                <div class="stat-info">
-                    <h4></h4>
-                    <p>Active Borrowings</p>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon purple">
-                    <i class="fa-solid fa-clock-rotate-left"></i>
-                </div>
-                <div class="stat-info">
-                    <h4>${overdueBooks != null ? overdueBooks : '8'}</h4>
-                    <p>Overdue Books</p>
-                </div>
-            </div>
-        </div>
+  
+            .activity-content p {
+                font-size: 13px;
+                color: #374151;
+                margin: 0;
+            }
 
     
-        <!-- Recent Activity -->
-        <div class="recent-activity">
-            <h3 class="section-header">Recent Activity</h3>
-            <ul class="activity-list">
-                <li class="activity-item">
-                    <div class="activity-icon success">
-                        <i class="fa-solid fa-check"></i>
-                    </div>
-                    <div class="activity-content">
-                        <h6>Book Returned</h6>
-                        <p>"The Great Gatsby" was returned by John Doe</p>
-                    </div>
-                    <span class="activity-time">5 mins ago</span>
-                </li>
+            .activity-time {
+                font-size: 12px;
+                font-weight: 600;
+                color: #6366f1; 
+                margin-left: auto;
+            }
 
-                <li class="activity-item">
-                    <div class="activity-icon info">
-                        <i class="fa-solid fa-book"></i>
-                    </div>
-                    <div class="activity-content">
-                        <h6>New Book Added</h6>
-                        <p>"1984" by George Orwell added to catalog</p>
-                    </div>
-                    <span class="activity-time">1 hour ago</span>
-                </li>
+        </style>
+    </head>
 
-                <li class="activity-item">
-                    <div class="activity-icon warning">
-                        <i class="fa-solid fa-exclamation-triangle"></i>
+    <body>
+        <!-- ==== HEADER ==== -->
+        <header>
+            <div class="logo-section">
+                <img src="${pageContext.request.contextPath}/resources/images/avatar.jpg" alt="Logo">
+                <h3>Library Management System</h3>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="${pageContext.request.contextPath}/admin/dashboard">Dashboard</a></li>
+                    <li><a href="${pageContext.request.contextPath}/admin/books">Manage Books</a></li>
+                    <li><a href="${pageContext.request.contextPath}/admin/users">Manage Users</a></li>
+                    <li><a href="${pageContext.request.contextPath}/admin/borrowing">Borrowing Records</a></li>
+                </ul>
+            </nav>
+            <div class="admin-menu">
+                <img src="${pageContext.request.contextPath}/resources/images/avatar.jpg" alt="Admin Avatar" class="admin-avatar">
+                <div class="dropdown">
+                    <div class="admin-info">
+                        <img src="${pageContext.request.contextPath}/resources/images/avatar.jpg" alt="Admin Avatar" class="avatar-large">
+                        <p class="admin-name">${sessionScope.admin.username}</p>
+                        <p class="admin-role">Administrator</p>
                     </div>
-                    <div class="activity-content">
-                        <h6>Overdue Notice</h6>
-                        <p>"To Kill a Mockingbird" is 3 days overdue</p>
-                    </div>
-                    <span class="activity-time">2 hours ago</span>
-                </li>
+                    <hr>
+                    <a href="${pageContext.request.contextPath}/admin/profile" class="dropdown-item"><i class="fa-solid fa-user"></i> Profile</a>
+                    <a href="${pageContext.request.contextPath}/admin/settings" class="dropdown-item"><i class="fa-solid fa-gear"></i> Settings</a>
+                    <a href="${pageContext.request.contextPath}/admin/logout" class="dropdown-item logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+                </div>
+            </div>
+        </header>
 
-                <li class="activity-item">
-                    <div class="activity-icon success">
-                        <i class="fa-solid fa-user-check"></i>
-                    </div>
-                    <div class="activity-content">
-                        <h6>New User Registration</h6>
-                        <p>Jane Smith registered as new member</p>
-                    </div>
-                    <span class="activity-time">3 hours ago</span>
-                </li>
+        <!-- ==== MAIN ==== -->
+        <main>
+            <div class="page-title"><h2>Admin Dashboard</h2></div>
 
-                <li class="activity-item">
-                    <div class="activity-icon info">
-                        <i class="fa-solid fa-arrow-right-arrow-left"></i>
-                    </div>
-                    <div class="activity-content">
-                        <h6>Book Borrowed</h6>
-                        <p>"Harry Potter" borrowed by Mike Johnson</p>
-                    </div>
-                    <span class="activity-time">5 hours ago</span>
-                </li>
-            </ul>
-        </div>
-    </main>
+            <!-- STATS -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue"><i class="fa-solid fa-book"></i></div>
+                    <div class="stat-info"><h4> </h4><p>Total Books</p></div>
+                </div>
 
-    <!-- ==== FOOTER ==== -->
-    <footer class="footer">
-        <div class="footer-content">
-            <a href="${pageContext.request.contextPath}/about">About</a>
-            <a href="${pageContext.request.contextPath}/contact">Contact</a>
-            <a href="${pageContext.request.contextPath}/terms">Terms of Service</a>
-        </div>
-        <p>&copy; 2025 Library Management System — All rights reserved.</p>
-    </footer>
-</body>
+                <div class="stat-card">
+                    <div class="stat-icon green"><i class="fa-solid fa-users"></i></div>
+                    <div class="stat-info"><h4>${dto.totalOnlineUser}</h4><p>Online Users</p></div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon orange"><i class="fa-solid fa-book-open-reader"></i></div>
+                    <div class="stat-info"><h4></h4><p>Active Borrowings</p></div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon purple"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                    <div class="stat-info"><h4></h4><p>Overdue Books</p></div>
+                </div>
+            </div>
+
+            <!-- RECENT ACTIVITY -->
+            <div class="recent-activity">
+                <h3 class="section-header">Recent Activity</h3>
+                <ul class="activity-list">
+                    <c:forEach var="a" items="${dto.actionList}">
+                        <li class="activity-item">
+                            <div class="activity-icon info">
+                                <i class="fa-solid fa-bell"></i>
+                            </div>
+                            <div class="activity-content">
+                                <h6>${a.action}</h6>
+                                <p>${a.detail}</p>
+                            </div>
+                            <span class="activity-time">${a.log_time}</span>
+                        </li>
+                    </c:forEach>
+                </ul>
+            </div>
+        </main>
+
+        <!-- ==== FOOTER ==== -->
+        <footer class="footer">
+            <div class="footer-content">
+                <a href="${pageContext.request.contextPath}/about">About</a>
+                <a href="${pageContext.request.contextPath}/contact">Contact</a>
+                <a href="${pageContext.request.contextPath}/terms">Terms of Service</a>
+            </div>
+            <p>&copy; 2025 Library Management System — All rights reserved.</p>
+        </footer>
+    </body>
 </html>

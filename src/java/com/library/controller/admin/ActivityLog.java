@@ -2,14 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package com.library.controller.borrowing;
+package com.library.controller.admin;
 
-import com.library.dao.BorrowingDao;
-import com.library.dao.BorrowingImplement;
 import com.library.dao.DaoFactory;
+import com.library.model.UserActivityDTO;
 import com.library.service.ActivityService;
-import com.library.service.BorrowingService;
-import com.library.service.ReturnService;
+import com.library.service.TrackingUserService;
+import com.library.service.UserService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -18,18 +17,15 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.apache.catalina.User;
 
 /**
  *
  * @author hieuchu
  */
-@WebServlet(name = "ReturnBooks", urlPatterns = {"/borrowing/return"})
-public class ReturnBooks extends HttpServlet {
+@WebServlet(name = "ActivityLog", urlPatterns = {"/ActivityLog"})
+public class ActivityLog extends HttpServlet {
 
-    private final ReturnService returnService = new ReturnService(
-            DaoFactory.getBookDao(),
-            DaoFactory.getBorrowingDao()
-    );
     private final ActivityService activityService = new ActivityService(
             DaoFactory.getActivityDao(),
             DaoFactory.getActionDao(),
@@ -41,20 +37,8 @@ public class ReturnBooks extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("account") == null) {
-            response.sendRedirect(request.getContextPath() + "/Login");
-            return;
-        }
-        String account = (String) session.getAttribute("account");
-        String slug = request.getParameter("slug");
-        int bookID = returnService.getBookIDBySlug(slug);
-        boolean commitReturnBook = returnService.returnBook(account, slug);
-        if (commitReturnBook) {
-            activityService.BookActivityOfUser(account, 4, bookID);
-            session.setAttribute("returnSuccess", "The book was returned successfully!");
-            response.sendRedirect(request.getContextPath() + "/borrowing/borrowed?slug=" + slug);
-            return;
-        }
+        String account = (String)session.getAttribute("account");
+         request.getRequestDispatcher("/WEB-INF/views/admin/dashboard.jsp").forward(request, response);
     }
 
     @Override

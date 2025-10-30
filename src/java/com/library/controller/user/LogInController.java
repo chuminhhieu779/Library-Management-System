@@ -4,6 +4,8 @@
  */
 package com.library.controller.user;
 
+import com.library.dao.ActivityDao;
+import com.library.dao.DaoFactory;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import com.library.dao.UserDao;
 import com.library.dao.UserImplementDao;
+import com.library.service.ActivityService;
 
 import com.library.service.TrackingUserService;
 import jakarta.servlet.http.HttpSession;
@@ -22,10 +25,19 @@ import jakarta.servlet.http.HttpSession;
  * @author laptop gigabyte
  */
 @WebServlet(name = "Login", urlPatterns = {"/user/login"})
-public class Login extends HttpServlet {
+
+
+public class LogInController extends HttpServlet {
 
     UserDao userDao = new UserImplementDao();
-
+    private final ActivityService activityService = new ActivityService(
+               DaoFactory.getActivityDao(),
+               DaoFactory.getActionDao(),
+               DaoFactory.getUserDao(),
+               DaoFactory.getBookDao()                
+    );
+    
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -50,10 +62,12 @@ public class Login extends HttpServlet {
         HttpSession session = request.getSession();
         String username = request.getParameter("account");
         String pass = request.getParameter("password");
-
+        
+         
         if (userDao.checkLogin(username, pass)) {
             session.setAttribute("account", username);
             TrackingUserService.add(username);
+            activityService.ActivityUser(1, username);
             response.sendRedirect(request.getContextPath() + "/book/list");
         } else {
             session.setAttribute("error", "Tên đăng nhập không tồn tại!");
