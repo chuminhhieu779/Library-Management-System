@@ -20,9 +20,9 @@ nbdist/
 
 
 # NetBeans auto-generated
-nbproject/build-impl.xml
 nbproject/genfiles.properties
-nbproject/ant-deploy.xml
+**/build-impl.xml
+**/ant-deploy.xml
 
 # Compiled class files
 *.class

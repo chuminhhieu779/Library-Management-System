@@ -107,7 +107,7 @@ public class BorrowingImplement implements BorrowingDao {
                 Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, account);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {         
+            while (rs.next()) {
                 map.put(rs.getInt("book_id"), rs.getString("cover_image"));
             }
         } catch (SQLException s) {
@@ -117,15 +117,15 @@ public class BorrowingImplement implements BorrowingDao {
     }
 
     @Override
-    public boolean updateBookStatus(Connection conn , String account, String slug) {
+    public boolean updateBookStatus(Connection conn, String account, String slug) {
         String sql = "UPDATE b "
                 + "SET b.status = 'returned', b.return_date = GETDATE() "
                 + "FROM borrowings b "
                 + "JOIN users u ON u.user_id = b.user_id "
                 + "JOIN books bk ON bk.book_id = b.book_id "
                 + "WHERE bk.slug = ? AND u.account = ? AND b.status = 'borrowing'";
-        try (                
-            PreparedStatement ps = conn.prepareStatement(sql)){
+        try (
+                PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, slug);
             ps.setString(2, account);
             int row = ps.executeUpdate();
@@ -212,10 +212,9 @@ public class BorrowingImplement implements BorrowingDao {
     public boolean hasUserBorrowedBook(int bookID, int userID) {
         String sql = "select * from borrowings where book_id = ? and user_id = ? and status = ?  ";
         try (
-             Connection conn = DBConnection.getInstance().getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);) {
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
             ps.setInt(1, bookID);
-            ps.setInt(2, userID);            
+            ps.setInt(2, userID);
             ps.setString(3, "borrowing");
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -223,6 +222,34 @@ public class BorrowingImplement implements BorrowingDao {
             }
         } catch (Exception e) {
         }
-        return true ;
+        return true;
     }
+
+    @Override
+    public boolean canDeleteBook(int bookID) {
+        String sql = "select * from borrowings where book_id = ? and status = ?  ";
+        try (
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
+            ps.setInt(1, bookID);
+            ps.setString(2, "borrowing");
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return false;
+            }
+        } catch (Exception e) {
+        }
+        return true;
+    }
+    
+    @Override
+    public void deleteBorrowingsByBookId(int bookId) {
+        String sql = "DELETE FROM borrowings WHERE book_id = ?";
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, bookId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
