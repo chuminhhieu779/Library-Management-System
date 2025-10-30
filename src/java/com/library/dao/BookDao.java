@@ -38,6 +38,8 @@ public interface BookDao {
     boolean deleteBook(int bookID);
 
     String getBookTitleByID(int bookID);
+    
     int getIDBook(String slug);
-
+    
+       
 }

@@ -86,7 +86,8 @@ public class ActivityService {
  
     public AdminDashBoardDTO  adminDashBoard(){        
         AdminDashBoardDTO dto = new AdminDashBoardDTO();
-        dto.setTotalOnlineUser(TrackingUserService.getSize());            
+        dto.setTotalOnlineUser(TrackingUserService.getSize());      
+        dto.setTotalBook(this.bookDao.totalBook());
         List<Action> list = this.actionDao.getAllAction();
         List<UserActivityDTO> listActivities = new ArrayList<>();
         for(Action a : list){
