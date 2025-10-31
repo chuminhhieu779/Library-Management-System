@@ -15,23 +15,23 @@ public class DaoFactory {
     }
 
     public static UserDao getUserDao() {
-        return new UserImplementDao();
+        return new UserDaoImpl();
     }
 
     public static BookDao getBookDao() {
-        return new BookImplementDao();
+        return new BookDaoImpl();
     }
 
     public static BorrowingDao getBorrowingDao() {
-        return new BorrowingImplement();
+        return new BorrowingDaoImpl();
     }
 
     public static  CategoryDao getCategoryDao() {
-        return new CategoryImplement();
+        return new CategoryDaoImpl();
     }
     
     public static ActivityDao getActivityDao(){
-        return new ActivityImpl();
+        return new ActivityDaoImpl();
     }    
     
     public static ActionDao getActionDao(){

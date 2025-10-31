@@ -4,7 +4,7 @@
  */
 package com.library.dao;
 
-import com.library.model.UserManagerDTO;
+import com.library.model.dto.UserManagerDTO;
 import java.util.List;
 
 /**

@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import com.library.dao.UserDao;
-import com.library.dao.UserImplementDao;
+import com.library.dao.UserDaoImpl;
 import com.library.service.ActivityService;
 
 import com.library.service.TrackingUserService;
@@ -27,9 +27,9 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet(name = "Login", urlPatterns = {"/user/login"})
 
 
-public class LogInController extends HttpServlet {
+public class LoginController extends HttpServlet {
 
-    UserDao userDao = new UserImplementDao();
+    UserDao userDao = new UserDaoImpl();
     private final ActivityService activityService = new ActivityService(
                DaoFactory.getActivityDao(),
                DaoFactory.getActionDao(),

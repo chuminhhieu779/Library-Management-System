@@ -5,9 +5,9 @@
 package com.library.service;
 
 import com.library.dao.BookDao;
-import com.library.dao.BookImplementDao;
+import com.library.dao.BookDaoImpl;
 import com.library.dao.UserDao;
-import com.library.dao.UserImplementDao;
+import com.library.dao.UserDaoImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -4,7 +4,7 @@
  */
 package com.library.dao;
 
-import com.library.model.Action;
+import com.library.model.entity.Action;
 import com.library.util.DBConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
