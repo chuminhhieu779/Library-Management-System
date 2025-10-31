@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package com.library.controller.admin.books;
+package com.library.controller.admin.book;
 
 import com.library.controller.book.BookListController;
 import java.io.IOException;
@@ -22,7 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @WebServlet(name = "managerBooks", urlPatterns = {"/admin/books"})
-public class managerBooks extends HttpServlet {
+public class BookManagerController extends HttpServlet {
 
     private static final Logger logger = LoggerFactory.getLogger(BookListController.class);
     BookDao bookDao = new BookDaoImpl();
