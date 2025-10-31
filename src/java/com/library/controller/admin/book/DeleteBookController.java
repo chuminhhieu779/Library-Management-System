@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package com.library.controller.admin.books;
+package com.library.controller.admin.book;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -28,10 +28,10 @@ import org.slf4j.LoggerFactory;
  * @author laptop gigabyte
  */
 @WebServlet(name = "deleteBooks", urlPatterns = {"/admin/books/delete"})
-public class deleteBooks extends HttpServlet {
+public class DeleteBookController extends HttpServlet {
 
 
-    private static final Logger logger = LoggerFactory.getLogger(deleteBooks.class);
+    private static final Logger logger = LoggerFactory.getLogger(DeleteBookController.class);
     
     RemoveBookService rmBook = new RemoveBookService(
             DaoFactory.getBookDao(),

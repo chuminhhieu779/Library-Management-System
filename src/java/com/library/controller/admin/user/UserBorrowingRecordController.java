@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package com.library.controller.admin;
+package com.library.controller.admin.user;
 
 import com.library.dao.DaoFactory;
 import com.library.model.dto.UserManagerDTO;
