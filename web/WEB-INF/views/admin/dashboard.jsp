@@ -372,7 +372,7 @@
                 <ul>
                     <li><a href="${pageContext.request.contextPath}/admin/dashboard">Dashboard</a></li>
                     <li><a href="${pageContext.request.contextPath}/admin/books">Manage Books</a></li>
-                    <li><a href="${pageContext.request.contextPath}/admin/users">Manage Users</a></li>
+                    <li><a href="${pageContext.request.contextPath}/admin/manager-user">Manage Users</a></li>
                     <li><a href="${pageContext.request.contextPath}/admin/borrowing">Borrowing Records</a></li>
                 </ul>
             </nav>

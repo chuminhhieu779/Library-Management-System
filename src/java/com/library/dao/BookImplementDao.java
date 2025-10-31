@@ -92,7 +92,7 @@ public class BookImplementDao implements BookDao {
     @Override
     public int totalBook() {
         int sum = 0;
-        String sql = "select count(*) as total from Books";
+        String sql = "select sum(quantity) as total from Books";
         try (
                 Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             if (rs.next()) {
@@ -239,19 +239,21 @@ public class BookImplementDao implements BookDao {
     }
 
     @Override
-
-    public boolean deleteBook(int bookID) {
-        String sql = "DELETE FROM books WHERE book_id = ?;";
-        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+    public void deleteBook(Connection conn , int bookID) {
+        String sql = "DELETE FROM books WHERE book_id = ? ";
+        logger.info("remove bookID {}", bookID);
+        try (    
+            PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, bookID);
             int rowsDeleted = ps.executeUpdate();
             if (rowsDeleted > 0) {
-                return true;
-            }
+                logger.info("BookID {} removed", bookID);                
+            }else{
+                logger.info("can not remove book ID {}", bookID);
+            }                   
         } catch (SQLException s) {
             logger.error("Error excecuting{}", s.getMessage(), s);
-        }
-        return false;
+        }     
     }
 
     @Override
