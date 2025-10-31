@@ -5,8 +5,8 @@
 package com.library.dao;
 
 
-import com.library.model.UserProfileDTO;
-import com.library.model.Users;
+import com.library.model.dto.UserProfileDTO;
+import com.library.model.entity.Users;
 import java.util.List;
 
 /**

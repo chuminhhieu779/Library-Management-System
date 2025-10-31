@@ -4,7 +4,7 @@
  */
 package com.library.controller.admin.books;
 
-import com.library.controller.book.BookList;
+import com.library.controller.book.BookListController;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,9 +14,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
-import com.library.model.Books;
+import com.library.model.entity.Book;
 import com.library.dao.BookDao;
-import com.library.dao.BookImplementDao;
+import com.library.dao.BookDaoImpl;
 import com.library.exception.BookDataAccessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,8 +24,8 @@ import org.slf4j.LoggerFactory;
 @WebServlet(name = "managerBooks", urlPatterns = {"/admin/books"})
 public class managerBooks extends HttpServlet {
 
-    private static final Logger logger = LoggerFactory.getLogger(BookList.class);
-    BookDao bookDao = new BookImplementDao();
+    private static final Logger logger = LoggerFactory.getLogger(BookListController.class);
+    BookDao bookDao = new BookDaoImpl();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -45,14 +45,14 @@ public class managerBooks extends HttpServlet {
         String search = request.getParameter("search");
         if (search == null || search.trim().isEmpty()) {
             try {
-                List<Books> bookList = bookDao.getAllBook();
+                List<Book> bookList = bookDao.getAllBook();
                 request.setAttribute("bookList", bookList);
                 request.getRequestDispatcher("/WEB-INF/views/admin/managerBook.jsp").forward(request, response);
             } catch (BookDataAccessException e) {
                 logger.error("Error loading books", e);
             }
         } else {
-               List<Books> bookList = bookDao.searchBook(search);
+               List<Book> bookList = bookDao.searchBook(search);
                request.setAttribute("bookList", bookList);
                request.getRequestDispatcher("/WEB-INF/views/admin/managerBook.jsp").forward(request, response);
         }

@@ -5,8 +5,8 @@
 package com.library.dao;
 
 import com.library.enums.UserStatus;
-import com.library.model.UserActivityDTO;
-import com.library.model.UserManagerDTO;
+import com.library.model.dto.UserActivityDTO;
+import com.library.model.dto.UserManagerDTO;
 import com.library.util.DBConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
