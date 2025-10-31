@@ -17,6 +17,11 @@ import jakarta.servlet.http.HttpSession;
 import com.library.dao.BorrowingDao;
 import com.library.dao.BookImplementDao;
 import com.library.dao.BorrowingImplement;
+import com.library.dao.DaoFactory;
+import com.library.service.BorrowingService;
+import com.library.service.RemoveBookService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -25,8 +30,14 @@ import com.library.dao.BorrowingImplement;
 @WebServlet(name = "deleteBooks", urlPatterns = {"/admin/books/delete"})
 public class deleteBooks extends HttpServlet {
 
-    BookDao bookDao = new BookImplementDao();
-    BorrowingDao borrowDao = new BorrowingImplement();
+
+    private static final Logger logger = LoggerFactory.getLogger(deleteBooks.class);
+    
+    RemoveBookService rmBook = new RemoveBookService(
+            DaoFactory.getBookDao(),
+            DaoFactory.getBorrowingDao(),
+            DaoFactory.getFavoriteDao()
+    );
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -38,14 +49,13 @@ public class deleteBooks extends HttpServlet {
         }
 
         int bookID = Integer.parseInt(request.getParameter("id"));
-        if(borrowDao.canDeleteBook(bookID)){
-            borrowDao.deleteBorrowingsByBookId(bookID);
-            
-            bookDao.deleteBook(bookID);
+        logger.info(" Start delete book ID : {}", bookID);
+
+        if (rmBook.isBookRemoved(bookID)) {
+            logger.info("can remove delete book id : {}", bookID);
             session.setAttribute("success", "Completely deleted!");
             response.sendRedirect(request.getContextPath() + "/admin/books");
-        }
-        else{
+        } else {
             session.setAttribute("error", "The book is currently borrowed!");
             response.sendRedirect(request.getContextPath() + "/admin/books");
         }

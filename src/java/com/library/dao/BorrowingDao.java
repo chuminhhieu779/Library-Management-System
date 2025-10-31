@@ -39,6 +39,6 @@ public interface BorrowingDao {
     
     boolean canDeleteBook(int bookID);
     
-    void deleteBorrowingsByBookId(int bookId);
+    void deleteBorrowingsByBookId(Connection conn ,int bookId);
 
 }

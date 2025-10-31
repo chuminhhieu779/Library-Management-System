@@ -37,4 +37,10 @@ public class DaoFactory {
     public static ActionDao getActionDao(){
         return new ActionDaoImpl();
     }
+    public static AdminDao getAdminDao(){
+        return new AdminDaoImpl();
+    }
+    public static FavoriteDao getFavoriteDao(){
+        return new FavoriteDaoImpl();
+    }    
 }
