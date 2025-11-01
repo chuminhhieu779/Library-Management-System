@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 
 public class Activity {
     private int activityID ;
-    private Users user ;
+    private User user ;
     private Action action ; // object reference
     private String detail;
     private LocalDateTime logTime ;
@@ -27,7 +27,7 @@ public class Activity {
     public Activity() {
     }
 
-    public Activity(int activityID, Users user, Action action, String detail, LocalDateTime logTime) {
+    public Activity(int activityID, User user, Action action, String detail, LocalDateTime logTime) {
         this.activityID = activityID;
         this.user = user;
         this.action = action;
@@ -43,11 +43,11 @@ public class Activity {
         this.activityID = activityID;
     }
 
-    public Users getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(Users user) {
+    public void setUser(User user) {
         this.user = user;
     }
 

@@ -5,6 +5,7 @@ package com.library.controller.user;
 import com.library.dao.DaoFactory;
 import com.library.service.ActivityService;
 import com.library.service.TrackingUserService;
+import com.library.service.UserService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -26,6 +27,12 @@ public class LogoutController extends HttpServlet {
                DaoFactory.getUserDao(),
                DaoFactory.getBookDao()                
     );
+  
+   private final UserService userService = new UserService(
+           DaoFactory.getUserDao(),
+           DaoFactory.getAdminDao()
+   
+   );
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -34,7 +41,8 @@ public class LogoutController extends HttpServlet {
         String userName = (String)session.getAttribute("account");
         if(session!=null){
             session.removeAttribute("account");
-            TrackingUserService.remove(userName);                 
+            TrackingUserService.remove(userName);  
+            userService.setOfflineUser(userName);
         }
         response.sendRedirect(request.getContextPath() + "/book/list");
     } 

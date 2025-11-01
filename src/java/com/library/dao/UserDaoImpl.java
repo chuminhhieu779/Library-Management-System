@@ -4,8 +4,9 @@
  */
 package com.library.dao;
 
+import com.library.enums.UserStatus;
 import com.library.model.dto.UserProfileDTO;
-import com.library.model.entity.Users;
+import com.library.model.entity.User;
 import com.library.util.DBConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,7 +15,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import jdk.internal.net.http.common.Log;
-import org.apache.catalina.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,19 +27,20 @@ public class UserDaoImpl implements UserDao {
     private static final Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 
     @Override
-    public List<Users> getALLUser() {
-        List<Users> list = new ArrayList<>();
+    public List<User> getALLUser() {
+        List<User> list = new ArrayList<>();
         String sql = "select * from users ";
         try (
                 Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Users u = new Users();
+                User u = new User();
                 u.setUserID(rs.getInt("user_id"));
                 u.setFullname(rs.getString("fullname"));
                 u.setAccount(rs.getString("account"));
                 u.setPassword(rs.getString("password"));
                 u.setRole(rs.getString("role"));
+                u.setStatus(UserStatus.convertToEnum(rs.getString("status")));
                 u.setAvatar(rs.getString("avatar"));
                 list.add(u);
             }
@@ -141,7 +142,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Users getUser(String account) {
+    public User getUser(String account) {
         String sql = "select * from users where account = ? ";
         logger.info("Getting the data of {} account ", account);
         try (
@@ -149,7 +150,7 @@ public class UserDaoImpl implements UserDao {
             ps.setString(1, account);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                Users u = new Users();
+                User u = new User();
                 u.setUserID(rs.getInt("user_id"));
                 u.setFullname(rs.getString("fullname"));
                 u.setAccount(rs.getString("account"));
@@ -181,4 +182,37 @@ public class UserDaoImpl implements UserDao {
         return false;
     }
 
+    @Override
+    public boolean setOnline(String account) {
+       String sql = "update users set status = ? where account = ?";
+       try(
+           Connection conn = DBConnection.getInstance().getConnection();
+           PreparedStatement ps = conn.prepareStatement(sql)){
+           ps.setString(1, UserStatus.ACTIVE.getValue());
+           ps.setString(2, account);
+           int tmp  =  ps.executeUpdate();
+           if(tmp > 0) return true ;
+       }catch(SQLException s){
+           s.printStackTrace();
+       }               
+         return false ;
+    }
+
+    @Override
+    public boolean setOfflife(String account) {
+       String sql = "update users set status = ? where account = ?";
+       try(
+           Connection conn = DBConnection.getInstance().getConnection();
+           PreparedStatement ps = conn.prepareStatement(sql)){
+           ps.setString(1, UserStatus.INACTIVE.getValue());
+           ps.setString(2, account);
+           int tmp  =  ps.executeUpdate();
+           if(tmp > 0) return true ;
+       }catch(SQLException s){
+           s.printStackTrace();
+       }               
+         return false ;
+    }
+    
+  
 }

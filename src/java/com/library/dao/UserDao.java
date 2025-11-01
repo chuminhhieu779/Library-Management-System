@@ -6,7 +6,7 @@ package com.library.dao;
 
 
 import com.library.model.dto.UserProfileDTO;
-import com.library.model.entity.Users;
+import com.library.model.entity.User;
 import java.util.List;
 
 /**
@@ -14,7 +14,7 @@ import java.util.List;
  * @author hieuchu
  */
 public interface UserDao {
-      List<Users> getALLUser();     
+      List<User> getALLUser();     
       boolean checkLogin(String username,String pass);
       
       boolean checkUserExistence(String username);
@@ -25,8 +25,12 @@ public interface UserDao {
       
       int findUserID(String account);
       
-      Users getUser(String account);
+      User getUser(String account);
       
       boolean updateUser(String account , String avatar, String fullName, int userID);
+      
+      boolean setOnline(String account);
+      
+      boolean setOfflife(String account);
 
 }

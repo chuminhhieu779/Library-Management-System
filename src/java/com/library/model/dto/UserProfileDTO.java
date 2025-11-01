@@ -4,6 +4,8 @@
  */
 package com.library.model.dto;
 
+import com.library.enums.UserStatus;
+
 /**
  *
  * @author hieuchu
@@ -13,15 +15,16 @@ public class UserProfileDTO {
     private String fullName;
     private String account;
     private String avatar;
-
+    private UserStatus status ;
     public UserProfileDTO() {
     }
 
-    public UserProfileDTO(int userID, String fullName, String account, String avatar) {
+    public UserProfileDTO(int userID, String fullName, String account, String avatar, UserStatus status) {
         this.userID = userID;
         this.fullName = fullName;
         this.account = account;
         this.avatar = avatar;
+        this.status = status;
     }
 
     public int getUserID() {
@@ -56,6 +59,14 @@ public class UserProfileDTO {
         this.avatar = avatar;
     }
 
+    public UserStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(UserStatus status) {
+        this.status = status;
+    }
+  
     public void setNewProfile(String fullName, String account , String avatar){
         this.account = account;
         this.fullName = fullName;
