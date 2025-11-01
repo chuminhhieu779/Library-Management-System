@@ -142,11 +142,11 @@
                                 </td>
                                 <td>
                                     <c:choose>
-                                        <c:when test="${user.status.name() == 'BORROWING'}">
-                                            <span class="status-badge status-active">${user.status.name}</span>
+                                        <c:when test="${user.status.name() eq 'BORROWING'}">
+                                            <span class="status-badge status-active">${user.status.value}</span>
                                         </c:when>
-                                        <c:when test="${user.status.name() == 'RETURNED'}">
-                                            <span class="status-badge status-inactive">${user.status.name}</span>
+                                        <c:when test="${user.status.name() eq 'RETURNED'}">
+                                            <span class="status-badge status-inactive">${user.status.value}</span>
                                         </c:when>
                                         <c:otherwise>
                                             <span class="status-badge status-inactive">Unknown</span>
