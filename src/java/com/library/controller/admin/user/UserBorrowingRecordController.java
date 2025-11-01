@@ -6,7 +6,7 @@
 package com.library.controller.admin.user;
 
 import com.library.dao.DaoFactory;
-import com.library.model.dto.UserManagerDTO;
+import com.library.model.dto.UserBorrowRecordDTO;
 import com.library.service.UserService;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -32,7 +32,7 @@ public class UserBorrowingRecordController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         
-        List<UserManagerDTO> list = userService.showUserInformation();
+        List<UserBorrowRecordDTO> list = userService.showUserInformation();
         request.setAttribute("userList", list);
        request.getRequestDispatcher("/WEB-INF/views/admin/userborrowingrecord.jsp").forward(request, response);
     } 

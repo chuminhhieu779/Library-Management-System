@@ -10,17 +10,17 @@ import com.library.enums.UserStatus;
  *
  * @author hieuchu
  */
-public class UserManagerDTO {
+public class UserBorrowRecordDTO {
     private int userID ;
     private String fullName ;
     private String account ;
     private String borrowedBook;
     private UserStatus status ;
 
-    public UserManagerDTO() {
+    public UserBorrowRecordDTO() {
     }
 
-    public UserManagerDTO(int userID, String fullName, String account, String borrowedBook, UserStatus status) {
+    public UserBorrowRecordDTO(int userID, String fullName, String account, String borrowedBook, UserStatus status) {
         this.userID = userID;
         this.fullName = fullName;
         this.account = account;
