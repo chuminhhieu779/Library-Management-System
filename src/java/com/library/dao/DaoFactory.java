@@ -43,4 +43,8 @@ public class DaoFactory {
     public static FavoriteDao getFavoriteDao(){
         return new FavoriteDaoImpl();
     }    
+    
+    public static UserSessionDao getUserSessionDao(){
+        return new UserSessionDaoImpl();
+    }
 }

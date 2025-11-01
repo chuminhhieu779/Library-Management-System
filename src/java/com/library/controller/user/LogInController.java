@@ -19,6 +19,7 @@ import com.library.service.ActivityService;
 
 import com.library.service.TrackingUserService;
 import com.library.service.UserService;
+import com.library.util.SessionTracker;
 import jakarta.servlet.http.HttpSession;
 
 /**
@@ -40,6 +41,11 @@ public class LoginController extends HttpServlet {
     UserService userService = new UserService(
             DaoFactory.getUserDao(),
             DaoFactory.getAdminDao()
+    );
+    
+   private final TrackingUserService trackService = new TrackingUserService(
+            DaoFactory.getUserSessionDao()
+    
     );
     
     @Override
@@ -64,19 +70,22 @@ public class LoginController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String username = request.getParameter("account");
+        String account = request.getParameter("account");
         String pass = request.getParameter("password");
         
          
-        if (userDao.checkLogin(username, pass)) {
-            session.setAttribute("account", username);
-            TrackingUserService.add(username);
-            activityService.ActivityUser(1, username);
-            userService.setOnlineUser(username);
+        if (userDao.checkLogin(account, pass)) {
+            session.setAttribute("account", account);
+            TrackingUserService.add(account);
+            activityService.ActivityUser(1, account);
+            userService.setOnlineUser(account);
+            int userID = userDao.findUserID(account);
+            trackService.updateData(session.getId(), userID);
+            SessionTracker.addSession(session.getId(), session);             
             response.sendRedirect(request.getContextPath() + "/book/list");
         } else {
             session.setAttribute("error", "Tên đăng nhập không tồn tại!");
-            if (username.trim().isEmpty()) {
+            if (account.trim().isEmpty()) {
                 session.setAttribute("error", "Vui lòng nhập tên đăng nhập!");
                 response.sendRedirect(request.getContextPath() + "/user/login");
                 return;
@@ -86,8 +95,8 @@ public class LoginController extends HttpServlet {
                 return;
             }
             // check login after user enter correcly 
-            if (userDao.checkLogin(username, pass)) {
-                session.setAttribute("account", username);      
+            if (userDao.checkLogin(account, pass)) {
+                session.setAttribute("account", account);      
                 response.sendRedirect(request.getContextPath() + "/book/list");
                 return;
             } else {
