@@ -5,7 +5,7 @@
 package com.library.dao;
 
 import com.library.exception.BookDataAccessException;
-import com.library.model.Books;
+import com.library.model.entity.Book;
 import java.sql.Connection;
 import java.util.List;
 
@@ -15,17 +15,17 @@ import java.util.List;
  */
 public interface BookDao {
 
-    List<Books> getAllBook()throws BookDataAccessException;
+    List<Book> getAllBook()throws BookDataAccessException;
 
-    Books showBookDetail(String slug, int bookID);
+    Book showBookDetail(String slug, int bookID);
 
     int totalBook();
 
-    List<Books> searchBook(String query);
+    List<Book> searchBook(String query);
 
     void insertBookToFavorite(int bookID, int userID);
 
-    List<Books> showBookFromFavorite(int userID);
+    List<Book> showBookFromFavorite(int userID);
 
     void decreaseQuantity(Connection conn, int bookID);
 
@@ -35,7 +35,7 @@ public interface BookDao {
     
     int getCurrentQuantity(Connection conn , int bookID);
     
-    boolean deleteBook(int bookID);
+    void deleteBook( Connection conn , int bookID);
 
     String getBookTitleByID(int bookID);
     

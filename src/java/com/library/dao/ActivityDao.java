@@ -4,8 +4,8 @@
  */
 package com.library.dao;
 
-import com.library.model.Activity;
-import com.library.model.UserActivityDTO;
+import com.library.model.entity.Activity;
+import com.library.model.dto.UserActivityDTO;
 import java.time.LocalDateTime;
 import java.util.List;
 

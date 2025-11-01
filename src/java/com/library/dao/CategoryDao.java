@@ -4,7 +4,7 @@
  */
 package com.library.dao;
 
-import com.library.model.Books;
+import com.library.model.entity.Book;
 import java.util.List;
 
 /**
@@ -12,6 +12,6 @@ import java.util.List;
  * @author hieuchu
  */
 public interface CategoryDao {
-    List<Books> categorizeBook(String category );
-    List<Books> getAllBook();
+    List<Book> categorizeBook(String category );
+    List<Book> getAllBook();
 }

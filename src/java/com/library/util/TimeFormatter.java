@@ -4,7 +4,7 @@
  */
 package com.library.util;
 
-import com.library.model.Activity;
+import com.library.model.entity.Activity;
 import java.time.Duration;
 import java.time.LocalDateTime;
 

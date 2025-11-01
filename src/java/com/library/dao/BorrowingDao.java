@@ -4,8 +4,8 @@
  */
 package com.library.dao;
 
-import com.library.model.Books;
-import com.library.model.BorrowedBookDTO;
+import com.library.model.entity.Book;
+import com.library.model.dto.BorrowedBookDTO;
 import java.sql.Connection;
 import java.time.LocalDate;
 import java.util.List;
@@ -39,6 +39,6 @@ public interface BorrowingDao {
     
     boolean canDeleteBook(int bookID);
     
-    void deleteBorrowingsByBookId(int bookId);
+    void deleteBorrowingsByBookId(Connection conn ,int bookId);
 
 }
