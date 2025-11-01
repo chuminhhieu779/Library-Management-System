@@ -7,7 +7,7 @@ package com.library.dao;
 import com.library.model.entity.Action;
 import com.library.model.entity.Activity;
 import com.library.model.dto.UserActivityDTO;
-import com.library.model.entity.Users;
+import com.library.model.entity.User;
 import com.library.util.DBConnection;
 import jakarta.servlet.jsp.jstl.sql.Result;
 import java.sql.Connection;
@@ -18,7 +18,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.catalina.User;
+
 
 /**
  *
@@ -65,7 +65,7 @@ public class ActivityDaoImpl implements ActivityDao {
                 act.setLogTime(rs.getTimestamp("log_time").toLocalDateTime());
                 
                 // User
-                Users user = new Users();
+                User user = new User();
                 user.setUserID(rs.getInt("user_id"));
                 user.setAccount(rs.getString("account"));
                 user.setFullname(rs.getString("fullname"));

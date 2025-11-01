@@ -9,16 +9,27 @@ package com.library.enums;
  * @author hieuchu
  */
 public enum UserStatus {
-    
+     ACTIVE("active"),
+     INACTIVE("inactive"),
      BORROWING("borrowing"),
      RETURNED("returned");
      
-    private final String status ;
+    private final String value;
 
-    private UserStatus(String status) {
-        this.status = status ;
+    private UserStatus(String value) {
+        this.value = value ;
     }
-    public String getName(){
-        return this.status;
+    public String getValue(){
+        return value;
     }
+    
+    public static UserStatus convertToEnum(String value){
+        for(UserStatus status : values()){
+           if(status.getValue().equalsIgnoreCase(value)){
+               return status;
+           }     
+        }
+        return null ;
+    }    
+   
 }

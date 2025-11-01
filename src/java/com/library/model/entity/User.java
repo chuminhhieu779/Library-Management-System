@@ -4,28 +4,31 @@
  */
 package com.library.model.entity;
 
+import com.library.enums.UserStatus;
+
 /**
  *
  * @author ADMIN
  */
-public class Users {
+public class User {
     private int userID;
     private String fullname;
     private String account;
     private String password;
     private String role;
     private String avatar;
-
-    public Users() {
+    private UserStatus status ;
+    public User() {
     }
 
-    public Users(int userID, String fullname, String account, String password, String role, String avatar) {
+    public User(int userID, String fullname, String account, String password, String role, String avatar, UserStatus status) {
         this.userID = userID;
         this.fullname = fullname;
         this.account = account;
         this.password = password;
         this.role = role;
         this.avatar = avatar;
+        this.status = status;
     }
 
     public int getUserID() {
@@ -75,5 +78,14 @@ public class Users {
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
-    
+
+    public UserStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(UserStatus status) {
+        this.status = status;
+    }
+
+ 
 }

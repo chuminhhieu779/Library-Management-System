@@ -18,6 +18,7 @@ import com.library.dao.UserDaoImpl;
 import com.library.service.ActivityService;
 
 import com.library.service.TrackingUserService;
+import com.library.service.UserService;
 import jakarta.servlet.http.HttpSession;
 
 /**
@@ -36,7 +37,10 @@ public class LoginController extends HttpServlet {
                DaoFactory.getUserDao(),
                DaoFactory.getBookDao()                
     );
-    
+    UserService userService = new UserService(
+            DaoFactory.getUserDao(),
+            DaoFactory.getAdminDao()
+    );
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -68,6 +72,7 @@ public class LoginController extends HttpServlet {
             session.setAttribute("account", username);
             TrackingUserService.add(username);
             activityService.ActivityUser(1, username);
+            userService.setOnlineUser(username);
             response.sendRedirect(request.getContextPath() + "/book/list");
         } else {
             session.setAttribute("error", "Tên đăng nhập không tồn tại!");
