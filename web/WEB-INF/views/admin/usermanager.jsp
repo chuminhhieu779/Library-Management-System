@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Manage Books - Library Management System</title>
+        <title>Manage Online Users - Library Management System</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
         <style>
             /* ==== RESET ==== */
@@ -179,6 +179,24 @@
                 padding: 40px 60px;
             }
 
+            .avatar-img {
+                width: 64px;
+                height: 64px;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 3px solid #e5e7eb;
+                background-color: #fff;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+                transition: all 0.3s ease;
+                display: inline-block;
+            }
+
+            .avatar-img:hover {
+                transform: scale(1.12);
+                border-color: #6366f1;
+                box-shadow: 0 6px 20px rgba(99, 102, 241, 0.3);
+            }
+
             /* ==== PAGE TITLE ==== */
             .page-title {
                 text-align: center;
@@ -325,22 +343,20 @@
                 border: 1px solid #ef4444;
             }
 
-            /* ==== USERS TABLE ==== */
+            /* ==== BOOKS TABLE ==== */
             .table-container {
                 background: #fff;
-                border-radius: 12px;
-                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-                overflow-x: auto;               /* ✅ Cho phép cuộn ngang */
-                overflow-y: hidden;
-                max-width: 100%;
-                margin-bottom: 20px;
+                border-radius: 16px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+                overflow: hidden;
+                padding: 0;
+                border: 1px solid #e5e7eb;
             }
 
             .books-table {
                 width: 100%;
-                min-width: 950px;               /* ✅ Giống manager book, kích hoạt scroll */
                 border-collapse: collapse;
-                white-space: nowrap;            /* ✅ Giữ nội dung không bị xuống dòng */
+                margin: 0;
             }
 
             .books-table thead {
@@ -349,138 +365,124 @@
             }
 
             .books-table th {
-                padding: 16px;
+                padding: 18px 20px;
                 text-align: left;
-                font-weight: 600;
-                font-size: 14px;
+                font-weight: 700;
+                font-size: 13px;
                 text-transform: uppercase;
-                letter-spacing: 0.5px;
+                letter-spacing: 1px;
+                white-space: nowrap;
+            }
+
+            .books-table th:first-child {
+                text-align: center;
+                width: 100px;
+            }
+
+            .books-table th:nth-child(2) {
+                width: 25%;
+            }
+
+            .books-table th:nth-child(3) {
+                width: 25%;
+            }
+
+            .books-table th:nth-child(4) {
+                text-align: center;
+                width: 140px;
+            }
+
+            .books-table th:last-child {
+                text-align: center;
+                width: 260px;
             }
 
             .books-table td {
-                padding: 14px 16px;
+                padding: 18px 20px;
                 border-bottom: 1px solid #f3f4f6;
                 font-size: 14px;
                 color: #374151;
+                vertical-align: middle;
+            }
+
+            .books-table td:first-child {
+                text-align: center;
+                padding: 12px;
+            }
+
+            .books-table td:nth-child(4) {
+                text-align: center;
+            }
+
+            .books-table td:last-child {
+                text-align: center;
             }
 
             .books-table tbody tr {
-                transition: background 0.2s;
+                transition: all 0.3s ease;
             }
 
             .books-table tbody tr:hover {
-                background: #f9fafb;
+                background: linear-gradient(to right, #f9fafb, #f3f4f6);
+                transform: scale(1.01);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
             }
 
             .books-table tbody tr:last-child td {
                 border-bottom: none;
             }
 
-
-            .book-info {
-                display: flex;
+            .status-badge {
+                display: inline-flex;
                 align-items: center;
-                gap: 12px;
+                gap: 7px;
+                font-size: 10px;
+                font-weight: 700;
+                padding: 8px 16px;
+                border-radius: 24px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                transition: all 0.3s ease;
             }
 
-            .book-cover {
-                width: 50px;
-                height: 70px;
-                border-radius: 4px;
-                object-fit: cover;
-                border: 2px solid #e5e7eb;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            }
-
-            .book-details h4 {
-                font-size: 14px;
-                font-weight: 600;
-                color: #1f2937;
-                margin-bottom: 2px;
-            }
-
-            .book-details p {
-                font-size: 12px;
-                color: #6b7280;
-            }
-
-            .category-badge {
-                padding: 4px 12px;
-                border-radius: 20px;
-                font-size: 12px;
-                font-weight: 600;
-                display: inline-block;
-                background: #dbeafe;
-                color: #1e40af;
-            }
-
-            .quantity-badge {
-                padding: 4px 12px;
-                border-radius: 20px;
-                font-size: 12px;
-                font-weight: 600;
-                display: inline-block;
-            }
-
-            .quantity-high {
-                background: #ecfdf5;
+            .status-active {
+                background: linear-gradient(135deg, #ecfdf5, #d1fae5);
                 color: #065f46;
+                border: 2px solid #10b981;
             }
 
-            .quantity-low {
-                background: #fef3c7;
-                color: #92400e;
+            .status-active:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
             }
 
-            .quantity-out {
-                background: #fef2f2;
+            .status-inactive {
+                background: linear-gradient(135deg, #fef2f2, #fee2e2);
                 color: #991b1b;
+                border: 2px solid #ef4444;
+            }
+
+            .status-inactive:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
             }
 
             .actions {
                 display: flex;
-                gap: 10px;
+                gap: 12px;
                 align-items: center;
+                justify-content: center;
             }
 
             .actions .btn-sm {
-                min-width: 80px;
+                min-width: 90px;
                 justify-content: center;
+                font-weight: 600;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
             }
 
-            /* ==== PAGINATION ==== */
-            .pagination {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                gap: 8px;
-                margin-top: 25px;
-            }
-
-            .page-btn {
-                padding: 8px 12px;
-                border: 1px solid #d1d5db;
-                background: #fff;
-                border-radius: 6px;
-                cursor: pointer;
-                font-size: 14px;
-                transition: all 0.2s;
-            }
-
-            .page-btn:hover {
-                background: #f3f4f6;
-                border-color: #4f46e5;
-            }
-
-            .page-btn.active {
-                background: #4f46e5;
-                color: #fff;
-                border-color: #4f46e5;
-            }
-
-            .page-btn:disabled {
-                opacity: 0.5;
-                cursor: not-allowed;
+            .actions .btn-sm:hover {
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             }
 
             /* ==== MODAL ==== */
@@ -633,9 +635,9 @@
                     min-width: 900px;
                 }
             }
+
         </style>
     </head>
-
     <body>
         <!-- ==== HEADER + NAV ==== -->
         <header>
@@ -655,7 +657,6 @@
             <div class="admin-menu">
                 <img src="${pageContext.request.contextPath}/resources/images/avatar.jpg" 
                      alt="Admin Avatar" class="admin-avatar">
-
                 <div class="dropdown">
                     <div class="admin-info">
                         <img src="${pageContext.request.contextPath}/resources/images/avatar.jpg" 
@@ -680,82 +681,79 @@
         <!-- ==== MAIN CONTENT ==== -->
         <main>
             <div class="page-title">
-                <h2>Manage Books</h2>
+                <h2>Manage Online Users</h2>
             </div>
 
             <!-- Success/Error Messages -->
-            <c:if test="${not empty successMessage}">
+            <c:if test="">
                 <div class="alert alert-success">
                     <i class="fa-solid fa-check-circle"></i>
-                    ${successMessage}
+
                 </div>
             </c:if>
-            <c:if test="${not empty errorMessage}">
+            <c:if test="">
                 <div class="alert alert-danger">
                     <i class="fa-solid fa-exclamation-circle"></i>
-                    ${errorMessage}
+
                 </div>
             </c:if>
 
             <!-- Toolbar -->
             <div class="toolbar">
                 <div class="search-box">
-                    <input type="text" class="search-input" placeholder="Search books by title, author, or category..." id="searchInput">
-                    <button class="btn btn-primary" onclick="searchBooks()">
+                    <input type="text" class="search-input" placeholder="Search users by name or account..." id="searchInput">
+                    <button class="btn btn-primary" onclick="searchUsers()">
                         <i class="fa-solid fa-search"></i> Search
                     </button>
-                </div>
-                <button class="btn btn-success" onclick="openAddModal()">
-                    <i class="fa-solid fa-book-medical"></i> Add New Book
+                </div>            
+                <button class="btn btn-danger" onclick="logoutAllUsers()">
+                    <i class="fa-solid fa-door-open"></i> Logout All Users
                 </button>
             </div>
 
-            <!-- Books Table -->
+            <!-- Users Table -->
             <div class="table-container">
                 <table class="books-table">
                     <thead>
                         <tr>
-                            <th>Book Info</th>
-                            <th>Author</th>
-                            <th>Category</th>
-                            <th>Quantity</th>
+                            <th>Avatar</th>
+                            <th>Username</th>
+                            <th>Account</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <c:if test="${not empty bookList}">
-                            <c:forEach var="book" items="${bookList}">
+                        <c:if test="${not empty list}">
+                            <c:forEach var="user" items="${list}">
                                 <tr>
                                     <td>
-                                        <div class="book-info">
-                                            <img src="${pageContext.request.contextPath}/resources/images/${book.coverImage != null ? book.coverImage : 'default-book.jpg'}" 
-                                                 alt="Book Cover" class="book-cover">
-                                            <div class="book-details">
-                                                <h4>${book.title}</h4>
-                                            </div>
-                                        </div>
+                                        <img src="${pageContext.request.contextPath}/resources/images/${user.avatar}" alt="avatar" class="avatar-img">
                                     </td>
-                                    <td>${book.author}</td>
-                                    <td><span class="category-badge">${book.category.name}</span></td>
+
+                                    <td>${user.fullName}</td>
+                                    <td>${user.account}</td>                   
                                     <td>
                                         <c:choose>
-                                            <c:when test="${book.quantity > 10}">
-                                                <span class="quantity-badge quantity-high">${book.quantity} books</span>
-                                            </c:when>
-                                            <c:when test="${book.quantity > 0}">
-                                                <span class="quantity-badge quantity-low">${book.quantity} books</span>
+                                            <c:when test="${user.status.value == 'active'}">
+                                                <span class="status-badge status-active">
+                                                    <i class="fa-solid fa-circle-check"></i> Active
+                                                </span>
                                             </c:when>
                                             <c:otherwise>
-                                                <span class="quantity-badge quantity-out">Out of stock</span>
+                                                <span class="status-badge status-inactive">
+                                                    <i class="fa-solid fa-circle-xmark"></i> Inactive
+                                                </span>
                                             </c:otherwise>
                                         </c:choose>
                                     </td>
+
                                     <td>
                                         <div class="actions">
-                                            <button class="btn btn-warning btn-sm" onclick="editBook(${book.bookID})">
-                                                <i class="fa-solid fa-pen-to-square"></i> Edit
+                                            <button class="btn btn-warning btn-sm" onclick="logoutUser(${user.userID})">
+                                                <i class="fa-solid fa-right-from-bracket"></i> Logout
                                             </button>
-                                            <button class="btn btn-danger btn-sm" onclick="deleteBook(${book.bookID})">
+                                            <button class="btn btn-danger btn-sm" onclick="deleteUser(${user.userID})">
                                                 <i class="fa-solid fa-trash"></i> Delete
                                             </button>
                                         </div>
@@ -763,153 +761,97 @@
                                 </tr>
                             </c:forEach>
                         </c:if>
-
-                        <!-- Nếu danh sách rỗng -->
-                        <c:if test="${empty bookList}">
-                            <tr>
-                                <td colspan="6" style="text-align:center; color:gray;">
-                                    No books available in the system.
-                                </td>
-                            </tr>
-                        </c:if>
                     </tbody>
                 </table>
             </div>
 
-            <!-- Pagination -->
-            <div class="pagination">
-                <button class="page-btn" disabled>
-                    <i class="fa-solid fa-chevron-left"></i>
-                </button>
-                <button class="page-btn active">1</button>
-                <button class="page-btn">2</button>
-                <button class="page-btn">3</button>
-                <button class="page-btn">
-                    <i class="fa-solid fa-chevron-right"></i>
-                </button>
-            </div>
         </main>
 
-        <!-- Add/Edit Book Modal -->
-        <div class="modal" id="bookModal">
+        <!-- ===== Modal Add User ===== -->
+        <div class="modal" id="addUserModal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 id="modalTitle">Add New Book</h3>
-                    <button class="close-btn" onclick="closeModal()">&times;</button>
+                    <h3>Add New User</h3>
+                    <button class="close-btn" onclick="closeAddUserModal()">&times;</button>
                 </div>
-                <form action="${pageContext.request.contextPath}/admin/books/save" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="bookID" id="bookID">
 
+                <form action="${pageContext.request.contextPath}/admin/users/add" method="post" enctype="multipart/form-data">
                     <div class="form-group">
-                        <label for="name">Book Title</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
+                        <label>Full Name</label>
+                        <input type="text" class="form-control" name="fullname" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="author">Author</label>
-                        <input type="text" class="form-control" id="author" name="author" required>
+                        <label>Account</label>
+                        <input type="text" class="form-control" name="account" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="category">Category</label>
-                        <select class="form-control" id="category" name="category" required>
-                            <option value="">Select Category</option>
-                            <option value="Classic Fiction">Classic Fiction</option>
-                            <option value="Literary Fiction">Literary Fiction</option>
-                            <option value="Dystopian Fiction">Dystopian Fiction</option>
-                            <option value="Science Fiction">Science Fiction</option>
-                            <option value="Fantasy">Fantasy</option>
-                            <option value="Mystery">Mystery</option>
-                            <option value="Thriller">Thriller</option>
-                            <option value="Romance">Romance</option>
-                            <option value="Non-Fiction">Non-Fiction</option>
-                            <option value="Biography">Biography</option>
-                            <option value="History">History</option>
-                            <option value="Self-Help">Self-Help</option>
-                        </select>
+                        <label>Password</label>
+                        <input type="password" class="form-control" name="password" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="quantity">Quantity</label>
-                        <input type="number" class="form-control" id="quantity" name="quantity" min="0" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="coverImage">Cover Image</label>
-                        <input type="file" class="form-control" id="coverImage" name="coverImage" accept="image/*">
-                        <small style="color: #6b7280; font-size: 12px; display: block; margin-top: 4px;">
-                            Upload a cover image for the book (JPG, PNG, GIF)
-                        </small>
+                        <label>Avatar</label>
+                        <input type="file" class="form-control" name="avatar" accept="image/*">
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" onclick="closeModal()">Cancel</button>
+                        <button type="button" class="btn btn-danger" onclick="closeAddUserModal()">Cancel</button>
                         <button type="submit" class="btn btn-success">
-                            <i class="fa-solid fa-save"></i> Save Book
+                            <i class="fa-solid fa-save"></i> Save User
                         </button>
                     </div>
                 </form>
             </div>
         </div>
-
-        <!-- ==== FOOTER ==== -->
         <footer class="footer">
             <div class="footer-content">
-                <a href="${pageContext.request.contextPath}/about">About</a>
-                <a href="${pageContext.request.contextPath}/contact">Contact</a>
-                <a href="${pageContext.request.contextPath}/terms">Terms of Service</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Contact</a>
             </div>
-            <p>&copy; 2025 Library Management System — All rights reserved.</p>
+            <p>&copy; 2025 Library Management System. All rights reserved.</p>
         </footer>
-
         <script>
-            // ===== Open "Add Book" Modal =====
-            function openAddModal() {
-                document.getElementById('modalTitle').textContent = 'Add New Book';
-                document.getElementById('bookModal').classList.add('show');
-                document.getElementById('bookID').value = '';
-                document.querySelector('#bookModal form').reset();
-            }
-
-            // ===== Close Modal =====
-            function closeModal() {
-                document.getElementById('bookModal').classList.remove('show');
-            }
-
-            // ===== Edit Book =====
-            function editBook(bookID) {
-                // Gửi yêu cầu đến servlet để lấy thông tin sách cần sửa
-                window.location.href = '${pageContext.request.contextPath}/admin/books/edit?id=' + bookID;
-            }
-
-            // ===== Delete Book =====
-            function deleteBook(bookID) {
-                if (confirm('Are you sure you want to delete this book? This action cannot be undone.')) {
-                    window.location.href = '${pageContext.request.contextPath}/admin/books/delete?id=' + bookID;
+            function logoutUser(userID) {
+                if (confirm('Are you sure you want to log out this user?')) {
+                    window.location.href = '${pageContext.request.contextPath}/admin/users/logout?id=' + userID;
                 }
             }
 
-            // ===== Search Books =====
-            function searchBooks() {
-                const searchValue = document.getElementById('searchInput').value.trim();
-                window.location.href = '${pageContext.request.contextPath}/admin/books?search=' + encodeURIComponent(searchValue);
+            function deleteUser(userID) {
+                if (confirm('Are you sure you want to delete this user?')) {
+                    window.location.href = '${pageContext.request.contextPath}/admin/users/delete?id=' + userID;
+                }
             }
 
-            // ===== Close Modal When Clicking Outside =====
+            function logoutAllUsers() {
+                if (confirm('Logout all users from the system?')) {
+                    window.location.href = '${pageContext.request.contextPath}/admin/users/logout-all';
+                }
+            }
+
+            function searchUsers() {
+                const val = document.getElementById('searchInput').value.trim();
+                window.location.href = '${pageContext.request.contextPath}/admin/users?search=' + encodeURIComponent(val);
+            }
+
+            function openAddUserModal() {
+                document.getElementById('addUserModal').classList.add('show');
+            }
+
+            function closeAddUserModal() {
+                document.getElementById('addUserModal').classList.remove('show');
+            }
+
             window.onclick = function (event) {
-                const modal = document.getElementById('bookModal');
+                const modal = document.getElementById('addUserModal');
                 if (event.target === modal) {
-                    closeModal();
+                    closeAddUserModal();
                 }
             };
-
-            // ===== Press Enter to Search =====
-            document.getElementById('searchInput').addEventListener('keypress', function (e) {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    searchBooks();
-                }
-            });
         </script>
+
     </body>
 </html>
