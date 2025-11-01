@@ -750,10 +750,10 @@
 
                                     <td>
                                         <div class="actions">
-                                            <button class="btn btn-warning btn-sm" onclick="logoutUser(${user.userID})">
+                                            <button class="btn btn-warning btn-sm" onclick="logoutUser('${user.account}')">
                                                 <i class="fa-solid fa-right-from-bracket"></i> Logout
                                             </button>
-                                            <button class="btn btn-danger btn-sm" onclick="deleteUser(${user.userID})">
+                                            <button class="btn btn-danger btn-sm" onclick="deleteUser('${user.account}')">
                                                 <i class="fa-solid fa-trash"></i> Delete
                                             </button>
                                         </div>
@@ -814,15 +814,15 @@
             <p>&copy; 2025 Library Management System. All rights reserved.</p>
         </footer>
         <script>
-            function logoutUser(userID) {
+            function logoutUser(account) {
                 if (confirm('Are you sure you want to log out this user?')) {
-                    window.location.href = '${pageContext.request.contextPath}/admin/users/logout?id=' + userID;
+                    window.location.href = '${pageContext.request.contextPath}/admin/user/logout?account=' + account;
                 }
             }
 
-            function deleteUser(userID) {
+            function deleteUser(account) {
                 if (confirm('Are you sure you want to delete this user?')) {
-                    window.location.href = '${pageContext.request.contextPath}/admin/users/delete?id=' + userID;
+                    window.location.href = '${pageContext.request.contextPath}/admin/user/delete?account=' + account;
                 }
             }
 
