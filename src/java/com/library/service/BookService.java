@@ -7,7 +7,7 @@ package com.library.service;
 import com.library.dao.BookDao;
 import com.library.dao.BorrowingDao;
 import com.library.dao.UserDao;
-import com.library.model.Books;
+import com.library.model.entity.Book;
 import java.text.Normalizer;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -39,11 +39,11 @@ public class BookService {
                 .replaceAll("Đ", "D");
     }
 
-    public List<Books> findBook(String title) {
+    public List<Book> findBook(String title) {
         return bookDao.searchBook(title);
     }
 
-    public boolean isBookFound(List<Books> list) {
+    public boolean isBookFound(List<Book> list) {
         if (list.isEmpty() || list == null) {
             return false;
         }

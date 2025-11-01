@@ -4,7 +4,7 @@
  */
 package com.library.dao;
 
-import com.library.model.Action;
+import com.library.model.entity.Action;
 import java.util.List;
 
 /**

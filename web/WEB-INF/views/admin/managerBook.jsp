@@ -325,17 +325,22 @@
                 border: 1px solid #ef4444;
             }
 
-            /* ==== BOOKS TABLE ==== */
+            /* ==== USERS TABLE ==== */
             .table-container {
                 background: #fff;
                 border-radius: 12px;
                 box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-                overflow: hidden;
+                overflow-x: auto;               /* ✅ Cho phép cuộn ngang */
+                overflow-y: hidden;
+                max-width: 100%;
+                margin-bottom: 20px;
             }
 
             .books-table {
                 width: 100%;
+                min-width: 950px;               /* ✅ Giống manager book, kích hoạt scroll */
                 border-collapse: collapse;
+                white-space: nowrap;            /* ✅ Giữ nội dung không bị xuống dòng */
             }
 
             .books-table thead {
@@ -370,6 +375,7 @@
             .books-table tbody tr:last-child td {
                 border-bottom: none;
             }
+
 
             .book-info {
                 display: flex;

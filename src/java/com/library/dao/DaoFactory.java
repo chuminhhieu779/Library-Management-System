@@ -15,26 +15,36 @@ public class DaoFactory {
     }
 
     public static UserDao getUserDao() {
-        return new UserImplementDao();
+        return new UserDaoImpl();
     }
 
     public static BookDao getBookDao() {
-        return new BookImplementDao();
+        return new BookDaoImpl();
     }
 
     public static BorrowingDao getBorrowingDao() {
-        return new BorrowingImplement();
+        return new BorrowingDaoImpl();
     }
 
     public static  CategoryDao getCategoryDao() {
-        return new CategoryImplement();
+        return new CategoryDaoImpl();
     }
     
     public static ActivityDao getActivityDao(){
-        return new ActivityImpl();
+        return new ActivityDaoImpl();
     }    
     
     public static ActionDao getActionDao(){
         return new ActionDaoImpl();
+    }
+    public static AdminDao getAdminDao(){
+        return new AdminDaoImpl();
+    }
+    public static FavoriteDao getFavoriteDao(){
+        return new FavoriteDaoImpl();
+    }    
+    
+    public static UserSessionDao getUserSessionDao(){
+        return new UserSessionDaoImpl();
     }
 }
