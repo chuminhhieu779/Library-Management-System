@@ -23,7 +23,7 @@ public class Validator {
     public static void validateUsername(String username) {
         requireNotEmpty(username);
         if (!username.matches("^[a-zA-Z0-9_]{3,20}$")) {
-            throw new ValidationException("Username must contain 3–20 letters, digits, or underscores only!");
+            throw new ValidationException("Username must contain 3–20 letters, digits");
         }
     }
 

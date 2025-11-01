@@ -4,7 +4,7 @@
  */
 package com.library.dao;
 
-import com.library.model.dto.UserManagerDTO;
+import com.library.model.dto.UserBorrowRecordDTO;
 import java.util.List;
 
 /**
@@ -12,5 +12,5 @@ import java.util.List;
  * @author hieuchu
  */
 public interface AdminDao {
-    public List<UserManagerDTO> getAllUserInformation();
+    public List<UserBorrowRecordDTO> getAllUserInformation();
 }
