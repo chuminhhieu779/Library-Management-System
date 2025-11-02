@@ -5,7 +5,7 @@
 package com.library.controller.user;
 
 import com.library.dao.ActivityDao;
-import com.library.dao.DaoFactory;
+import com.library.factory.DaoFactory;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import com.library.dao.UserDao;
 import com.library.dao.UserDaoImpl;
+import com.library.factory.ServiceFactory;
 import com.library.service.ActivityService;
 
 import com.library.service.TrackingUserService;
@@ -32,22 +33,14 @@ import jakarta.servlet.http.HttpSession;
 public class LoginController extends HttpServlet {
 
     UserDao userDao = new UserDaoImpl();
-    private final ActivityService activityService = new ActivityService(
-               DaoFactory.getActivityDao(),
-               DaoFactory.getActionDao(),
-               DaoFactory.getUserDao(),
-               DaoFactory.getBookDao()                
-    );
-    UserService userService = new UserService(
-            DaoFactory.getUserDao(),
-            DaoFactory.getAdminDao()
-    );
     
-   private final TrackingUserService trackService = new TrackingUserService(
-            DaoFactory.getUserSessionDao()
+    private final ActivityService activityService = ServiceFactory.getActivitySerivce();
+ 
+     private final  UserService userService = ServiceFactory.getUserService();
     
-    );
+   private final TrackingUserService trackService = ServiceFactory.getTrackingUserService();
     
+   
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

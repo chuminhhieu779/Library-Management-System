@@ -6,8 +6,9 @@ package com.library.controller.book;
 
 import com.library.dao.BookDao;
 import com.library.dao.BookDaoImpl;
-import com.library.dao.DaoFactory;
+import com.library.factory.DaoFactory;
 import com.library.exception.ValidationException;
+import com.library.factory.ServiceFactory;
 import com.library.model.entity.Book;
 import com.library.service.BookService;
 import com.library.util.Validator;
@@ -27,10 +28,7 @@ import java.util.List;
 @WebServlet(name = "SearchBook", urlPatterns = {"/book/search"})
 public class SearchBookController extends HttpServlet {
 
-    BookService bookService = new BookService(
-           DaoFactory.getBookDao()
-    );
- 
+    BookService bookService = ServiceFactory.getBookService();
         
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

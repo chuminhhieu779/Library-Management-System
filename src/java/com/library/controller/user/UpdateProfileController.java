@@ -4,7 +4,8 @@
  */
 package com.library.controller.user;
 
-import com.library.dao.DaoFactory;
+import com.library.factory.DaoFactory;
+import com.library.factory.ServiceFactory;
 import com.library.model.dto.UserProfileDTO;
 import com.library.service.ActivityService;
 import com.library.service.UserService;
@@ -34,17 +35,10 @@ import java.nio.file.StandardCopyOption;
 public class UpdateProfileController extends HttpServlet {
 
     private static final String saveFile = "D:\\BTL-PRJ301\\LibraryManagement\\web\\resources\\images\\avatar";
-     private final ActivityService activityService = new ActivityService(
-               DaoFactory.getActivityDao(),
-               DaoFactory.getActionDao(),
-               DaoFactory.getUserDao(),
-               DaoFactory.getBookDao()                
-    );
     
-    private final UserService userService = new UserService(
-            DaoFactory.getUserDao(),
-            DaoFactory.getAdminDao()
-    );
+      private final ActivityService activityService = ServiceFactory.getActivitySerivce();
+ 
+     private final  UserService userService = ServiceFactory.getUserService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

@@ -56,7 +56,7 @@ public class UserService {
             dto.setAvatar(u.getAvatar());
             dto.setStatus(u.getStatus());
             dtoList.add(dto);
-        }      
+        }
         return dtoList;
     }
 
@@ -70,16 +70,18 @@ public class UserService {
     public List<UserBorrowRecordDTO> showUserInformation() {
         return this.adminDao.getAllUserInformation();
     }
-    public void setOnlineUser(String account){
-       if(this.userDao.setOnline(account)){
-           logger.info("update status of user : ", account);
-       }
-       logger.info("update failed!!!");
+
+    public void setOnlineUser(String account) {
+        if (this.userDao.setOnline(account)) {
+            logger.info("update status of user : ", account);
+        }
+        logger.info("update failed!!!");
     }
-      public void setOfflineUser(String account){
-       if(this.userDao.setOfflife(account)){
-           logger.info("update status of user : ", account);
-       }
-       logger.info("update failed!!!");
+
+    public void setOfflineUser(String account) {
+        if (this.userDao.setOfflife(account)) {
+            logger.info("update status of user : ", account);
+        }
+        logger.info("update failed!!!");
     }
 }

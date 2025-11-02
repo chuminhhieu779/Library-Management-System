@@ -4,8 +4,10 @@
  */
 package com.library.controller.user;
 
-import com.library.dao.DaoFactory;
+import com.library.factory.DaoFactory;
+import com.library.factory.ServiceFactory;
 import com.library.model.dto.UserProfileDTO;
+import com.library.service.ActivityService;
 import com.library.service.UserService;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -23,10 +25,9 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet(name = "Setting", urlPatterns = {"/user/setting"})
 public class SettingController extends HttpServlet {
 
-    private final UserService userService = new UserService(
-            DaoFactory.getUserDao(),
-            DaoFactory.getAdminDao()
-    );
+
+ 
+     private final  UserService userService = ServiceFactory.getUserService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

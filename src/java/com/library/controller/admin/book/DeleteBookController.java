@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpSession;
 import com.library.dao.BorrowingDao;
 import com.library.dao.BookDaoImpl;
 import com.library.dao.BorrowingDaoImpl;
-import com.library.dao.DaoFactory;
+import com.library.factory.DaoFactory;
 import com.library.service.BorrowingService;
 import com.library.service.RemoveBookService;
 import org.slf4j.Logger;

@@ -2,7 +2,26 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.library.dao;
+package com.library.factory;
+
+import com.library.dao.ActionDao;
+import com.library.dao.ActionDaoImpl;
+import com.library.dao.ActivityDao;
+import com.library.dao.ActivityDaoImpl;
+import com.library.dao.AdminDao;
+import com.library.dao.AdminDaoImpl;
+import com.library.dao.BookDao;
+import com.library.dao.BookDaoImpl;
+import com.library.dao.BorrowingDao;
+import com.library.dao.BorrowingDaoImpl;
+import com.library.dao.CategoryDao;
+import com.library.dao.CategoryDaoImpl;
+import com.library.dao.FavoriteDao;
+import com.library.dao.FavoriteDaoImpl;
+import com.library.dao.UserDao;
+import com.library.dao.UserDaoImpl;
+import com.library.dao.UserSessionDao;
+import com.library.dao.UserSessionDaoImpl;
 
 /**
  *
@@ -47,4 +66,6 @@ public class DaoFactory {
     public static UserSessionDao getUserSessionDao(){
         return new UserSessionDaoImpl();
     }
+    
+    
 }

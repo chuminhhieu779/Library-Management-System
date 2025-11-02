@@ -4,7 +4,8 @@
  */
 package com.library.controller.admin;
 
-import com.library.dao.DaoFactory;
+import com.library.factory.DaoFactory;
+import com.library.factory.ServiceFactory;
 import com.library.model.dto.UserActivityDTO;
 import com.library.service.ActivityService;
 import com.library.service.TrackingUserService;
@@ -26,12 +27,8 @@ import org.apache.catalina.User;
 @WebServlet(name = "ActivityLog", urlPatterns = {"/ActivityLog"})
 public class ActivityLogController extends HttpServlet {
 
-    private final ActivityService activityService = new ActivityService(
-            DaoFactory.getActivityDao(),
-            DaoFactory.getActionDao(),
-            DaoFactory.getUserDao(),
-            DaoFactory.getBookDao()
-    );
+    private final ActivityService activityService = ServiceFactory.getActivitySerivce();
+    
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
