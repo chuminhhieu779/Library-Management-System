@@ -4,9 +4,10 @@
  */
 package com.library.controller.admin.user;
 
-import com.library.dao.DaoFactory;
+import com.library.factory.DaoFactory;
 import com.library.dao.UserDao;
 import com.library.dao.UserDaoImpl;
+import com.library.factory.ServiceFactory;
 import com.library.service.TrackingUserService;
 import com.library.service.UserService;
 import com.library.util.SessionTracker;
@@ -30,13 +31,9 @@ import org.slf4j.LoggerFactory;
 public class LogoutUserController extends HttpServlet {
 
     UserDao userDao = new UserDaoImpl();
-    private final TrackingUserService trackService = new TrackingUserService(
-            DaoFactory.getUserSessionDao()
-    );
-    private final UserService userService = new UserService(
-            DaoFactory.getUserDao(),            
-            DaoFactory.getAdminDao()
-    );
+    private final TrackingUserService trackService = ServiceFactory.getTrackingUserService();
+    private final UserService userService = ServiceFactory.getUserService();
+    
     private static final Logger logger = LoggerFactory.getLogger(LogoutUserController.class);
 
     @Override

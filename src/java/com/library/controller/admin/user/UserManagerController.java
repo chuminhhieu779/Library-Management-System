@@ -5,7 +5,8 @@
 
 package com.library.controller.admin.user;
 
-import com.library.dao.DaoFactory;
+import com.library.factory.DaoFactory;
+import com.library.factory.ServiceFactory;
 import com.library.model.dto.UserProfileDTO;
 import com.library.service.UserService;
 import java.io.IOException;
@@ -24,10 +25,8 @@ import java.util.List;
 @WebServlet(name="UserManagerController", urlPatterns={"/admin/user-manager"})
 public class UserManagerController extends HttpServlet {
     
-    private final UserService userSerivce  = new UserService(
-            DaoFactory.getUserDao(),
-            DaoFactory.getAdminDao()
-    );
+    private final UserService userSerivce  = ServiceFactory.getUserService();
+    
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

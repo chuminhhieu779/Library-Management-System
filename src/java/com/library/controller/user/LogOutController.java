@@ -2,7 +2,8 @@
 package com.library.controller.user;
 
 
-import com.library.dao.DaoFactory;
+import com.library.factory.DaoFactory;
+import com.library.factory.ServiceFactory;
 import com.library.service.ActivityService;
 import com.library.service.TrackingUserService;
 import com.library.service.UserService;
@@ -21,19 +22,11 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet(name="LogOut", urlPatterns={"/LogOut"})
 public class LogoutController extends HttpServlet {
    
-  private final ActivityService activityService = new ActivityService(
-               DaoFactory.getActivityDao(),
-               DaoFactory.getActionDao(),
-               DaoFactory.getUserDao(),
-               DaoFactory.getBookDao()                
-    );
-  
-   private final UserService userService = new UserService(
-           DaoFactory.getUserDao(),
-           DaoFactory.getAdminDao()
-   
-   );
-    
+     private final ActivityService activityService = ServiceFactory.getActivitySerivce();
+ 
+     private final  UserService userService = ServiceFactory.getUserService();
+     
+     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {

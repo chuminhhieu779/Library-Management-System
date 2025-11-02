@@ -6,9 +6,10 @@ package com.library.controller.borrowing;
 
 import com.library.dao.BookDao;
 import com.library.dao.BorrowingDao;
-import com.library.dao.DaoFactory;
+import com.library.factory.DaoFactory;
 import com.library.dao.UserDao;
 import com.library.dao.UserDaoImpl;
+import com.library.factory.ServiceFactory;
 import com.library.service.ActivityService;
 import com.library.service.BorrowingService;
 import java.io.IOException;
@@ -27,17 +28,8 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet(name = "BorrowBook", urlPatterns = {"/borrowing/borrow"})
 public class BorrowBookController extends HttpServlet {
 
-    private final BorrowingService borrowService = new BorrowingService(
-            DaoFactory.getBorrowingDao(),
-            DaoFactory.getUserDao(),
-            DaoFactory.getBookDao()
-    );
-    private final ActivityService activityService = new ActivityService(
-            DaoFactory.getActivityDao(),
-            DaoFactory.getActionDao(),
-            DaoFactory.getUserDao(),
-            DaoFactory.getBookDao()
-    );
+    private final BorrowingService borrowService = ServiceFactory.getBorrowService();
+    private final ActivityService activityService = ServiceFactory.getActivitySerivce();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
