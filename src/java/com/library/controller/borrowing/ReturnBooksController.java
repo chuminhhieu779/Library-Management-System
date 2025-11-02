@@ -27,8 +27,8 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet(name = "ReturnBooks", urlPatterns = {"/borrowing/return"})
 public class ReturnBooksController extends HttpServlet {
 
-    private final ReturnService returnService = ServiceFactory.getReturnBookService();
-    private final ActivityService activityService = ServiceFactory.getActivitySerivce();
+    private final ReturnService returnService = ServiceFactory.getReturnService();
+    private final ActivityService activityService = ServiceFactory.getActivityService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

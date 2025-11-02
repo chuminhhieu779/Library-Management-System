@@ -22,7 +22,7 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet(name = "AdminDashBoard", urlPatterns = {"/admin/dashboard"})
 public class AdminDashboardController extends HttpServlet {
 
-    private final ActivityService activityService = ServiceFactory.getActivitySerivce();
+    private final ActivityService activityService = ServiceFactory.getActivityService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

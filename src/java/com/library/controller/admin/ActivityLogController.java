@@ -27,7 +27,7 @@ import org.apache.catalina.User;
 @WebServlet(name = "ActivityLog", urlPatterns = {"/ActivityLog"})
 public class ActivityLogController extends HttpServlet {
 
-    private final ActivityService activityService = ServiceFactory.getActivitySerivce();
+    private final ActivityService activityService = ServiceFactory.getActivityService();
     
 
     @Override

@@ -36,7 +36,7 @@ public class UpdateProfileController extends HttpServlet {
 
     private static final String saveFile = "D:\\BTL-PRJ301\\LibraryManagement\\web\\resources\\images\\avatar";
     
-      private final ActivityService activityService = ServiceFactory.getActivitySerivce();
+      private final ActivityService activityService = ServiceFactory.getActivityService();
  
      private final  UserService userService = ServiceFactory.getUserService();
 

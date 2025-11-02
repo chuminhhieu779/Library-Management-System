@@ -34,7 +34,7 @@ public class LoginController extends HttpServlet {
 
     UserDao userDao = new UserDaoImpl();
     
-    private final ActivityService activityService = ServiceFactory.getActivitySerivce();
+    private final ActivityService activityService = ServiceFactory.getActivityService();
  
      private final  UserService userService = ServiceFactory.getUserService();
     
