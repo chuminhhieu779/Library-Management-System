@@ -19,81 +19,99 @@ import com.library.service.UserService;
  */
 public class ServiceFactory {
 
-    private static final ActivityService activityService = new ActivityService(
-            DaoFactory.getActivityDao(),
-            DaoFactory.getActionDao(),
-            DaoFactory.getUserDao(),
-            DaoFactory.getBookDao()
-    );
-
-    private static final BookService bookService = new BookService(
-            DaoFactory.getBookDao()
-    );
-
-    private static final BorrowingService borrowService = new BorrowingService(
-            DaoFactory.getBorrowingDao(),
-            DaoFactory.getUserDao(),
-            DaoFactory.getBookDao()
-    );
-
-    private static final FavoriteService favoriteService = new FavoriteService(
-            DaoFactory.getUserDao(),
-            DaoFactory.getBookDao()
-    );
-
-    private static final RemoveBookService removeBookSerivice = new RemoveBookService(
-            DaoFactory.getBookDao(),
-            DaoFactory.getBorrowingDao(),
-            DaoFactory.getFavoriteDao()
-    );
-
-    private static final ReturnService returnService = new ReturnService(
-            DaoFactory.getBookDao(),
-            DaoFactory.getBorrowingDao()
-    );
-
-    private static final TrackingUserService trackService = new TrackingUserService(
-            DaoFactory.getUserSessionDao()
-    );
-    private static final UserService userService = new UserService(
-            DaoFactory.getUserDao(),
-            DaoFactory.getAdminDao()
-    );
+    private static ActivityService activityService;
+    private static BookService bookService;
+    private static BorrowingService borrowService;
+    private static FavoriteService favoriteService;
+    private static RemoveBookService removeBookService;
+    private static ReturnService returnService;
+    private static TrackingUserService trackService;
+    private static UserService userService;
 
     private ServiceFactory() {
-        
+
     }
 
-    public static ActivityService getActivitySerivce() {
+    public static ActivityService getActivityService() {
+        if (activityService == null) {
+            activityService = new ActivityService(
+                    DaoFactory.getActivityDao(),
+                    DaoFactory.getActionDao(),
+                    DaoFactory.getUserDao(),
+                    DaoFactory.getBookDao()
+            );
+        }
         return activityService;
     }
 
     public static BookService getBookService() {
+        if (bookService == null) {
+            bookService = new BookService(
+                    DaoFactory.getBookDao()
+            );
+        }
         return bookService;
     }
 
     public static BorrowingService getBorrowService() {
+        if (borrowService == null) {
+            borrowService = new BorrowingService(
+                    DaoFactory.getBorrowingDao(),
+                    DaoFactory.getUserDao(),
+                    DaoFactory.getBookDao()
+            );
+        }
         return borrowService;
     }
 
     public static FavoriteService getFavoriteService() {
+        if (favoriteService == null) {
+            favoriteService = new FavoriteService(
+                    DaoFactory.getUserDao(),
+                    DaoFactory.getBookDao()
+            );
+        }
         return favoriteService;
     }
 
     public static RemoveBookService getRemoveBookService() {
-        return removeBookSerivice;
+        if (removeBookService == null) {
+            removeBookService = new RemoveBookService(
+                    DaoFactory.getBookDao(),
+                    DaoFactory.getBorrowingDao(),
+                    DaoFactory.getFavoriteDao()
+            );
+        }
+        return removeBookService;
     }
 
-    public static ReturnService getReturnBookService() {
+    public static ReturnService getReturnService() {
+        if (returnService == null) {
+            returnService = new ReturnService(
+                    DaoFactory.getBookDao(),
+                    DaoFactory.getBorrowingDao()
+            );
+        }
         return returnService;
     }
 
     public static TrackingUserService getTrackingUserService() {
+        if (trackService == null) {
+            trackService = new TrackingUserService(
+                    DaoFactory.getUserSessionDao()
+            );
+        }
         return trackService;
     }
 
     public static UserService getUserService() {
+        if (userService == null) {
+            userService = new UserService(
+                    DaoFactory.getUserDao(),
+                    DaoFactory.getAdminDao()
+            );
+        }
         return userService;
     }
-
+    
 }

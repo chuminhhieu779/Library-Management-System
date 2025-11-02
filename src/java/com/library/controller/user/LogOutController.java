@@ -22,7 +22,7 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet(name="LogOut", urlPatterns={"/LogOut"})
 public class LogoutController extends HttpServlet {
    
-     private final ActivityService activityService = ServiceFactory.getActivitySerivce();
+     private final ActivityService activityService = ServiceFactory.getActivityService();
  
      private final  UserService userService = ServiceFactory.getUserService();
      

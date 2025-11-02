@@ -29,7 +29,7 @@ import jakarta.servlet.http.HttpSession;
 public class BorrowBookController extends HttpServlet {
 
     private final BorrowingService borrowService = ServiceFactory.getBorrowService();
-    private final ActivityService activityService = ServiceFactory.getActivitySerivce();
+    private final ActivityService activityService = ServiceFactory.getActivityService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
