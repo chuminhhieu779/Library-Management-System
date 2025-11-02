@@ -27,45 +27,54 @@ import com.library.dao.UserSessionDaoImpl;
  *
  * @author hieuchu
  */
-public class DaoFactory {
+public final class DaoFactory {
 
-    private  DaoFactory() {
-        
+    private DaoFactory() {
     }
 
+    private static final UserDao userDao = new UserDaoImpl();
+    private static final BookDao bookDao = new BookDaoImpl();
+    private static final BorrowingDao borrowingDao = new BorrowingDaoImpl();
+    private static final CategoryDao categoryDao = new CategoryDaoImpl();
+    private static final ActivityDao activityDao = new ActivityDaoImpl();
+    private static final ActionDao actionDao = new ActionDaoImpl();
+    private static final AdminDao adminDao = new AdminDaoImpl();
+    private static final FavoriteDao favoriteDao = new FavoriteDaoImpl();
+    private static final UserSessionDao userSessionDao = new UserSessionDaoImpl();
+
     public static UserDao getUserDao() {
-        return new UserDaoImpl();
+        return userDao;
     }
 
     public static BookDao getBookDao() {
-        return new BookDaoImpl();
+        return bookDao;
     }
 
     public static BorrowingDao getBorrowingDao() {
-        return new BorrowingDaoImpl();
+        return borrowingDao;
     }
 
-    public static  CategoryDao getCategoryDao() {
-        return new CategoryDaoImpl();
+    public static CategoryDao getCategoryDao() {
+        return categoryDao;
     }
-    
-    public static ActivityDao getActivityDao(){
-        return new ActivityDaoImpl();
-    }    
-    
-    public static ActionDao getActionDao(){
-        return new ActionDaoImpl();
+
+    public static ActivityDao getActivityDao() {
+        return activityDao;
     }
-    public static AdminDao getAdminDao(){
-        return new AdminDaoImpl();
+
+    public static ActionDao getActionDao() {
+        return actionDao;
     }
-    public static FavoriteDao getFavoriteDao(){
-        return new FavoriteDaoImpl();
-    }    
-    
-    public static UserSessionDao getUserSessionDao(){
-        return new UserSessionDaoImpl();
+
+    public static AdminDao getAdminDao() {
+        return adminDao;
     }
-    
-    
+
+    public static FavoriteDao getFavoriteDao() {
+        return favoriteDao;
+    }
+
+    public static UserSessionDao getUserSessionDao() {
+        return userSessionDao;
+    }
 }
