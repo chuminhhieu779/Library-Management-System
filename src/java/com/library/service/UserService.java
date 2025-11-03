@@ -84,4 +84,9 @@ public class UserService {
         }
         logger.info("update failed!!!");
     }
+    
+    public int getUserIDByAccount(String account){
+        return this.userDao.findUserID(account);
+    }
+   
 }

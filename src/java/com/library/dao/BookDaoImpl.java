@@ -4,7 +4,7 @@
  */
 package com.library.dao;
 
-import com.library.exception.BookDataAccessException;
+import com.library.util.BookDataAccessException;
 import com.library.model.entity.Book;
 import com.library.model.entity.Categorie;
 import com.library.util.DBConnection;
@@ -51,7 +51,7 @@ public class BookDaoImpl implements BookDao {
             logger.info("Retrieved {} books from database", list.size());
         } catch (SQLException e) {
             logger.error("Error retrieving books from database", e);
-            throw new BookDataAccessException("Failed to retrieve books from database ", e);
+            throw new BookDataAccessException("Failed to retrieve books from database ");
         }
 
         return list;

@@ -9,6 +9,7 @@ import com.library.service.BookService;
 import com.library.service.BorrowingService;
 import com.library.service.FavoriteService;
 import com.library.service.RemoveBookService;
+import com.library.service.RemoveUserService;
 import com.library.service.ReturnService;
 import com.library.service.TrackingUserService;
 import com.library.service.UserService;
@@ -27,6 +28,7 @@ public class ServiceFactory {
     private static ReturnService returnService;
     private static TrackingUserService trackService;
     private static UserService userService;
+    private static RemoveUserService removeUserService;
 
     private ServiceFactory() {
 
@@ -98,7 +100,8 @@ public class ServiceFactory {
     public static TrackingUserService getTrackingUserService() {
         if (trackService == null) {
             trackService = new TrackingUserService(
-                    DaoFactory.getUserSessionDao()
+                    DaoFactory.getUserSessionDao(),
+                    DaoFactory.getUserDao()
             );
         }
         return trackService;
@@ -113,5 +116,17 @@ public class ServiceFactory {
         }
         return userService;
     }
-    
+
+    public static RemoveUserService getRemoveUserService() {        
+        if (removeUserService == null) {
+            removeUserService = new RemoveUserService(
+                    DaoFactory.getUserDao(),
+                    DaoFactory.getActivityDao(),
+                    DaoFactory.getBorrowingDao(),
+                    DaoFactory.getFavoriteDao(),
+                    DaoFactory.getUserSessionDao()
+            );
+        }
+        return removeUserService;
+    }
 }

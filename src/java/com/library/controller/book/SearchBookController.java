@@ -7,7 +7,7 @@ package com.library.controller.book;
 import com.library.dao.BookDao;
 import com.library.dao.BookDaoImpl;
 import com.library.factory.DaoFactory;
-import com.library.exception.ValidationException;
+import com.library.util.ValidationException;
 import com.library.factory.ServiceFactory;
 import com.library.model.entity.Book;
 import com.library.service.BookService;

@@ -4,6 +4,7 @@
  */
 package com.library.service;
 
+import com.library.dao.UserDao;
 import com.library.dao.UserSessionDao;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +18,11 @@ import java.util.List;
 public class TrackingUserService {
     
     private final UserSessionDao userSessionDao ;
+   private final UserDao useDao ;
     
-    public TrackingUserService(UserSessionDao userSessionDao){
+    public TrackingUserService(UserSessionDao userSessionDao, UserDao useDao){
          this.userSessionDao = userSessionDao;       
+         this.useDao = useDao;
          
     }
     private static final List<String> list = new ArrayList<>();    
@@ -50,4 +53,10 @@ public class TrackingUserService {
         return this.userSessionDao.getSessionID(userID);
     }
     
+    public boolean isUserOnline(int userID){
+        if(this.useDao.checkUserStatus(userID)){
+            return true ;
+        }
+        return false;
+    }
 }

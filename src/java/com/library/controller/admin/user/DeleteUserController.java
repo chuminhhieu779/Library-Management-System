@@ -4,9 +4,8 @@
  */
 package com.library.controller.admin.user;
 
-import com.library.factory.DaoFactory;
 import com.library.factory.ServiceFactory;
-import com.library.model.dto.UserProfileDTO;
+import com.library.service.RemoveUserService;
 import com.library.service.UserService;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,29 +15,28 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.List;
 
 /**
  *
  * @author hieuchu
  */
-@WebServlet(name = "UserManagerController", urlPatterns = {"/admin/user-manager"})
-public class UserManagerController extends HttpServlet {
+@WebServlet(name = "DeleteUserController", urlPatterns = {"/admin/user/delete"})
+public class DeleteUserController extends HttpServlet {
 
-    private final UserService userSerivce = ServiceFactory.getUserService();
-
+    private final RemoveUserService removeService = ServiceFactory.getRemoveUserService();
+    private final UserService userService = ServiceFactory.getUserService();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-        String notice = (String) session.getAttribute("notice");
-        String removeUser = (String) session.getAttribute("notice");
-
-        List<UserProfileDTO> list = userSerivce.showProfileUser();
-        request.setAttribute("list", list);
-        request.setAttribute("notice", notice);
-        request.setAttribute("tmp", removeUser);
-        request.getRequestDispatcher("/WEB-INF/views/admin/usermanager.jsp").forward(request, response);
+        HttpSession session = request.getSession(false);        
+        String userAccount = request.getParameter("account");
+        int userID = userService.getUserIDByAccount(userAccount);
+        String tmp = "";
+        if (removeService.removeUser(userID)) {
+            tmp = " the user has removed !!";
+            session.setAttribute("tmp", tmp);
+            response.sendRedirect(request.getContextPath() + "/admin/user-manager");
+        }                  
     }
 
     @Override

@@ -19,14 +19,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  *
  * @author hieuchu
  */
 public class ActivityDaoImpl implements ActivityDao {
-
-
 
     @Override
     public void insertData(int userID, int actionID, String detail, LocalDateTime log_time) {
@@ -56,21 +53,21 @@ public class ActivityDaoImpl implements ActivityDao {
         try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, actionID);
             ResultSet rs = ps.executeQuery();
-            
+
             if (rs.next()) {
-                 // Activity
+                // Activity
                 Activity act = new Activity();
                 act.setActivityID(rs.getInt("activity_id"));
                 act.setDetail(rs.getString("detail"));
                 act.setLogTime(rs.getTimestamp("log_time").toLocalDateTime());
-                
+
                 // User
                 User user = new User();
                 user.setUserID(rs.getInt("user_id"));
                 user.setAccount(rs.getString("account"));
                 user.setFullname(rs.getString("fullname"));
                 act.setUser(user);
-                
+
                 //Action
                 Action action = new Action();
                 action.setActionID(rs.getInt("action_id"));
@@ -84,5 +81,15 @@ public class ActivityDaoImpl implements ActivityDao {
         }
         return null;
     }
-
+    @Override
+    public void deleteUserFromActivityLog(Connection conn ,int userId) {
+        String sql = "DELETE FROM activity_log WHERE user_id = ?";
+        try (
+            PreparedStatement ps = conn.prepareStatement(sql)){
+            ps.setInt(1, userId);
+            int tmp = ps.executeUpdate();      
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

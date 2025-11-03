@@ -4,8 +4,6 @@
  */
 package com.library.util;
 
-import com.library.exception.ValidationException;
-
 /**
  *
  * @author hieuchu

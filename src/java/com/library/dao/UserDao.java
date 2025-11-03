@@ -7,6 +7,7 @@ package com.library.dao;
 
 import com.library.model.dto.UserProfileDTO;
 import com.library.model.entity.User;
+import java.sql.Connection;
 import java.util.List;
 
 /**
@@ -32,5 +33,8 @@ public interface UserDao {
       boolean setOnline(String account);
       
       boolean setOfflife(String account);
-
+      
+      boolean checkUserStatus(int userID);
+      
+      boolean deleteUser(Connection conn , int userID);
 }
