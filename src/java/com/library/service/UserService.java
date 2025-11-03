@@ -88,5 +88,7 @@ public class UserService {
     public int getUserIDByAccount(String account){
         return this.userDao.findUserID(account);
     }
-   
+    public String getHashedPassword(String account){
+        return this.userDao.findHashedPassword(account);
+    }
 }

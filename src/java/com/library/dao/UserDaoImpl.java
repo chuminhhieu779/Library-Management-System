@@ -50,24 +50,7 @@ public class UserDaoImpl implements UserDao {
         return list;
     }
 
-    @Override
-    public boolean checkLogin(String username, String pass) {
-        String sql = "select * from users where account = ? and password = ? and role = ?";
-        String role = "user";
-        try (
-                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, username);
-            ps.setString(2, pass);
-            ps.setString(3, role);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return true;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
+ 
 
     @Override
     public boolean checkUserExistence(String username) {
@@ -169,7 +152,7 @@ public class UserDaoImpl implements UserDao {
         String sql = "UPDATE users SET avatar = ?, fullname = ? , account = ?  WHERE user_id = ?";
         logger.info("Updating user -> account: {}, avatar: {}, fullname: {}", account, avatar, fullName);
         try (
-            Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, avatar);
             ps.setString(2, fullName);
             ps.setString(3, account);
@@ -184,68 +167,86 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public boolean setOnline(String account) {
-       String sql = "update users set status = ? where account = ?";
-       try(
-           Connection conn = DBConnection.getInstance().getConnection();
-           PreparedStatement ps = conn.prepareStatement(sql)){
-           ps.setString(1, UserStatus.ACTIVE.getValue());
-           ps.setString(2, account);
-           int tmp  =  ps.executeUpdate();
-           if(tmp > 0) return true ;
-       }catch(SQLException s){
-           s.printStackTrace();
-       }               
-         return false ;
+        String sql = "update users set status = ? where account = ?";
+        try (
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, UserStatus.ACTIVE.getValue());
+            ps.setString(2, account);
+            int tmp = ps.executeUpdate();
+            if (tmp > 0) {
+                return true;
+            }
+        } catch (SQLException s) {
+            s.printStackTrace();
+        }
+        return false;
     }
 
     @Override
     public boolean setOfflife(String account) {
-       String sql = "update users set status = ? where account = ?";
-       try(
-           Connection conn = DBConnection.getInstance().getConnection();
-           PreparedStatement ps = conn.prepareStatement(sql)){
-           ps.setString(1, UserStatus.INACTIVE.getValue());
-           ps.setString(2, account);
-           int tmp  =  ps.executeUpdate();
-           if(tmp > 0) return true ;
-       }catch(SQLException s){
-           s.printStackTrace();
-       }               
-         return false ;
+        String sql = "update users set status = ? where account = ?";
+        try (
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, UserStatus.INACTIVE.getValue());
+            ps.setString(2, account);
+            int tmp = ps.executeUpdate();
+            if (tmp > 0) {
+                return true;
+            }
+        } catch (SQLException s) {
+            s.printStackTrace();
+        }
+        return false;
     }
 
     @Override
     public boolean checkUserStatus(int userID) {
-      String sql = "select * from users where user_id = ? ";
-      try(
-          Connection conn = DBConnection.getInstance().getConnection();
-          PreparedStatement ps = conn.prepareStatement(sql)){
-          ps.setInt(1, userID);
-          ResultSet rs = ps.executeQuery();
-          if(rs.next()){
-              if(rs.getString("status").equalsIgnoreCase(UserStatus.ACTIVE.getValue())){
-                  return true  ;
-              }
-          }
-      }catch(SQLException s){
-          s.printStackTrace();
-      }
-      return false;
+        String sql = "select * from users where user_id = ? ";
+        try (
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userID);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                if (rs.getString("status").equalsIgnoreCase(UserStatus.ACTIVE.getValue())) {
+                    return true;
+                }
+            }
+        } catch (SQLException s) {
+            s.printStackTrace();
+        }
+        return false;
     }
 
     @Override
-    public boolean deleteUser(Connection conn ,int userID) {
+    public boolean deleteUser(Connection conn, int userID) {
         String sql = "delete from users where user_id = ? ";
-        try(
-           PreparedStatement ps = conn.prepareStatement(sql)){
-           ps.setInt(1, userID);
-           int tmp = ps.executeUpdate();
-           if(tmp > 0 ) return true ;
-        }catch(SQLException s){
+        try (
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userID);
+            int tmp = ps.executeUpdate();
+            if (tmp > 0) {
+                return true;
+            }
+        } catch (SQLException s) {
             s.printStackTrace();
-        }               
-        return false ;
+        }
+        return false;
     }
-    
-  
+
+    @Override
+    public String findHashedPassword(String account) {
+        String sql = "select * from users where account = ? ";
+        try (
+             Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, account);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("password");
+            }
+        } catch (SQLException s) {
+            s.printStackTrace();
+        }
+        return null;
+    }
+
 }

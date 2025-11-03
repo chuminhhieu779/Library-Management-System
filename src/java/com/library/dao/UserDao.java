@@ -16,7 +16,6 @@ import java.util.List;
  */
 public interface UserDao {
       List<User> getALLUser();     
-      boolean checkLogin(String username,String pass);
       
       boolean checkUserExistence(String username);
       
@@ -37,4 +36,7 @@ public interface UserDao {
       boolean checkUserStatus(int userID);
       
       boolean deleteUser(Connection conn , int userID);
+      
+      String findHashedPassword(String account);
+      
 }
