@@ -20,6 +20,7 @@ import com.library.service.ActivityService;
 
 import com.library.service.TrackingUserService;
 import com.library.service.UserService;
+import com.library.util.HashPassword;
 import com.library.util.SessionTracker;
 import jakarta.servlet.http.HttpSession;
 
@@ -65,9 +66,9 @@ public class LoginController extends HttpServlet {
         HttpSession session = request.getSession();
         String account = request.getParameter("account");
         String pass = request.getParameter("password");
-        
-         
-        if (userDao.checkLogin(account, pass)) {
+        String hashedPassword = userService.getHashedPassword(account);
+               
+        if (HashPassword.checkPassword(pass, hashedPassword)) {
             session.setAttribute("account", account);
             TrackingUserService.add(account);
             activityService.ActivityUser(1, account);
@@ -88,7 +89,7 @@ public class LoginController extends HttpServlet {
                 return;
             }
             // check login after user enter correcly 
-            if (userDao.checkLogin(account, pass)) {
+            if (HashPassword.checkPassword(pass, hashedPassword)) {
                 session.setAttribute("account", account);      
                 response.sendRedirect(request.getContextPath() + "/book/list");
                 return;

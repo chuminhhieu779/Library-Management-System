@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import com.library.dao.UserDao;
 import com.library.dao.UserDaoImpl;
+import com.library.util.HashPassword;
 import jakarta.servlet.http.HttpSession;
 /**
  *
@@ -61,7 +62,8 @@ public class RegisterController extends HttpServlet {
             return;
         }
         else{
-            userDao.addNewUser(userName, account, pass);
+            String hashedPassword = HashPassword.hash(pass);
+            userDao.addNewUser(userName, account, hashedPassword);
             session.setAttribute("success", "Bạn đã đăng kí thành công!");
             response.sendRedirect(request.getContextPath() + "/user/login");
             return;
