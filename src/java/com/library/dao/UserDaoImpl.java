@@ -213,6 +213,39 @@ public class UserDaoImpl implements UserDao {
        }               
          return false ;
     }
+
+    @Override
+    public boolean checkUserStatus(int userID) {
+      String sql = "select * from users where user_id = ? ";
+      try(
+          Connection conn = DBConnection.getInstance().getConnection();
+          PreparedStatement ps = conn.prepareStatement(sql)){
+          ps.setInt(1, userID);
+          ResultSet rs = ps.executeQuery();
+          if(rs.next()){
+              if(rs.getString("status").equalsIgnoreCase(UserStatus.ACTIVE.getValue())){
+                  return true  ;
+              }
+          }
+      }catch(SQLException s){
+          s.printStackTrace();
+      }
+      return false;
+    }
+
+    @Override
+    public boolean deleteUser(Connection conn ,int userID) {
+        String sql = "delete from users where user_id = ? ";
+        try(
+           PreparedStatement ps = conn.prepareStatement(sql)){
+           ps.setInt(1, userID);
+           int tmp = ps.executeUpdate();
+           if(tmp > 0 ) return true ;
+        }catch(SQLException s){
+            s.printStackTrace();
+        }               
+        return false ;
+    }
     
   
 }

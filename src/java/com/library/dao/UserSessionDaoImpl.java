@@ -33,7 +33,7 @@ public class UserSessionDaoImpl implements UserSessionDao {
     public String getSessionID(int userID) {
         String sql = "SELECT session_id FROM user_sessions WHERE user_id = ? ";
         try (
-              Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, userID);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -73,4 +73,18 @@ public class UserSessionDaoImpl implements UserSessionDao {
             s.printStackTrace();
         }
     }
+
+    @Override
+    public void deleteUserFromSessions(Connection conn, int userId) {
+        String sql = "DELETE FROM user_sessions WHERE user_id = ?";
+        try (
+               PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            int tmp = ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }

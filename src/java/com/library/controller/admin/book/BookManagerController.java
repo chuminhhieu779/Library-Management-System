@@ -17,7 +17,7 @@ import java.util.List;
 import com.library.model.entity.Book;
 import com.library.dao.BookDao;
 import com.library.dao.BookDaoImpl;
-import com.library.exception.BookDataAccessException;
+import com.library.util.BookDataAccessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

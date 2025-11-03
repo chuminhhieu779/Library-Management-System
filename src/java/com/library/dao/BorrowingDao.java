@@ -41,4 +41,5 @@ public interface BorrowingDao {
     
     void deleteBorrowingsByBookId(Connection conn ,int bookId);
 
+    public void deleteUserFromBorrowings(Connection conn ,int userId);
 }

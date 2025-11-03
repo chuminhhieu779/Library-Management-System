@@ -33,22 +33,28 @@ public class LogoutUserController extends HttpServlet {
     UserDao userDao = new UserDaoImpl();
     private final TrackingUserService trackService = ServiceFactory.getTrackingUserService();
     private final UserService userService = ServiceFactory.getUserService();
-    
+
     private static final Logger logger = LoggerFactory.getLogger(LogoutUserController.class);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String userAccount = request.getParameter("account");        
+        String userAccount = request.getParameter("account");
         int userID = userDao.findUserID(userAccount);
+        
         String sessionIDFromDB = trackService.getSessionID(userID);
 
         HttpSession saveSessionID = SessionTracker.getSession(sessionIDFromDB);
-        if (saveSessionID != null) {
-            saveSessionID.invalidate();    
+        if (saveSessionID != null && trackService.isUserOnline(userID) == true ) {
+            saveSessionID.invalidate();
+            TrackingUserService.remove(userAccount);
             userService.setOfflineUser(userAccount);
-            logger.info("logging out user has : {}", saveSessionID);
+            response.sendRedirect(request.getContextPath() + "/admin/user-manager");
+            return;
+        } else {
+            HttpSession session = request.getSession(false);
+            session.setAttribute("notice", " the user has not logged in yet !!!");
             response.sendRedirect(request.getContextPath() + "/admin/user-manager");
         }
 

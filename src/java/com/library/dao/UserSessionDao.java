@@ -4,6 +4,8 @@
  */
 package com.library.dao;
 
+import java.sql.Connection;
+
 /**
  *
  * @author hieuchu
@@ -13,4 +15,5 @@ public interface UserSessionDao {
     void insertData(String sessionID , int userID);    
     void updateData(String sessionID , int userID);
     String getSessionID(int userID);
+    public void deleteUserFromSessions(Connection conn, int userId);
 }

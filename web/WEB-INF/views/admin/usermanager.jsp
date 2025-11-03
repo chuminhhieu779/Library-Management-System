@@ -636,6 +636,53 @@
                 }
             }
 
+            .notice-center {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(17, 24, 39, 0.95);
+                color: #fff;
+                padding: 15px 20px;
+                border-radius: 12px;
+                font-size: 16px;
+                font-weight: 600;
+                box-shadow: 0 6px 25px rgba(0, 0, 0, 0.25);
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                z-index: 9999;
+                opacity: 0;
+                animation: fadeInOut 3s ease forwards;
+            }
+
+            .notice-center i {
+                font-size: 20px;
+            }
+
+
+
+            .notice-error {
+                background: rgba(17, 24, 39, 0.95);
+
+            }
+
+
+            @keyframes fadeInOut {
+                0% {
+                    opacity: 0;
+                    transform: translate(-50%, -60%);
+                }
+                10%, 85% {
+                    opacity: 1;
+                    transform: translate(-50%, -50%);
+                }
+                100% {
+                    opacity: 0;
+                    transform: translate(-50%, -40%);
+                }
+            }
+
         </style>
     </head>
     <body>
@@ -688,7 +735,6 @@
             <c:if test="">
                 <div class="alert alert-success">
                     <i class="fa-solid fa-check-circle"></i>
-
                 </div>
             </c:if>
             <c:if test="">
@@ -724,43 +770,58 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <c:if test="${not empty list}">
-                            <c:forEach var="user" items="${list}">
-                                <tr>
-                                    <td>
-                                        <img src="${pageContext.request.contextPath}/resources/images/${user.avatar}" alt="avatar" class="avatar-img">
-                                    </td>
+                        <c:if test="${not empty notice}">
+                        <div id="notice" class="notice-center notice-success">
+                            <i></i> ${notice}
+                        </div>
+                        <c:remove var="notice" scope="session" />
+                    </c:if>
+                    
+                    <c:if test="${not empty tmp}">
+                        <div id="notice" class="notice-center notice-success">
+                            <i></i> ${tmp}
+                        </div>
+                        <c:remove var="tmp" scope="session" />
+                    </c:if>
 
-                                    <td>${user.fullName}</td>
-                                    <td>${user.account}</td>                   
-                                    <td>
-                                        <c:choose>
-                                            <c:when test="${user.status.value == 'active'}">
-                                                <span class="status-badge status-active">
-                                                    <i class="fa-solid fa-circle-check"></i> Active
-                                                </span>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <span class="status-badge status-inactive">
-                                                    <i class="fa-solid fa-circle-xmark"></i> Inactive
-                                                </span>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </td>
 
-                                    <td>
-                                        <div class="actions">
-                                            <button class="btn btn-warning btn-sm" onclick="logoutUser('${user.account}')">
-                                                <i class="fa-solid fa-right-from-bracket"></i> Logout
-                                            </button>
-                                            <button class="btn btn-danger btn-sm" onclick="deleteUser('${user.account}')">
-                                                <i class="fa-solid fa-trash"></i> Delete
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                        </c:if>
+
+                    <c:if test="${not empty list}">
+                        <c:forEach var="user" items="${list}">
+                            <tr>
+                                <td>
+                                    <img src="${pageContext.request.contextPath}/resources/images/${user.avatar}" alt="avatar" class="avatar-img">
+                                </td>
+
+                                <td>${user.fullName}</td>
+                                <td>${user.account}</td>                   
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${user.status.value == 'active'}">
+                                            <span class="status-badge status-active">
+                                                <i class="fa-solid fa-circle-check"></i> Active
+                                            </span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <span class="status-badge status-inactive">
+                                                <i class="fa-solid fa-circle-xmark"></i> Inactive
+                                            </span>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
+                                <td>
+                                    <div class="actions">
+                                        <button class="btn btn-warning btn-sm" onclick="logoutUser('${user.account}')">
+                                            <i class="fa-solid fa-right-from-bracket"></i> Logout 
+                                        </button>
+                                        <button class="btn btn-danger btn-sm" onclick="deleteUser('${user.account}')">
+                                            <i class="fa-solid fa-trash"></i> Delete
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </c:if>
                     </tbody>
                 </table>
             </div>
@@ -851,6 +912,15 @@
                     closeAddUserModal();
                 }
             };
+            // Nếu có thẻ notice, sau 5 giây thì ẩn
+            window.addEventListener('DOMContentLoaded', () => {
+                const notice = document.getElementById('notice');
+                if (notice) {
+                    setTimeout(() => {
+                        notice.style.display = 'none';
+                    }, 5000); // 5 giây
+                }
+            });
         </script>
 
     </body>

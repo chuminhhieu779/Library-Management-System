@@ -15,15 +15,28 @@ import java.sql.SQLException;
 public class FavoriteDaoImpl implements FavoriteDao {
 
     @Override
-    public void removeBookByID(Connection conn , int bookID) {
-       String sql = "delete from favorites where book_id = ? ";
-       try{
-           PreparedStatement ps = conn.prepareStatement(sql); 
-           ps.setInt(1, bookID);
-           ps.executeUpdate();
-       }catch(SQLException s){
-           s.printStackTrace();
-       }
+    public void removeBookByID(Connection conn, int bookID) {
+        String sql = "delete from favorites where book_id = ? ";
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, bookID);
+            ps.executeUpdate();
+        } catch (SQLException s) {
+            s.printStackTrace();
+        }
     }
-    
+
+    @Override
+    public void deleteUserFromFavorites(Connection conn, int userId) {
+        String sql = "DELETE FROM favorites WHERE user_id = ?";
+        try (
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            int tmp = ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

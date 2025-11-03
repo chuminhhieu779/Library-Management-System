@@ -11,5 +11,8 @@ import java.sql.Connection;
  * @author hieuchu
  */
 public interface FavoriteDao {
-    void removeBookByID(Connection conn , int bookID);
+
+    void removeBookByID(Connection conn, int bookID);
+
+    public void deleteUserFromFavorites(Connection conn, int userId);
 }

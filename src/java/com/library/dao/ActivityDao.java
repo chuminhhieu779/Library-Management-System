@@ -6,6 +6,7 @@ package com.library.dao;
 
 import com.library.model.entity.Activity;
 import com.library.model.dto.UserActivityDTO;
+import java.sql.Connection;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -16,4 +17,5 @@ import java.util.List;
 public interface ActivityDao {
     void insertData(int userID, int actionID, String detail , LocalDateTime log_time);     
     Activity getLatestByAction(int actionID);
+    public void deleteUserFromActivityLog(Connection conn ,int userId);
 }
