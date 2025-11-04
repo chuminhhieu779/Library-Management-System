@@ -374,7 +374,7 @@
                     <option value="Action" ${selected eq 'Action' ? 'selected="selected"' : ''}>Action</option>
                     <option value="English" ${selected eq 'English' ? 'selected="selected"' : ''}>English</option>
                     <option value="Romance" ${selected eq 'Romance' ? 'selected="selected"' : ''}>Romance</option>
-                    <option value="Soft Skill" ${selected eq 'Soft Skill' ? 'selected="selected"' : ''}>Soft-Skill</option>
+                    <option value="Soft Skill" ${selected eq 'Skill' ? 'selected="selected"' : ''}>Soft-Skill</option>
                     <option value="Technology" ${selected eq 'Technology' ? 'selected="selected"' : ''}>Technology</option>
                 </select>
             </form>

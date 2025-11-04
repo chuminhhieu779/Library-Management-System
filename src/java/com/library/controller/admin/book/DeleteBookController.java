@@ -53,7 +53,7 @@ public class DeleteBookController extends HttpServlet {
 
         if (rmBook.isBookRemoved(bookID)) {
             logger.info("can remove delete book id : {}", bookID);
-            session.setAttribute("success", "Completely deleted!");
+            session.setAttribute("deleteBookNotice", "The Book was removed!");
             response.sendRedirect(request.getContextPath() + "/admin/books");
         } else {
             session.setAttribute("error", "The book is currently borrowed!");

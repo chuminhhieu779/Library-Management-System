@@ -13,6 +13,7 @@ import java.sql.Connection;
 public interface FavoriteDao {
 
     void removeBookByID(Connection conn, int bookID);
-
+    
+   
     public void deleteUserFromFavorites(Connection conn, int userId);
 }

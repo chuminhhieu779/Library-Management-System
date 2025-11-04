@@ -12,7 +12,7 @@ public enum BookType {
     ACTION("Action"),
     ENGHLISH("English"),
     ROMANCE("Romance"),
-    SOFT_SKILL("Soft Skill"),
+    SOFT_SKILL("Skill"),
     TECHNOLOGY("Technology");
     
     private final String type ;

@@ -6,6 +6,8 @@ package com.library.service;
 
 import com.library.dao.BookDao;
 import com.library.dao.BorrowingDao;
+import com.library.dao.CategoryDao;
+import com.library.dao.FavoriteDao;
 import com.library.dao.UserDao;
 import com.library.model.entity.Book;
 import java.text.Normalizer;
@@ -22,9 +24,11 @@ public class BookService {
 
     private static final Logger logger = LoggerFactory.getLogger(BookService.class);
     private final BookDao bookDao;
+    private final CategoryDao categoryDao ;
 
-    public BookService(BookDao bookDao) {
+    public BookService(BookDao bookDao, CategoryDao categoryDao ) {
         this.bookDao = bookDao;
+        this.categoryDao = categoryDao;                 
     }
 
     public String removeAccent(String title) {
@@ -48,6 +52,25 @@ public class BookService {
             return false;
         }
         return true;
+    }
+
+    public String normalizeCategory(String value) {
+        String tmp = value.substring(0, 1).toLowerCase() + value.substring(1);
+        return tmp ;
+    }
+
+    public int getCategoryID(String name) {
+        int ID =  this.categoryDao.findCategoryID(name);
+        logger.info("category ID {}", ID);
+        return ID ;
+    }
+
+    public boolean addBook(Book b) {
+        if (this.bookDao.insertBook(b) > 0) {
+            return true;
+        }
+        logger.info("can not add book {} ", b.getTitle());
+        return false;
     }
 
 }

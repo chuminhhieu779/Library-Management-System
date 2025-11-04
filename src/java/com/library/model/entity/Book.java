@@ -12,6 +12,7 @@ public class Book {
 
     private int bookID;
     private String title;
+    private String unaccented ;
     private String slug ;
     private String author;
     private Category category;
@@ -22,9 +23,21 @@ public class Book {
     public Book() {
     }
 
-    public Book(int bookID, String title, String slug, String author, Category category, int quantity, String description, String coverImage) {
+    public Book(int bookID, String title, String unaccented, String slug, String author, Category category, int quantity, String description, String coverImage) {
         this.bookID = bookID;
         this.title = title;
+        this.unaccented = unaccented;
+        this.slug = slug;
+        this.author = author;
+        this.category = category;
+        this.quantity = quantity;
+        this.description = description;
+        this.coverImage = coverImage;
+    }
+
+    public Book(String title, String unaccented, String slug, String author, Category category, int quantity, String description, String coverImage) {
+        this.title = title;
+        this.unaccented = unaccented;
         this.slug = slug;
         this.author = author;
         this.category = category;
@@ -47,6 +60,14 @@ public class Book {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getUnaccented() {
+        return unaccented;
+    }
+
+    public void setUnaccented(String unaccented) {
+        this.unaccented = unaccented;
     }
 
     public String getSlug() {

@@ -41,5 +41,5 @@ public interface BookDao {
     
     int getIDBook(String slug);
     
-       
+    int insertBook(Book b); 
 }
