@@ -7,7 +7,7 @@ package com.library.controller.book;
 import com.library.dao.CategoryDao;
 import com.library.dao.CategoryDaoImpl;
 import com.library.model.entity.Book;
-import com.library.model.entity.Categorie;
+import com.library.model.entity.Category;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;

@@ -338,9 +338,9 @@
 
             .books-table {
                 width: 100%;
-                min-width: 950px;               /* ✅ Giống manager book, kích hoạt scroll */
+                min-width: 950px;
                 border-collapse: collapse;
-                white-space: nowrap;            /* ✅ Giữ nội dung không bị xuống dòng */
+                white-space: nowrap;
             }
 
             .books-table thead {
@@ -764,7 +764,7 @@
                             </c:forEach>
                         </c:if>
 
-                        <!-- Nếu danh sách rỗng -->
+
                         <c:if test="${empty bookList}">
                             <tr>
                                 <td colspan="6" style="text-align:center; color:gray;">
@@ -797,12 +797,12 @@
                     <h3 id="modalTitle">Add New Book</h3>
                     <button class="close-btn" onclick="closeModal()">&times;</button>
                 </div>
-                <form action="${pageContext.request.contextPath}/admin/books/save" method="post" enctype="multipart/form-data">
+                <form action="${pageContext.request.contextPath}/admin/book/add" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="bookID" id="bookID">
 
                     <div class="form-group">
                         <label for="name">Book Title</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
+                        <input type="text" class="form-control" id="name" name="title" required>
                     </div>
 
                     <div class="form-group">
@@ -814,18 +814,11 @@
                         <label for="category">Category</label>
                         <select class="form-control" id="category" name="category" required>
                             <option value="">Select Category</option>
-                            <option value="Classic Fiction">Classic Fiction</option>
-                            <option value="Literary Fiction">Literary Fiction</option>
-                            <option value="Dystopian Fiction">Dystopian Fiction</option>
-                            <option value="Science Fiction">Science Fiction</option>
-                            <option value="Fantasy">Fantasy</option>
-                            <option value="Mystery">Mystery</option>
-                            <option value="Thriller">Thriller</option>
+                            <option value="Action">Action</option>
+                            <option value="English">English</option>
                             <option value="Romance">Romance</option>
-                            <option value="Non-Fiction">Non-Fiction</option>
-                            <option value="Biography">Biography</option>
-                            <option value="History">History</option>
-                            <option value="Self-Help">Self-Help</option>
+                            <option value="Soft Skill">Soft Skill</option>
+                            <option value="Technology">Technology</option>
                         </select>
                     </div>
 

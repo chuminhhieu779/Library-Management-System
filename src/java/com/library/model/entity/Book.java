@@ -14,7 +14,7 @@ public class Book {
     private String title;
     private String slug ;
     private String author;
-    private Categorie category;
+    private Category category;
     private int quantity;
     private String description;
     private String coverImage;
@@ -22,7 +22,7 @@ public class Book {
     public Book() {
     }
 
-    public Book(int bookID, String title, String slug, String author, Categorie category, int quantity, String description, String coverImage) {
+    public Book(int bookID, String title, String slug, String author, Category category, int quantity, String description, String coverImage) {
         this.bookID = bookID;
         this.title = title;
         this.slug = slug;
@@ -65,11 +65,11 @@ public class Book {
         this.author = author;
     }
 
-    public Categorie getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(Categorie category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
