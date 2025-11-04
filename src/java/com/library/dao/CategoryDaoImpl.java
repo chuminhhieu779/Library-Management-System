@@ -5,7 +5,7 @@
 package com.library.dao;
 
 import com.library.model.entity.Book;
-import com.library.model.entity.Categorie;
+import com.library.model.entity.Category;
 import com.library.util.DBConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

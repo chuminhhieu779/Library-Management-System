@@ -429,7 +429,7 @@
                                 <i class="fa-solid fa-bell"></i>
                             </div>
                             <div class="activity-content">
-                                <h6>${a.action}</h6>
+                                    <h6>${a.action.type.value}</h6>
                                 <p>${a.detail}</p>
                             </div>
                             <span class="activity-time">${a.log_time}</span>

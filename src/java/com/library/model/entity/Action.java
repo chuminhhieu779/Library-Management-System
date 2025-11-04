@@ -4,19 +4,21 @@
  */
 package com.library.model.entity;
 
+import com.library.enums.ActionType;
+
 /**
  *
  * @author hieuchu
  */
 public class Action {
     private int actionID;
-    private String name;
+    private  ActionType type ;
 
     public Action() {}
 
-    public Action(int actionID, String name) {
+    public Action(int actionID, ActionType type) {
         this.actionID = actionID;
-        this.name = name;
+        this.type = type;
     }
 
     public int getActionID() {
@@ -27,13 +29,14 @@ public class Action {
         this.actionID = actionID;
     }
 
-    public String getName() {
-        return name;
+    public ActionType getType() {
+        return type;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setType(ActionType type) {
+        this.type = type;
     }
 
-    
+   
+
 }

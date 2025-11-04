@@ -4,6 +4,7 @@
  */
 package com.library.dao;
 
+import com.library.enums.ActionType;
 import com.library.model.entity.Action;
 import com.library.model.entity.Activity;
 import com.library.model.dto.UserActivityDTO;
@@ -71,7 +72,7 @@ public class ActivityDaoImpl implements ActivityDao {
                 //Action
                 Action action = new Action();
                 action.setActionID(rs.getInt("action_id"));
-                action.setName(rs.getString("action_name"));
+                action.setType(ActionType.convert(rs.getString("action_name")));
                 act.setAction(action);
 
                 return act;

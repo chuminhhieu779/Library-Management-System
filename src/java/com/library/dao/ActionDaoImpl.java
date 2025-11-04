@@ -4,6 +4,7 @@
  */
 package com.library.dao;
 
+import com.library.enums.ActionType;
 import com.library.model.entity.Action;
 import com.library.util.DBConnection;
 import java.sql.Connection;
@@ -46,7 +47,7 @@ public class ActionDaoImpl implements ActionDao {
             while(rs.next()) {
                 Action a = new Action();
                 a.setActionID(rs.getInt("action_id"));
-                a.setName(rs.getString("action_name"));
+                a.setType(ActionType.convert(rs.getString("action_name")));
                 list.add(a);
             }
         } catch (SQLException s) {

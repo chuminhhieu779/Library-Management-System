@@ -224,7 +224,7 @@
                     <ul class="detail-rows">
                         <li><strong>Author:</strong> ${book.author}</li>                        
                         <li><strong>Quantity:</strong> ${book.quantity}</li>
-                        <li><strong>Category:</strong> ${book.category.name}</li>                  
+                        <li><strong>Category:</strong> ${book.category.type.value}</li>                  
                     </ul>
                     <div class="detail-description">
                         <h2>Description</h2>

@@ -8,6 +8,7 @@ import com.library.dao.ActionDao;
 import com.library.dao.ActivityDao;
 import com.library.dao.BookDao;
 import com.library.dao.UserDao;
+import com.library.enums.ActionType;
 import com.library.model.entity.Action;
 import com.library.model.entity.Activity;
 import com.library.model.dto.AdminDashBoardDTO;
@@ -72,19 +73,21 @@ public class ActivityService {
 
     }
 
-    public UserActivityDTO getLatestActivityByAction(int actionID) {
-        Activity activity = activityDao.getLatestByAction(actionID);
-        if (activity != null) {
-            UserActivityDTO dto = new UserActivityDTO();
-            dto.setAccount(activity.getUser().getAccount());
-            dto.setAction(activity.getAction().getName());
-            dto.setDetail(activity.getDetail());
-            dto.setLog_time(TimeFormatter.timeAgo(activity.getLogTime()));
-            return dto;
+        public UserActivityDTO getLatestActivityByAction(int actionID) {
+            Activity activity = activityDao.getLatestByAction(actionID);
+            if (activity != null) {
+                UserActivityDTO dto = new UserActivityDTO();
+                dto.setAccount(activity.getUser().getAccount());
+                Action a = new Action();
+                a.setType(activity.getAction().getType());                    
+                dto.setAction(a);
+                dto.setDetail(activity.getDetail());
+                dto.setLog_time(TimeFormatter.timeAgo(activity.getLogTime()));
+                return dto;
+            }
+            return null;
         }
-        return null;
-    }
- 
+
     public AdminDashBoardDTO  adminDashBoard(){        
         AdminDashBoardDTO dto = new AdminDashBoardDTO();
         dto.setTotalOnlineUser(TrackingUserService.getSize());      

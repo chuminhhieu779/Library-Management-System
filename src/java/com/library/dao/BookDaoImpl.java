@@ -4,9 +4,10 @@
  */
 package com.library.dao;
 
+import com.library.enums.BookType;
 import com.library.util.BookDataAccessException;
 import com.library.model.entity.Book;
-import com.library.model.entity.Categorie;
+import com.library.model.entity.Category;
 import com.library.util.DBConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -42,9 +43,9 @@ public class BookDaoImpl implements BookDao {
                 b.setSlug(rs.getString("slug"));
                 b.setCoverImage(rs.getString("cover_image"));
 
-                Categorie category = new Categorie();
+                Category category = new Category();
                 category.setCategoryID(rs.getInt("category_ID"));
-                category.setName(rs.getString("category_name"));
+                category.setType(BookType.convert(rs.getString("category_name")));
                 b.setCategory(category);
                 list.add(b);
             }
@@ -75,8 +76,8 @@ public class BookDaoImpl implements BookDao {
                 b.setQuantity(rs.getInt("quantity"));
                 b.setDescription(rs.getString("description"));
                 b.setCoverImage(rs.getString("cover_image"));
-                Categorie c = new Categorie();
-                c.setName(rs.getString("name"));
+                Category c = new Category();
+                c.setType(BookType.convert(rs.getString("name")));
                 b.setCategory(c);
                 logger.info("Book found: {}", b.getTitle());
                 return b;
@@ -127,9 +128,9 @@ public class BookDaoImpl implements BookDao {
                 b.setDescription(rs.getString("description"));
                 b.setCoverImage(rs.getString("cover_image"));
 
-                Categorie category = new Categorie();
+                Category category = new Category();
                 category.setCategoryID(rs.getInt("category_id"));
-                category.setName(rs.getString("name"));
+                category.setType(BookType.convert(rs.getString("name")));
                 b.setCategory(category);
                 list.add(b);
             }

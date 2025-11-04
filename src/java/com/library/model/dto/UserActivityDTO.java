@@ -4,6 +4,7 @@
  */
 package com.library.model.dto;
 
+import com.library.model.entity.Action;
 import java.time.LocalDateTime;
 
 /**
@@ -12,14 +13,14 @@ import java.time.LocalDateTime;
  */
 public class UserActivityDTO {
    private String account ;
-   private String action;
+   private Action action ;
    private String detail ;
    private String log_time ;
   
     public UserActivityDTO() {
     }
 
-    public UserActivityDTO(String account, String action, String detail, String log_time) {
+    public UserActivityDTO(String account, Action action, String detail, String log_time) {
         this.account = account;
         this.action = action;
         this.detail = detail;
@@ -34,11 +35,11 @@ public class UserActivityDTO {
         this.account = account;
     }
 
-    public String getAction() {
+    public Action getAction() {
         return action;
     }
 
-    public void setAction(String action) {
+    public void setAction(Action action) {
         this.action = action;
     }
 
@@ -57,6 +58,8 @@ public class UserActivityDTO {
     public void setLog_time(String log_time) {
         this.log_time = log_time;
     }
+
+  
 
   
      

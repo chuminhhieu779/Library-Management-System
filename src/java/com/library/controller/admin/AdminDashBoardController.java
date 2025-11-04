@@ -36,7 +36,7 @@ public class AdminDashboardController extends HttpServlet {
         }
        
         AdminDashBoardDTO dto = activityService.adminDashBoard();       
-          request.setAttribute("dto", dto);
+        request.setAttribute("dto", dto);
         request.getRequestDispatcher("/WEB-INF/views/admin/dashboard.jsp").forward(request, response);
 
     }
