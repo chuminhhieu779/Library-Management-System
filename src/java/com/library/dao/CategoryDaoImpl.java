@@ -28,20 +28,19 @@ public class CategoryDaoImpl implements CategoryDao {
     private static final Logger logger = LoggerFactory.getLogger(CategoryDaoImpl.class);
 
     @Override
-    public List<Book> categorizeBook(String category) {       
-        List<Book> list = new ArrayList<>();         
+    public List<Book> categorizeBook(String category) {
+        List<Book> list = new ArrayList<>();
         String sql = "select * from categories join books on categories.category_id = books.category_id where categories.name = ? ";
         try (
-            Connection conn = DBConnection.getInstance().getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql)){
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, category);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Book b = new Book();               
+                Book b = new Book();
                 b.setBookID(rs.getInt("book_id"));
                 b.setSlug(rs.getString("slug"));
                 b.setCoverImage(rs.getString("cover_image"));
-                list.add(b);              
+                list.add(b);
             }
         } catch (SQLException s) {
             logger.error("Execute error {}", s.getMessage(), s);
@@ -54,8 +53,7 @@ public class CategoryDaoImpl implements CategoryDao {
         List<Book> list = new ArrayList<>();
         String sql = "select * from books ";
         try (
-            Connection conn = DBConnection.getInstance().getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql)){
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Book b = new Book();
@@ -70,4 +68,20 @@ public class CategoryDaoImpl implements CategoryDao {
         return list;
     }
 
+    @Override
+    public int findCategoryID(String name) {
+        String sql = "select * from categories where name = ? ";
+        try {
+            Connection conn = DBConnection.getInstance().getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {          
+                return rs.getInt("category_id");                
+            }
+        } catch (SQLException s) {
+            s.printStackTrace();
+        }
+        return -1;
+    }
 }

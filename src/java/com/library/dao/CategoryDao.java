@@ -15,4 +15,5 @@ import java.util.Map;
 public interface CategoryDao {
     List<Book> categorizeBook(String category );
     List<Book> getAllBook();
+     int findCategoryID(String name );
 }

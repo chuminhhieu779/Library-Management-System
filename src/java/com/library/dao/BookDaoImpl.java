@@ -240,21 +240,21 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public void deleteBook(Connection conn , int bookID) {
+    public void deleteBook(Connection conn, int bookID) {
         String sql = "DELETE FROM books WHERE book_id = ? ";
         logger.info("remove bookID {}", bookID);
-        try (    
-            PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (
+                PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, bookID);
             int rowsDeleted = ps.executeUpdate();
             if (rowsDeleted > 0) {
-                logger.info("BookID {} removed", bookID);                
-            }else{
+                logger.info("BookID {} removed", bookID);
+            } else {
                 logger.info("can not remove book ID {}", bookID);
-            }                   
+            }
         } catch (SQLException s) {
             logger.error("Error excecuting{}", s.getMessage(), s);
-        }     
+        }
     }
 
     @Override
@@ -277,7 +277,7 @@ public class BookDaoImpl implements BookDao {
     public int getIDBook(String slug) {
         String sql = "select * from books where slug = ? ";
         try (
-               Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, slug);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -288,6 +288,34 @@ public class BookDaoImpl implements BookDao {
         }
         return -1;
 
+    }
+
+    @Override
+    public int insertBook(Book b) {        
+        String sql = "  INSERT INTO books \n" +
+"        (title, title_unaccented, slug, author, category_id, quantity, cover_image, description)\n" +
+"        VALUES (?, ?, ?, ?, ?, ?, ?, ?)" ;
+     
+        try (
+              Connection conn = DBConnection.getInstance().getConnection(); 
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, b.getTitle());
+            ps.setString(2, b.getUnaccented());
+            ps.setString(3, b.getSlug());
+            ps.setString(4, b.getAuthor());
+            ps.setInt(5, b.getCategory().getCategoryID());
+            ps.setInt(6, b.getQuantity());
+            ps.setString(7, b.getCoverImage());
+            ps.setString(8, b.getDescription());
+            int affectedRows = ps.executeUpdate();            
+            if (affectedRows > 0) {     
+               return 1 ;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
 }

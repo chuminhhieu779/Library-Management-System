@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 @WebServlet(name = "managerBooks", urlPatterns = {"/admin/books"})
 public class BookManagerController extends HttpServlet {
 
-    private static final Logger logger = LoggerFactory.getLogger(BookListController.class);
+    private static final Logger logger = LoggerFactory.getLogger(BookManagerController.class);
     BookDao bookDao = new BookDaoImpl();
 
     @Override
@@ -41,20 +41,25 @@ public class BookManagerController extends HttpServlet {
         String error = (String) session.getAttribute("error");
         request.setAttribute("errorMessage", error);
         session.removeAttribute("error");
+        String addBook = (String) session.getAttribute("addBookNotice");
+        String deleteBook = (String) session.getAttribute("deleteBookNotice");
 
         String search = request.getParameter("search");
         if (search == null || search.trim().isEmpty()) {
             try {
                 List<Book> bookList = bookDao.getAllBook();
                 request.setAttribute("bookList", bookList);
+                request.setAttribute("addBook", addBook);
+                request.setAttribute("deleteBook", deleteBook);
                 request.getRequestDispatcher("/WEB-INF/views/admin/managerBook.jsp").forward(request, response);
             } catch (BookDataAccessException e) {
                 logger.error("Error loading books", e);
             }
         } else {
-               List<Book> bookList = bookDao.searchBook(search);
-               request.setAttribute("bookList", bookList);
-               request.getRequestDispatcher("/WEB-INF/views/admin/managerBook.jsp").forward(request, response);
+            List<Book> bookList = bookDao.searchBook(search);
+
+            request.setAttribute("bookList", bookList);
+            request.getRequestDispatcher("/WEB-INF/views/admin/managerBook.jsp").forward(request, response);
         }
     }
 

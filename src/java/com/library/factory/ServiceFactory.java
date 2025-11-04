@@ -49,7 +49,8 @@ public class ServiceFactory {
     public static BookService getBookService() {
         if (bookService == null) {
             bookService = new BookService(
-                    DaoFactory.getBookDao()
+                    DaoFactory.getBookDao(),
+                    DaoFactory.getCategoryDao()
             );
         }
         return bookService;

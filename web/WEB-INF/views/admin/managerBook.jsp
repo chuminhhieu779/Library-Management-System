@@ -633,6 +633,56 @@
                     min-width: 900px;
                 }
             }
+            /* ==== CENTERED TOAST MESSAGE ==== */
+            .toast-message {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(17, 24, 39, 0.95); /* màu giống header */
+                color: #e5e7eb;
+                padding: 16px 28px;
+                border-radius: 12px;
+                font-size: 16px;
+                font-weight: 600;
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                z-index: 2000;
+                opacity: 0;
+                animation: fadeInOut 3s ease forwards;
+            }
+
+            @keyframes fadeInOut {
+                0% {
+                    opacity: 0;
+                    transform: translate(-50%, -55%);
+                }
+                10%, 85% {
+                    opacity: 1;
+                    transform: translate(-50%, -50%);
+                }
+                100% {
+                    opacity: 0;
+                    transform: translate(-50%, -45%);
+                }
+            }
+
+            .toast-message i {
+                color: #22c55e;
+                font-size: 20px;
+            }
+            /* ==== DELETE TOAST ==== */
+            .toast-message.delete {
+                background: rgba(17, 24, 39, 0.95);
+            }
+
+            .toast-message.delete i {
+                color: #e5e7eb;
+            }
+
+
         </style>
     </head>
 
@@ -696,6 +746,21 @@
                     ${errorMessage}
                 </div>
             </c:if>
+            <!-- Add Book Messages -->
+            <c:if test="${not empty addBook}">
+                <div class="toast-message">
+                    <i class="fa-solid fa-circle-check"></i>
+                    ${addBook}
+                </div>
+                <c:remove var="addBook" scope="session"/>
+            </c:if>
+            <!-- Delete Book Messages -->
+            <c:if test="${not empty deleteBook}">
+                <div class="toast-message delete">            
+                    ${deleteBook}
+                </div>
+                <c:remove var="deleteBook" scope="session"/>
+            </c:if>
 
             <!-- Toolbar -->
             <div class="toolbar">
@@ -736,7 +801,7 @@
                                         </div>
                                     </td>
                                     <td>${book.author}</td>
-                                    <td><span class="category-badge">${book.category.name}</span></td>
+                                    <td><span class="category-badge">${book.category.type.value}</span></td>
                                     <td>
                                         <c:choose>
                                             <c:when test="${book.quantity > 10}">
@@ -791,6 +856,8 @@
         </main>
 
         <!-- Add/Edit Book Modal -->
+
+
         <div class="modal" id="bookModal">
             <div class="modal-content">
                 <div class="modal-header">
@@ -804,7 +871,14 @@
                         <label for="name">Book Title</label>
                         <input type="text" class="form-control" id="name" name="title" required>
                     </div>
-
+                    <div class="form-group">
+                        <label for="name">Title Unaccented</label>
+                        <input type="text" class="form-control" id="name" name="title_unaccented" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Slug</label>
+                        <input type="text" class="form-control" id="name" name="slug" required>
+                    </div>
                     <div class="form-group">
                         <label for="author">Author</label>
                         <input type="text" class="form-control" id="author" name="author" required>
@@ -817,7 +891,7 @@
                             <option value="Action">Action</option>
                             <option value="English">English</option>
                             <option value="Romance">Romance</option>
-                            <option value="Soft Skill">Soft Skill</option>
+                            <option value="Skill">Skill</option>
                             <option value="Technology">Technology</option>
                         </select>
                     </div>
@@ -825,6 +899,11 @@
                     <div class="form-group">
                         <label for="quantity">Quantity</label>
                         <input type="number" class="form-control" id="quantity" name="quantity" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="quantity">Description</label>
+                        <input type="text" class="form-control" id="quantity" name="description"required>
                     </div>
 
                     <div class="form-group">
@@ -838,7 +917,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" onclick="closeModal()">Cancel</button>
                         <button type="submit" class="btn btn-success">
-                            <i class="fa-solid fa-save"></i> Save Book
+                            <i class="fa-solid fa-save"></i> Add Book
                         </button>
                     </div>
                 </form>
