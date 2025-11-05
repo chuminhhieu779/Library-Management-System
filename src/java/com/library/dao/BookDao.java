@@ -8,6 +8,7 @@ import com.library.util.BookDataAccessException;
 import com.library.model.entity.Book;
 import java.sql.Connection;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -42,4 +43,6 @@ public interface BookDao {
     int getIDBook(String slug);
     
     int insertBook(Book b); 
+    Map<String, Integer> countingBorrowedBookByCategory();
+    
 }

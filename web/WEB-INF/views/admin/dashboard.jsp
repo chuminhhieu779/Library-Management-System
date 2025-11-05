@@ -343,18 +343,18 @@
                 margin-bottom: 4px;
             }
 
-  
+
             .activity-content p {
                 font-size: 13px;
                 color: #374151;
                 margin: 0;
             }
 
-    
+
             .activity-time {
                 font-size: 12px;
                 font-weight: 600;
-                color: #6366f1; 
+                color: #6366f1;
                 margin-left: auto;
             }
 
@@ -418,7 +418,87 @@
                     <div class="stat-info"><h4></h4><p>Overdue Books</p></div>
                 </div>
             </div>
+            <!-- ===== DEMO CKEDITOR + CHART.JS ===== -->
+            <section style="margin-top:60px; padding: 30px; background: #fff; border-radius: 12px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">                
 
+
+                <canvas id="demoChart" width="500" height="150"></canvas>
+            </section>
+
+
+
+            <!-- Chart.js script -->
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script>
+
+                const labels = [
+                <c:forEach var="entry" items="${map}" varStatus="loop">
+                '${entry.key}'<c:if test="${!loop.last}">,</c:if>
+                </c:forEach>
+                ];
+
+
+                const data = [
+                <c:forEach var="entry" items="${map}" varStatus="loop">
+                    ${entry.value}<c:if test="${!loop.last}">,</c:if>
+                </c:forEach>
+                ];
+
+                const ctx = document.getElementById('demoChart');
+                const demoChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                                label: 'Books Borrowed by Category',
+                                data: data,
+                                backgroundColor: [
+                                    'rgba(99, 102, 241, 0.6)',
+                                    'rgba(34, 197, 94, 0.6)',
+                                    'rgba(59, 130, 246, 0.6)',
+                                    'rgba(234, 179, 8, 0.6)',
+                                    'rgba(239, 68, 68, 0.6)'
+                                ],
+                                borderColor: [
+                                    'rgba(99, 102, 241, 1)',
+                                    'rgba(34, 197, 94, 1)',
+                                    'rgba(59, 130, 246, 1)',
+                                    'rgba(234, 179, 8, 1)',
+                                    'rgba(239, 68, 68, 1)'
+                                ],
+                                borderWidth: 1
+                            }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {color: '#111827', font: {size: 14, weight: 'bold'}}
+                            },
+                            x: {
+                                ticks: {
+                                    color: '#4f46e5', 
+                                    font: {size: 14, weight: '600', family: 'Segoe UI'},
+                                },
+                                grid: {display: false}    
+                            }
+                        },
+                        plugins: {
+                            legend: {display: false}, 
+                            title: {
+                                display: true,
+                                text: 'Books Borrowed by Category',
+                                padding: { bottom: 30 },
+                                font: {size: 18, weight: 'bold'},
+                                color: '#1f2937'
+                            }
+                        }
+                    }
+                });
+
+            </script>
+            <!-- ===== END DEMO ===== -->
+            <div style="height: 50px;"></div>    
             <!-- RECENT ACTIVITY -->
             <div class="recent-activity">
                 <h3 class="section-header">Recent Activity</h3>
@@ -429,7 +509,7 @@
                                 <i class="fa-solid fa-bell"></i>
                             </div>
                             <div class="activity-content">
-                                    <h6>${a.action.type.value}</h6>
+                                <h6>${a.action.type.value}</h6>
                                 <p>${a.detail}</p>
                             </div>
                             <span class="activity-time">${a.log_time}</span>

@@ -15,7 +15,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -291,14 +293,13 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public int insertBook(Book b) {        
-        String sql = "  INSERT INTO books \n" +
-"        (title, title_unaccented, slug, author, category_id, quantity, cover_image, description)\n" +
-"        VALUES (?, ?, ?, ?, ?, ?, ?, ?)" ;
-     
+    public int insertBook(Book b) {
+        String sql = "  INSERT INTO books \n"
+                + "        (title, title_unaccented, slug, author, category_id, quantity, cover_image, description)\n"
+                + "        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
         try (
-              Connection conn = DBConnection.getInstance().getConnection(); 
-            PreparedStatement ps = conn.prepareStatement(sql)) {
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, b.getTitle());
             ps.setString(2, b.getUnaccented());
             ps.setString(3, b.getSlug());
@@ -307,15 +308,35 @@ public class BookDaoImpl implements BookDao {
             ps.setInt(6, b.getQuantity());
             ps.setString(7, b.getCoverImage());
             ps.setString(8, b.getDescription());
-            int affectedRows = ps.executeUpdate();            
-            if (affectedRows > 0) {     
-               return 1 ;
+            int affectedRows = ps.executeUpdate();
+            if (affectedRows > 0) {
+                return 1;
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return -1;
+    }
+
+    @Override
+    public Map<String, Integer> countingBorrowedBookByCategory() {
+        Map<String, Integer> map = new HashMap<>();
+        String sql = "select categories.name ,count(borrowings.user_id ) as totalBorrowed from borrowings join books\n"
+                + "on books.book_id = borrowings.book_id\n"
+                + "join categories on categories.category_id = books.category_id\n"
+                + "group by categories.name";
+
+        try (Connection conn = DBConnection.getInstance().getConnection(); 
+            PreparedStatement ps = conn.prepareStatement(sql); 
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                map.put(rs.getString("name"), rs.getInt("totalBorrowed"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return map;
     }
 
 }
