@@ -10,8 +10,16 @@ import com.library.dao.CategoryDao;
 import com.library.dao.FavoriteDao;
 import com.library.dao.UserDao;
 import com.library.model.entity.Book;
+import com.library.util.DBConnection;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.Normalizer;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,11 +32,11 @@ public class BookService {
 
     private static final Logger logger = LoggerFactory.getLogger(BookService.class);
     private final BookDao bookDao;
-    private final CategoryDao categoryDao ;
+    private final CategoryDao categoryDao;
 
-    public BookService(BookDao bookDao, CategoryDao categoryDao ) {
+    public BookService(BookDao bookDao, CategoryDao categoryDao) {
         this.bookDao = bookDao;
-        this.categoryDao = categoryDao;                 
+        this.categoryDao = categoryDao;
     }
 
     public String removeAccent(String title) {
@@ -56,13 +64,13 @@ public class BookService {
 
     public String normalizeCategory(String value) {
         String tmp = value.substring(0, 1).toLowerCase() + value.substring(1);
-        return tmp ;
+        return tmp;
     }
 
     public int getCategoryID(String name) {
-        int ID =  this.categoryDao.findCategoryID(name);
+        int ID = this.categoryDao.findCategoryID(name);
         logger.info("category ID {}", ID);
-        return ID ;
+        return ID;
     }
 
     public boolean addBook(Book b) {
@@ -71,6 +79,10 @@ public class BookService {
         }
         logger.info("can not add book {} ", b.getTitle());
         return false;
+    }
+    
+     public Map<String, Integer> getNumberBorrowedBookByCategory() {
+         return this.bookDao.countingBorrowedBookByCategory();
     }
 
 }
