@@ -45,7 +45,7 @@ public class LogoutUserController extends HttpServlet {
         
         String sessionIDFromDB = trackService.getSessionID(userID);
 
-        HttpSession saveSessionID = SessionTracker.getSession(sessionIDFromDB);
+        HttpSession saveSessionID = SessionTracker.getSessionOnServer(sessionIDFromDB);
         if (saveSessionID != null && trackService.isUserOnline(userID) == true ) {
             saveSessionID.invalidate();
             TrackingUserService.remove(userAccount);
