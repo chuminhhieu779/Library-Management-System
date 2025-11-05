@@ -6,12 +6,18 @@ package com.library.service;
 
 import com.library.dao.AdminDao;
 import com.library.dao.UserDao;
+import com.library.dao.UserSessionDao;
 import com.library.enums.UserStatus;
 import com.library.model.dto.UserBorrowRecordDTO;
 import com.library.model.dto.UserProfileDTO;
 import com.library.model.entity.User;
+import com.library.util.SessionTracker;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,10 +30,12 @@ public class UserService {
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
     private final UserDao userDao;
     private final AdminDao adminDao;
+    private final UserSessionDao sessionDao ;
 
-    public UserService(UserDao userDao, AdminDao adminDao) {
+    public UserService(UserDao userDao, AdminDao adminDao, UserSessionDao sessionDao) {
         this.userDao = userDao;
         this.adminDao = adminDao;
+        this.sessionDao = sessionDao;
     }
 
     public UserProfileDTO getProfileUserByAccount(String account) {
@@ -91,4 +99,15 @@ public class UserService {
     public String getHashedPassword(String account){
         return this.userDao.findHashedPassword(account);
     }
+    
+    public void logoutAllUser(){
+        Collection<HttpSession> session = SessionTracker.getAllValue();
+                     
+        for(HttpSession s : session){
+            s.invalidate();
+        }
+        this.userDao.setOfflineAll();
+        
+    }
+  
 }

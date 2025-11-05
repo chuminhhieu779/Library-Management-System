@@ -50,8 +50,6 @@ public class UserDaoImpl implements UserDao {
         return list;
     }
 
- 
-
     @Override
     public boolean checkUserExistence(String username) {
         String sql = "select * from users where account = ?";
@@ -237,7 +235,7 @@ public class UserDaoImpl implements UserDao {
     public String findHashedPassword(String account) {
         String sql = "select * from users where account = ? ";
         try (
-             Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, account);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -247,6 +245,35 @@ public class UserDaoImpl implements UserDao {
             s.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public List<Integer> getAllUserID() {
+        String sql = "select user_id from users ";
+        List<Integer> list = new ArrayList<>();
+        try (
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("user_id");
+                list.add(id);
+            }
+        } catch (SQLException s) {
+            s.printStackTrace();
+        }
+        return list;
+    }
+
+    @Override
+    public void setOfflineAll() {
+        String sql = "UPDATE users SET status = 'inactive'";
+        try (
+             Connection conn = DBConnection.getInstance().getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.executeUpdate();
+        } catch (SQLException s) {
+            s.printStackTrace();
+        }
     }
 
 }

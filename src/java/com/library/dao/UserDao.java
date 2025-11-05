@@ -33,10 +33,15 @@ public interface UserDao {
       
       boolean setOfflife(String account);
       
+      void setOfflineAll();
+      
       boolean checkUserStatus(int userID);
       
       boolean deleteUser(Connection conn , int userID);
       
       String findHashedPassword(String account);
+      
+      List<Integer> getAllUserID();
+      
       
 }

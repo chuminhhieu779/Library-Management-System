@@ -75,7 +75,7 @@ public class LoginController extends HttpServlet {
             userService.setOnlineUser(account);
             int userID = userDao.findUserID(account);
             trackService.updateData(session.getId(), userID);
-            SessionTracker.addSession(session.getId(), session);             
+            SessionTracker.addSessionToServer(session.getId(), session);             
             response.sendRedirect(request.getContextPath() + "/book/list");
         } else {
             session.setAttribute("error", "Tên đăng nhập không tồn tại!");

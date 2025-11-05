@@ -33,11 +33,18 @@ public class UserManagerController extends HttpServlet {
         HttpSession session = request.getSession(false);
         String notice = (String) session.getAttribute("notice");
         String removeUser = (String) session.getAttribute("notice");
+        String LogAllUser = (String) session.getAttribute("logAll");
 
         List<UserProfileDTO> list = userSerivce.showProfileUser();
         request.setAttribute("list", list);
         request.setAttribute("notice", notice);
         request.setAttribute("tmp", removeUser);
+        request.setAttribute("logAllUser", LogAllUser);
+
+        session.removeAttribute("notice");
+        session.removeAttribute("tmp");
+        session.removeAttribute("logAll");
+
         request.getRequestDispatcher("/WEB-INF/views/admin/usermanager.jsp").forward(request, response);
     }
 

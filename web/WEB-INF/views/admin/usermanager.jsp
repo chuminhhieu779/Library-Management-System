@@ -773,18 +773,20 @@
                         <c:if test="${not empty notice}">
                         <div id="notice" class="notice-center notice-success">
                             <i></i> ${notice}
-                        </div>
-                        <c:remove var="notice" scope="session" />
+                        </div>       
                     </c:if>
-                    
+
                     <c:if test="${not empty tmp}">
                         <div id="notice" class="notice-center notice-success">
                             <i></i> ${tmp}
                         </div>
-                        <c:remove var="tmp" scope="session" />
                     </c:if>
 
-
+                    <c:if test="${not empty logAllUser}">
+                        <div id="notice" class="notice-center notice-success">
+                            <i></i> ${logAllUser}
+                        </div>
+                    </c:if>
 
                     <c:if test="${not empty list}">
                         <c:forEach var="user" items="${list}">

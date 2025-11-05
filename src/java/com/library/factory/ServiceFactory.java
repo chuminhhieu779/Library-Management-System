@@ -112,13 +112,14 @@ public class ServiceFactory {
         if (userService == null) {
             userService = new UserService(
                     DaoFactory.getUserDao(),
-                    DaoFactory.getAdminDao()
+                    DaoFactory.getAdminDao(),
+                    DaoFactory.getUserSessionDao()
             );
         }
         return userService;
     }
 
-    public static RemoveUserService getRemoveUserService() {        
+    public static RemoveUserService getRemoveUserService() {
         if (removeUserService == null) {
             removeUserService = new RemoveUserService(
                     DaoFactory.getUserDao(),
