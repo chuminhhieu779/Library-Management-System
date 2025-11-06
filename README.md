@@ -1,6 +1,6 @@
 # 📚 Library Management System
 
-[![Run Tests](https://github.com/Suzune705/Library-Management-System/actions/workflows/run-test.yml/badge.svg)](https://github.com/Suzune705/Library-Management-System/actions/workflows/run-test.yml)
+[![Run Tests](https://github.com/Suzune705/Library-Management-System/actions/workflows/Run-Tests.yml/badge.svg)](https://github.com/Suzune705/Library-Management-System/actions/workflows/Run-Tests.yml)
 ![License](https://img.shields.io/github/license/Suzune705/Library-Management-System)
 ![Java](https://img.shields.io/badge/Java-17-blue)
 ![Build Tool](https://img.shields.io/badge/Build-Ant-orange)
