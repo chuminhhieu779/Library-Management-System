@@ -50,8 +50,6 @@ public class UserDaoImpl implements UserDao {
         return list;
     }
 
- 
-
     @Override
     public boolean checkUserExistence(String username) {
         String sql = "select * from users where account = ?";
@@ -237,7 +235,7 @@ public class UserDaoImpl implements UserDao {
     public String findHashedPassword(String account) {
         String sql = "select * from users where account = ? ";
         try (
-             Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, account);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -247,6 +245,26 @@ public class UserDaoImpl implements UserDao {
             s.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public boolean updatePassword(String account, String password) {
+        String sql = "UPDATE users\n"
+                + "SET password = ?\n"
+                + "WHERE account = ?;";
+        try (
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, password);
+            ps.setString(2, account);
+            int rs = ps.executeUpdate();
+            if(rs > 0){
+                return true;
+            }
+        } catch (SQLException s) {
+            s.printStackTrace();
+        }
+        return false;
+
     }
 
 }

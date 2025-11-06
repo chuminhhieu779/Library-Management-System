@@ -39,4 +39,6 @@ public interface UserDao {
       
       String findHashedPassword(String account);
       
+      boolean updatePassword(String account,String password);
+      
 }

@@ -18,7 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author laptop gigabyte
  */
 @WebServlet(name="saveBooks", urlPatterns={"/admin/books/save"})
-public class SaveBookController extends HttpServlet {
+public class AddBookController extends HttpServlet {
    
 
     @Override
