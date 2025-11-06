@@ -450,7 +450,7 @@
                     data: {
                         labels: labels,
                         datasets: [{
-                                label: 'Books Borrowed by Category',
+                                label: 'Borrowed Books by Category',
                                 data: data,
                                 backgroundColor: [
                                     'rgba(99, 102, 241, 0.6)',
