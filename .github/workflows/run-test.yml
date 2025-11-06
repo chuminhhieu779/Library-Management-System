@@ -1,4 +1,4 @@
-name: Java CI 
+name: Java CI
 
 on:
   push:
@@ -26,10 +26,16 @@ jobs:
       - name: Build & Run Tests (no Tomcat)
         run: ant -noinput -buildfile ci-build.xml test
 
+      - name: List test result files
+        if: always()
+        run: |
+          echo "=== Checking build/test-results ==="
+          ls -R build || true
+
       - name: Report test results
         if: always()
         uses: dorny/test-reporter@v2
         with:
           name: Ant Unit Tests
-          path: build/test-results/*.xml
+          path: "**/test-results/*.xml"  
           reporter: java-junit
