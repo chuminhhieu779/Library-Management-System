@@ -14,7 +14,7 @@ import com.library.dao.UserDaoImpl;
 
 
 @WebServlet(name="Admin", urlPatterns={"/admin/login"})
-public class LogInController extends HttpServlet {
+public class LogInAdminController extends HttpServlet {
     UserDao userDao = new UserDaoImpl();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

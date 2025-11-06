@@ -31,7 +31,7 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet(name = "Login", urlPatterns = {"/user/login"})
 
 
-public class LoginController extends HttpServlet {
+public class LogInUserController extends HttpServlet {
 
     UserDao userDao = new UserDaoImpl();
     
