@@ -10,6 +10,10 @@ nbdist/
 # Ignore all JARs by default
 *.jar
 
+# Allow CI libraries
+!lib/
+!lib/*.jar
+
 # But DO include JARs in WEB-INF/lib (NetBeans Web Project)
 !web/WEB-INF/lib/
 !web/WEB-INF/lib/*.jar
