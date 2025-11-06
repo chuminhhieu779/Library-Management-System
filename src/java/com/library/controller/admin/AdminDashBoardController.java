@@ -22,7 +22,7 @@ import jakarta.servlet.http.HttpSession;
 import java.util.Map;
 
 @WebServlet(name = "AdminDashBoard", urlPatterns = {"/admin/dashboard"})
-public class AdminDashboardController extends HttpServlet {
+public class AdminDashBoardController extends HttpServlet {
 
     private final ActivityService activityService = ServiceFactory.getActivityService();
     private final BookService bookService = ServiceFactory.getBookService();
