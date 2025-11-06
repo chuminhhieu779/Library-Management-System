@@ -15,7 +15,12 @@ import java.util.List;
  * @author hieuchu
  */
 public interface UserDao {
+
       List<User> getALLUser();     
+
+  
+//      boolean checkLogin(String username,String pass);
+
       
       boolean checkUserExistence(String username);
       
