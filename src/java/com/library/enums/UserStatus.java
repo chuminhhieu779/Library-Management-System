@@ -4,6 +4,8 @@
  */
 package com.library.enums;
 
+import java.util.Optional;
+
 /**
  *
  * @author hieuchu
@@ -23,13 +25,13 @@ public enum UserStatus {
         return value;
     }
     
-    public static UserStatus convertToEnum(String value){
+    public static Optional<UserStatus> convertToEnum(String value){
         for(UserStatus status : values()){
            if(status.getValue().equalsIgnoreCase(value)){
-               return status;
+               return Optional.of(status);
            }     
         }
-        return null ;
+        return Optional.empty();
     }    
    
 }

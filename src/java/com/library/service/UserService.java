@@ -8,6 +8,8 @@ import com.library.dao.AdminDao;
 import com.library.dao.UserDao;
 import com.library.dao.UserSessionDao;
 import com.library.enums.UserStatus;
+import com.library.exception.AccountNotExistException;
+import com.library.exception.UserNotFoundException;
 import com.library.model.dto.UserBorrowRecordDTO;
 import com.library.model.dto.UserProfileDTO;
 import com.library.model.entity.User;
@@ -18,6 +20,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +33,7 @@ public class UserService {
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
     private final UserDao userDao;
     private final AdminDao adminDao;
-    private final UserSessionDao sessionDao ;
+    private final UserSessionDao sessionDao;
 
     public UserService(UserDao userDao, AdminDao adminDao, UserSessionDao sessionDao) {
         this.userDao = userDao;
@@ -39,18 +42,22 @@ public class UserService {
     }
 
     public UserProfileDTO getProfileUserByAccount(String account) {
-        User u = this.userDao.getUser(account);
+        Optional<User> opt = this.userDao.getUser(account);
         UserProfileDTO dto = new UserProfileDTO();
-        if (u != null) {
-            logger.info("{} account founed", account);
-            dto.setAccount(u.getAccount());
-            dto.setFullName(u.getFullname());
-            dto.setUserID(u.getUserID());
-            dto.setAvatar(u.getAvatar());
-            dto.setStatus(u.getStatus());
-            return dto;
-        }
-        return null;
+        opt.ifPresentOrElse(
+                user -> { // User user = opt.get()
+                    logger.info("{} account found", account);
+                    dto.setUserID(user.getUserID());
+                    dto.setAccount(user.getAccount());
+                    dto.setFullName(user.getFullname());
+                    dto.setAvatar(user.getAvatar());
+                    dto.setStatus(user.getStatus());
+                },
+                () -> {
+                    throw new UserNotFoundException("User: " + account + "not found");
+                }
+        );
+        return dto ;      
     }
 
     public List<UserProfileDTO> showProfileUser() {
@@ -92,33 +99,37 @@ public class UserService {
         }
         logger.info("update failed!!!");
     }
-    
-    public int getUserIDByAccount(String account){
+
+    public int getUserIDByAccount(String account) {
         return this.userDao.findUserID(account);
     }
-    public String getHashedPassword(String account){
+
+    public String getHashedPassword(String account) {
         return this.userDao.findHashedPassword(account);
     }
 
-    
-    public void logoutAllUser(){
+    public void logoutAllUser() {
         Collection<HttpSession> session = SessionTracker.getAllValue();
-                     
-        for(HttpSession s : session){
+
+        for (HttpSession s : session) {
             s.invalidate();
         }
         this.userDao.setOfflineAll();
-        
-    }
-  
 
-    public boolean updatePassword(String account,String password){
-        if(userDao.updatePassword(account, password)){
-            logger.info("update completed ()",account);
+    }
+
+    public boolean updatePassword(String account, String password) {
+        if (userDao.updatePassword(account, password)) {
+            logger.info("update completed ()", account);
             return true;
         }
         logger.info("update failed!");
         return false;
     }
 
+    public void isAccountExist(String account){        
+        if(!this.userDao.checkUserExistence(account)){
+            throw new AccountNotExistException("The account : " + account + " not exist!!");
+        }        
+    }    
 }

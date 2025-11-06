@@ -2,18 +2,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.library.dao;
-
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
+package com.library.exception;
 
 /**
  *
  * @author hieuchu
  */
-public class DemoTest {
-    @Test
-    public void alwaysTrue() {
-        assertTrue(true);
+public class BookNotFoundException extends LibraryException{
+    
+    public BookNotFoundException(String message) {
+        super(message);
     }
+    
 }

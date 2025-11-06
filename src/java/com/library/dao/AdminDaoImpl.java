@@ -15,6 +15,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  *
@@ -40,7 +41,8 @@ public class AdminDaoImpl implements AdminDao {
                dto.setAccount(rs.getString("account"));
                dto.setFullName(rs.getString("fullname"));
                dto.setBorrowedBook(rs.getString("title"));
-               dto.setStatus(UserStatus.convertToEnum(rs.getString("status")));                         
+                Optional<UserStatus> opt = UserStatus.convertToEnum(rs.getString("status"));
+                opt.ifPresent(status -> dto.setStatus(status));
                list.add(dto);
             }
         } catch (SQLException s) {
