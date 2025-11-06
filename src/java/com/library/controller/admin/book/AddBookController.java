@@ -32,10 +32,10 @@ import org.slf4j.LoggerFactory;
  *
  * @author laptop gigabyte
  */
+
 @WebServlet(name = "saveBooks", urlPatterns = {"/admin/book/add"})
 @MultipartConfig
-public class AddBookController extends HttpServlet {
-        
+public class AddBookController extends HttpServlet {        
     BookService bookService = ServiceFactory.getBookService();
     private static final Logger logger = LoggerFactory.getLogger(AddBookController.class);
 

@@ -472,7 +472,7 @@
         </style>
 
         <script>
-     
+
             function toggleEdit(fieldId) {
                 const input = document.getElementById(fieldId);
                 const saveBtn = document.getElementById('saveProfileBtn');
@@ -491,16 +491,16 @@
                         input.focus();
                     }
 
- 
+
                     saveBtn.style.display = 'inline-flex';
                 } else {
-       
+
                     if (isFile) {
                         input.disabled = true;
                     } else {
                         input.readOnly = true;
                     }
-  
+
                 }
             }
 
@@ -645,6 +645,12 @@
                     </h3>
 
                     <form action="${pageContext.request.contextPath}/user/change-password" method="post">
+                        <% if (request.getAttribute("error") != null) { %>
+                        <p style="color:red"><%= request.getAttribute("error") %></p>
+                        <% } %>
+                        <% if (request.getAttribute("success") != null) { %>
+                        <p style="color:#28a745"><%= request.getAttribute("success") %></p>
+                        <% } %>
                         <div class="form-group">
                             <label for="currentPassword">Current Password</label>
                             <input type="password" id="currentPassword" name="currentPassword" 
