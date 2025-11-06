@@ -6,7 +6,10 @@ package com.library.controller.book;
 
 import com.library.dao.BookDao;
 import com.library.dao.BookDaoImpl;
+import com.library.exception.BookNotFoundException;
 import com.library.model.entity.Book;
+import com.library.service.BookService;
+import com.library.util.BookDataAccessException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,6 +18,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.Optional;
 
 /**
  *
@@ -41,12 +45,23 @@ public class BookDetailsController extends HttpServlet {
         } else {
             slug = (String) session.getAttribute("slug");
             bookIDParam = (String) session.getAttribute("bookID");
-        }
-//         
+        }//         
+
         int getBookId = Integer.parseInt(bookIDParam);
-        Book b = bookDao.showBookDetail(slug, getBookId);
-        request.setAttribute("book", b);
-        request.getRequestDispatcher("/WEB-INF/views/book/bookdetail.jsp").forward(request, response);
+        Optional<Book> opt = bookDao.showBookDetail(slug, getBookId);
+        try {
+            opt.ifPresentOrElse(
+                    book -> { // Book book = opt.get()
+                        request.setAttribute("book", book);
+                    },
+                    () -> {
+                        throw new BookNotFoundException("Book not found");
+                    }
+            );
+            request.getRequestDispatcher("/WEB-INF/views/book/bookdetail.jsp").forward(request, response);
+        } catch (BookNotFoundException b) {
+            response.sendError(404, "Book not found");
+        }
     }
 
     @Override

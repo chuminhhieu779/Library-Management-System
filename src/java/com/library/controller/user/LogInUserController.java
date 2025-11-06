@@ -15,6 +15,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import com.library.dao.UserDao;
 import com.library.dao.UserDaoImpl;
+import com.library.exception.AccountNotExistException;
+import com.library.exception.ValidationException;
 import com.library.factory.ServiceFactory;
 import com.library.service.ActivityService;
 
@@ -22,6 +24,7 @@ import com.library.service.TrackingUserService;
 import com.library.service.UserService;
 import com.library.util.HashPassword;
 import com.library.util.SessionTracker;
+import com.library.util.Validator;
 import jakarta.servlet.http.HttpSession;
 
 /**
@@ -30,18 +33,16 @@ import jakarta.servlet.http.HttpSession;
  */
 @WebServlet(name = "Login", urlPatterns = {"/user/login"})
 
-
 public class LogInUserController extends HttpServlet {
 
     UserDao userDao = new UserDaoImpl();
-    
+
     private final ActivityService activityService = ServiceFactory.getActivityService();
- 
-     private final  UserService userService = ServiceFactory.getUserService();
-    
-   private final TrackingUserService trackService = ServiceFactory.getTrackingUserService();
-    
-   
+
+    private final UserService userService = ServiceFactory.getUserService();
+
+    private final TrackingUserService trackService = ServiceFactory.getTrackingUserService();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -66,38 +67,30 @@ public class LogInUserController extends HttpServlet {
         HttpSession session = request.getSession();
         String account = request.getParameter("account");
         String pass = request.getParameter("password");
-        String hashedPassword = userService.getHashedPassword(account);
-               
-        if (HashPassword.checkPassword(pass, hashedPassword)) {
-            session.setAttribute("account", account);
-            TrackingUserService.add(account);
-            activityService.ActivityUser(1, account);
-            userService.setOnlineUser(account);
-            int userID = userDao.findUserID(account);
-            trackService.updateData(session.getId(), userID);
-            SessionTracker.addSessionToServer(session.getId(), session);             
-            response.sendRedirect(request.getContextPath() + "/book/list");
-        } else {
-            session.setAttribute("error", "Tên đăng nhập không tồn tại!");
-            if (account.trim().isEmpty()) {
-                session.setAttribute("error", "Vui lòng nhập tên đăng nhập!");
-                response.sendRedirect(request.getContextPath() + "/user/login");
-                return;
-            } else if (pass.trim().isEmpty()) {
-                session.setAttribute("error", "Vui lòng nhập mật khẩu!");
-                response.sendRedirect(request.getContextPath() + "/user/login");
-                return;
-            }
-            // check login after user enter correcly 
+        try {
+            Validator.validateUserInput(account, pass);
+            userService.isAccountExist(account);
+            String hashedPassword = userService.getHashedPassword(account);
             if (HashPassword.checkPassword(pass, hashedPassword)) {
-                session.setAttribute("account", account);      
+                session.setAttribute("account", account);
+                TrackingUserService.add(account);
+                activityService.ActivityUser(1, account);
+                userService.setOnlineUser(account);
+                int userID = userDao.findUserID(account);
+                trackService.updateData(session.getId(), userID);
+                SessionTracker.addSessionToServer(session.getId(), session);
                 response.sendRedirect(request.getContextPath() + "/book/list");
-                return;
             } else {
-                session.setAttribute("error", "Tên đăng nhập hoặc mật khẩu sai!");
+                session.setAttribute("error", " Incorrect username or password!");
                 response.sendRedirect(request.getContextPath() + "/user/login");
                 return;
             }
+        } catch (ValidationException e) {
+            session.setAttribute("error", e.getMessage());
+            response.sendRedirect(request.getContextPath() + "/user/login");
+        } catch (AccountNotExistException a) {
+            session.setAttribute("error", a.getMessage());
+            response.sendRedirect(request.getContextPath() + "/user/login");
         }
 
     }

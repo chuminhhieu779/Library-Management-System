@@ -9,6 +9,7 @@ import com.library.model.entity.Book;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  *
@@ -18,7 +19,7 @@ public interface BookDao {
 
     List<Book> getAllBook()throws BookDataAccessException;
 
-    Book showBookDetail(String slug, int bookID);
+    Optional<Book> showBookDetail(String slug, int bookID);
 
     int totalBook();
 

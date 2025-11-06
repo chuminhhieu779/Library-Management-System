@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,7 +62,7 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public Book showBookDetail(String slug, int bookID) {
+    public Optional<Book> showBookDetail(String slug, int bookID) {
         String sql = "select * from books join categories on books.category_id = categories.category_id where books.slug = ? and books.book_id = ? ";
 
         try (
@@ -82,14 +83,14 @@ public class BookDaoImpl implements BookDao {
                 c.setType(BookType.convert(rs.getString("name")));
                 b.setCategory(c);
                 logger.info("Book found: {}", b.getTitle());
-                return b;
+                return Optional.of(b);
             } else {
                 logger.warn("No book found for slug={} and bookID={}", slug, bookID);
             }
         } catch (SQLException s) {
             logger.error("Error excecuting{}", s.getMessage(), s);
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override

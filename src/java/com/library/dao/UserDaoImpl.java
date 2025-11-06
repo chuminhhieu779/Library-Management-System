@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +41,8 @@ public class UserDaoImpl implements UserDao {
                 u.setAccount(rs.getString("account"));
                 u.setPassword(rs.getString("password"));
                 u.setRole(rs.getString("role"));
-                u.setStatus(UserStatus.convertToEnum(rs.getString("status")));
+                Optional<UserStatus> opt = UserStatus.convertToEnum(rs.getString("status"));                 
+                opt.ifPresent(status -> u.setStatus(status));  // isPresent : if opt has values then set its value to status 
                 u.setAvatar(rs.getString("avatar"));
                 list.add(u);
             }
@@ -123,7 +125,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User getUser(String account) {
+    public Optional<User> getUser(String account) {
         String sql = "select * from users where account = ? ";
         logger.info("Getting the data of {} account ", account);
         try (
@@ -137,12 +139,12 @@ public class UserDaoImpl implements UserDao {
                 u.setAccount(rs.getString("account"));
                 u.setAvatar(rs.getString("avatar"));
                 u.setRole(rs.getString("role"));
-                return u;
+                return Optional.of(u);
             }
         } catch (SQLException s) {
             logger.error("Error excecuting{}", s.getMessage(), s);
         }
-        return null;
+        return Optional.empty();
     }
 
     @Override
@@ -252,8 +254,7 @@ public class UserDaoImpl implements UserDao {
         String sql = "select user_id from users ";
         List<Integer> list = new ArrayList<>();
         try (
-              Connection conn = DBConnection.getInstance().getConnection(); 
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("user_id");
@@ -262,9 +263,9 @@ public class UserDaoImpl implements UserDao {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return list ;
+        return list;
     }
-                
+
     public boolean updatePassword(String account, String password) {
         String sql = "UPDATE users\n"
                 + "SET password = ?\n"
@@ -274,25 +275,24 @@ public class UserDaoImpl implements UserDao {
             ps.setString(1, password);
             ps.setString(2, account);
             int rs = ps.executeUpdate();
-            if(rs > 0){
+            if (rs > 0) {
                 return true;
             }
         } catch (SQLException s) {
             s.printStackTrace();
         }
-        return false ;
+        return false;
     }
 
     @Override
     public void setOfflineAll() {
         String sql = "UPDATE users SET status = 'inactive'";
         try (
-             Connection conn = DBConnection.getInstance().getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.executeUpdate();
         } catch (SQLException s) {
             s.printStackTrace();
-        } 
+        }
     }
 
 }

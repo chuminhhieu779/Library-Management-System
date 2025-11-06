@@ -4,9 +4,11 @@
  */
 package com.library.controller.user;
 
+import com.library.exception.UserNotFoundException;
 import com.library.factory.DaoFactory;
 import com.library.factory.ServiceFactory;
 import com.library.model.dto.UserProfileDTO;
+import com.library.model.entity.User;
 import com.library.service.ActivityService;
 import com.library.service.UserService;
 import java.io.IOException;
@@ -17,6 +19,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.Optional;
 
 /**
  *
@@ -25,9 +28,7 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet(name = "Setting", urlPatterns = {"/user/setting"})
 public class SettingController extends HttpServlet {
 
-
- 
-     private final  UserService userService = ServiceFactory.getUserService();
+    private final UserService userService = ServiceFactory.getUserService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -38,22 +39,26 @@ public class SettingController extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/user/login");
             return;
         }
-
         String account = (String) session.getAttribute("account");
-        UserProfileDTO dto = userService.getProfileUserByAccount(account);
-        if (dto == null) {
-            response.sendRedirect(request.getContextPath() + "/user/login");
+        try {
+            UserProfileDTO dto = userService.getProfileUserByAccount(account);
+            
+            String error = (String) session.getAttribute("changePasswordError");
+            String success = (String) session.getAttribute("changePasswordSuccess");
+            
+            request.setAttribute("error", error);
+            request.setAttribute("success", success);
+            
+            session.removeAttribute("changePasswordError");
+            session.removeAttribute("changePasswordSuccess");
+            session.setAttribute("user", dto);
+            
+            request.getRequestDispatcher("/WEB-INF/views/user/setting.jsp").forward(request, response);
             return;
+
+        } catch (UserNotFoundException u) {
+            response.sendError(404, "User not found");
         }
-        String error = (String) session.getAttribute("changePasswordError");
-        String success = (String) session.getAttribute("changePasswordSuccess");
-        request.setAttribute("error", error);
-        request.setAttribute("success", success);
-        session.removeAttribute("changePasswordError");
-        session.removeAttribute("changePasswordSuccess");
-        session.setAttribute("user", dto);
-        request.getRequestDispatcher("/WEB-INF/views/user/setting.jsp").forward(request, response);
-        return;
     }
 
     @Override

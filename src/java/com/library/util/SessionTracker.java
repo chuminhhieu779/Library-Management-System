@@ -28,27 +28,31 @@ public class SessionTracker implements HttpSessionListener {
     public void sessionDestroyed(HttpSessionEvent se) {
         map.remove(se.getSession().getId());
     }
-    
-    public static HttpSession getSessionOnServer(String sessionIDFromDB){
+
+    public static HttpSession getSessionOnServer(String sessionIDFromDB) {
         return map.get(sessionIDFromDB);
     }
-    
-    public static void addSessionToServer(String sessionIDFromDB, HttpSession se){
+
+    public static void addSessionToServer(String sessionIDFromDB, HttpSession se) {
         map.put(sessionIDFromDB, se);
     }
-    
-    public static Collection<HttpSession> getAllValue(){
+
+    public static Collection<HttpSession> getAllValue() {
         return map.values();
     }
-    
-    public static boolean isEmpty(){
-        if(map.isEmpty()) return true ;
-        return false;        
+
+    public static boolean isEmpty() {
+        if (map.isEmpty()) {
+            return true;
+        }
+        return false;
     }
-    public static int getSize(){
+
+    public static int getSize() {
         return map.size();
     }
-    public static Map<String,HttpSession> getMap(){
-        return map ;
+
+    public static Map<String, HttpSession> getMap() {
+        return map;
     }
 }

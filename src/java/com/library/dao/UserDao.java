@@ -9,6 +9,7 @@ import com.library.model.dto.UserProfileDTO;
 import com.library.model.entity.User;
 import java.sql.Connection;
 import java.util.List;
+import java.util.Optional;
 
 /**
  *
@@ -18,8 +19,7 @@ public interface UserDao {
 
       List<User> getALLUser();     
 
-  
-//      boolean checkLogin(String username,String pass);
+   
 
       
       boolean checkUserExistence(String username);
@@ -30,7 +30,7 @@ public interface UserDao {
       
       int findUserID(String account);
       
-      User getUser(String account);
+      Optional<User> getUser(String account);
       
       boolean updateUser(String account , String avatar, String fullName, int userID);
       
