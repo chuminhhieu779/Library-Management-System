@@ -18,9 +18,7 @@ import java.util.Optional;
 public interface UserDao {
 
       List<User> getALLUser();     
-
    
-
       
       boolean checkUserExistence(String username);
       
@@ -50,5 +48,5 @@ public interface UserDao {
 
       boolean updatePassword(String account,String password);
 
-      
+
 }

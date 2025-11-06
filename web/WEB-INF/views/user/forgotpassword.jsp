@@ -1,6 +1,6 @@
 <%-- 
-    Document   : homepage
-    Created on : Oct 10, 2025, 10:06:37 PM
+    Document   : forgot-password
+    Created on : Nov 7, 2025
     Author     : hieuchu
 --%>
 
@@ -11,7 +11,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Library Management - Home</title>
+        <title>Forgot Password - Library Management</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
         <style>
@@ -36,7 +36,7 @@
                 color: #f9fafb;
             }
 
-            /* ==== HEADER + NAV MERGED ==== */
+            /* ==== HEADER ==== */
             header {
                 background: rgba(17, 24, 39, 0.9);
                 border-bottom: 2px solid #4f46e5;
@@ -88,25 +88,9 @@
             main {
                 flex: 1;
                 display: flex;
-                flex-direction: column;
                 align-items: center;
                 justify-content: center;
                 padding: 40px 20px;
-            }
-
-            marquee h2 {
-                font-size: 26px;
-                font-weight: 700;
-                color: #a5b4fc;
-                margin-bottom: 25px;
-                text-shadow: 0 0 8px rgba(99, 102, 241, 0.6);
-            }
-
-            /* ==== LOGIN FORM ==== */
-            .login {
-                display: flex;
-                justify-content: center;
-                width: 100%;
             }
 
             form {
@@ -128,18 +112,18 @@
                 margin-bottom: 25px;
             }
 
-            .login-content {
+            .form-content {
                 display: flex;
                 flex-direction: column;
-                gap: 16px;
+                gap: 18px;
             }
 
-            .login-content label {
+            .form-content label {
                 font-weight: 600;
                 color: #374151;
             }
 
-            .login-content input {
+            .form-content input {
                 padding: 12px;
                 border-radius: 6px;
                 border: 1px solid #ced4da;
@@ -147,13 +131,13 @@
                 transition: all 0.3s;
             }
 
-            .login-content input:focus {
+            .form-content input:focus {
                 outline: none;
                 border-color: #4f46e5;
                 box-shadow: 0 0 0 3px rgba(79,70,229,0.25);
             }
 
-            .login-content button {
+            .form-content button {
                 background: linear-gradient(90deg, #4f46e5, #7c3aed);
                 color: white;
                 border: none;
@@ -165,33 +149,33 @@
                 transition: all 0.3s ease;
             }
 
-            .login-content button:hover {
+            .form-content button:hover {
                 background: linear-gradient(90deg, #6366f1, #8b5cf6);
                 transform: translateY(-2px);
             }
 
-            #sign-up {
-                text-align: center;
-                margin-top: 10px;
-            }
-
-            #sign-up a {
-                color: #4f46e5;
-                text-decoration: none;
-                font-weight: 600;
-            }
-
-            #sign-up a:hover {
-                color: #7c3aed;
-                text-decoration: underline;
-            }
-
-            .login-content p {
+            .form-content p {
                 padding: 10px;
                 border-radius: 6px;
                 font-size: 14px;
                 text-align: center;
                 font-weight: 500;
+            }
+
+            .back-login {
+                text-align: center;
+                margin-top: 10px;
+            }
+
+            .back-login a {
+                color: #4f46e5;
+                text-decoration: none;
+                font-weight: 600;
+            }
+
+            .back-login a:hover {
+                color: #7c3aed;
+                text-decoration: underline;
             }
 
             /* ==== FOOTER ==== */
@@ -225,28 +209,10 @@
                 font-size: 13px;
                 color: #9ca3af;
             }
-            .forgot-pass {
-                text-align: center;
-                margin-top: 8px;
-            }
-
-            .forgot-pass a {
-                color: #4f46e5;
-                text-decoration: none;
-                font-weight: 600;
-                font-size: 14px;
-            }
-
-            .forgot-pass a:hover {
-                color: #7c3aed;
-                text-decoration: underline;
-            }
-
         </style>
     </head>
 
     <body>
-        <!-- ==== HEADER + NAV COMBINED ==== -->
         <header>
             <div class="logo-section">
                 <img src="${pageContext.request.contextPath}/resources/images/avatar.jpg" alt="logo">
@@ -262,44 +228,38 @@
         </header>
 
         <main>
-            <marquee behavior="scroll" direction="left" scrollamount="10">
-                <h2>Welcome to Library Management System</h2>
-            </marquee>
+            <form action="${pageContext.request.contextPath}/user/forgot-password" method="post">
+                <div class="title">
+                    <h3><i class="fa-solid fa-envelope-circle-check"></i> Forgot Password</h3>
+                </div>
 
-            <div class="login">
-                <form action="${pageContext.request.contextPath}/user/login" method="post">
-                    <div class="title">
-                        <h3>Login Form</h3>
-                    </div>
-                    <div class="login-content">
-                        <% if (request.getAttribute("error") != null) { %>
+                <div class="form-content">
+
+                    <c:if test="${not empty error}">
                         <p style="background-color:#f8d7da; color:#721c24; border-left:4px solid #dc3545;">
-                            <%= request.getAttribute("error") %>
+                            ${error}
                         </p>
-                        <% } %>
-                        <% if (request.getAttribute("success") != null) { %>
+                        <c:remove var="error" scope="session"/>
+                    </c:if>
+                    <c:if test="${not empty message}">
                         <p style="background-color:#d4edda; color:#155724; border-left:4px solid #28a745;">
-                            <%= request.getAttribute("success") %>
+                            ${message}
                         </p>
-                        <% } %>
+                        <c:remove var="message" scope="session"/>
+                    </c:if>
 
-                        <label>Enter your account:</label>
-                        <input type="text" name="account">
-                        <label>Enter your password:</label>
-                        <input type="password" name="password">
-                        <button type="submit">Login</button>
-                        <div class="forgot-pass">
-                            <a href="${pageContext.request.contextPath}/user/forgot-password">
-                                <i class="fa-solid fa-unlock-keyhole"></i> Forgot your password?
-                            </a>
-                        </div>
+                    <label>Enter your registered email:</label>
+                    <input type="email" name="email" placeholder="example@gmail.com" required>
 
-                        <div id="sign-up">
-                            <a href="${pageContext.request.contextPath}/user/register">Sign Up</a>
-                        </div>
+                    <button type="submit">Send Reset Link</button>
+
+                    <div class="back-login">
+                        <a href="${pageContext.request.contextPath}/user/login">
+                            <i class="fa-solid fa-arrow-left"></i> Back to Login
+                        </a>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </main>
 
         <footer class="footer">
