@@ -22,7 +22,7 @@ import jakarta.servlet.http.HttpSession;
  * @author hieuchu
  */
 @WebServlet(name = "DashBoard", urlPatterns = {"/user/dashboard"})
-public class UserDashboardController extends HttpServlet {
+public class UserDashBoardController extends HttpServlet {
 
     BookDao bookDao = new BookDaoImpl();
     BorrowingDao borrowDao = new BorrowingDaoImpl();            
