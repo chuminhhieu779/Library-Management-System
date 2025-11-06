@@ -11,7 +11,7 @@ import org.junit.Test;
  *
  * @author hieuchu
  */
-public class demo {
+public class DemoTest {
     @Test
     public void alwaysTrue() {
         assertTrue(true);
