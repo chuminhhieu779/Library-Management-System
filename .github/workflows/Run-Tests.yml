@@ -1,5 +1,4 @@
-name: Java CI
-
+name: Run Tests
 on:
   push:
     branches-ignore:

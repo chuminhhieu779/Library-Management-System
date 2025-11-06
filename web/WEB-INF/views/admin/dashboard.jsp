@@ -487,7 +487,7 @@
                             legend: {display: false}, 
                             title: {
                                 display: true,
-                                text: 'Books Borrowed by Category',
+                                text: 'Borrowed Books by Category',
                                 padding: { bottom: 30 },
                                 font: {size: 18, weight: 'bold'},
                                 color: '#1f2937'
