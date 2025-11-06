@@ -4,6 +4,8 @@
  */
 package com.library.util;
 
+import com.library.exception.ValidationException;
+
 /**
  *
  * @author hieuchu
@@ -34,6 +36,12 @@ public class Validator {
     public static void validateUserAccount(String account) {
         if (!account.matches("^[a-z0-9]{5,10}$")) {
             throw new ValidationException( "Account must be 5–10 characters long and contain only lowercase letters or digits!" );
+        }
+    }
+    
+    public static void validateUserInput(String account , String password){
+         if (account == null || account.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+            throw new ValidationException("Account or Password cannot be empty !!");
         }
     }
 
