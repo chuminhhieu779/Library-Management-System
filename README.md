@@ -1,3 +1,16 @@
+# 📚 Library Management System
+
+[![Run Tests](https://github.com/Suzune705/Library-Management-System/actions/workflows/run-test.yml/badge.svg)](https://github.com/Suzune705/Library-Management-System/actions/workflows/run-test.yml)
+![License](https://img.shields.io/github/license/Suzune705/Library-Management-System)
+![Java](https://img.shields.io/badge/Java-17-blue)
+![Build Tool](https://img.shields.io/badge/Build-Ant-orange)
+![Server](https://img.shields.io/badge/Tomcat-10.1.44-yellow)
+
+A full-stack **Library Management System (LMS)** built with **Java Servlets**, **JSP**, and **Microsoft SQL Server**, following the MVC pattern.  
+This project is developed for academic and practical purposes, showcasing backend logic, database interaction, and CI automation via **GitHub Actions**.
+
+---
+
 ## 🧩 Technologies Used
 
 | Layer | Technology | Version / Notes |
@@ -10,3 +23,25 @@
 | **IDE** | Apache NetBeans | 17 |
 | **Build Tool** | Apache Ant | — |
 | **Version Control** | Git + GitHub | — |
+
+---
+
+
+---
+
+## 🧠 Project Overview
+
+The LMS supports both **user** and **admin** modules:
+- 🔑 User registration & authentication  
+- 📚 Book browsing, borrowing, and returning  
+- ❤️ Favorites management  
+- 🧾 Activity logging  
+- 🧍‍♂️ Admin dashboard with analytics and CRUD operations  
+
+---
+
+## 🧰 How to Run Locally
+
+1. Clone this repository  
+   ```bash
+   git clone https://github.com/Suzune705/Library-Management-System.git
