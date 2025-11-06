@@ -45,6 +45,12 @@ public class SettingController extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/user/login");
             return;
         }
+        String error = (String) session.getAttribute("changePasswordError");
+        String success = (String) session.getAttribute("changePasswordSuccess");
+        request.setAttribute("error", error);
+        request.setAttribute("success", success);
+        session.removeAttribute("changePasswordError");
+        session.removeAttribute("changePasswordSuccess");
         session.setAttribute("user", dto);
         request.getRequestDispatcher("/WEB-INF/views/user/setting.jsp").forward(request, response);
         return;

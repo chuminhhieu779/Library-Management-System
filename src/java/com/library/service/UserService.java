@@ -99,6 +99,7 @@ public class UserService {
     public String getHashedPassword(String account){
         return this.userDao.findHashedPassword(account);
     }
+
     
     public void logoutAllUser(){
         Collection<HttpSession> session = SessionTracker.getAllValue();
@@ -110,4 +111,14 @@ public class UserService {
         
     }
   
+
+    public boolean updatePassword(String account,String password){
+        if(userDao.updatePassword(account, password)){
+            logger.info("update completed ()",account);
+            return true;
+        }
+        logger.info("update failed!");
+        return false;
+    }
+
 }

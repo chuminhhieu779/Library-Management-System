@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -251,16 +252,35 @@ public class UserDaoImpl implements UserDao {
         String sql = "select user_id from users ";
         List<Integer> list = new ArrayList<>();
         try (
-                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+              Connection conn = DBConnection.getInstance().getConnection(); 
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("user_id");
                 list.add(id);
             }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return list ;
+    }
+                
+    public boolean updatePassword(String account, String password) {
+        String sql = "UPDATE users\n"
+                + "SET password = ?\n"
+                + "WHERE account = ?;";
+        try (
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, password);
+            ps.setString(2, account);
+            int rs = ps.executeUpdate();
+            if(rs > 0){
+                return true;
+            }
         } catch (SQLException s) {
             s.printStackTrace();
         }
-        return list;
+        return false ;
     }
 
     @Override
@@ -272,7 +292,7 @@ public class UserDaoImpl implements UserDao {
             ps.executeUpdate();
         } catch (SQLException s) {
             s.printStackTrace();
-        }
+        } 
     }
 
 }
