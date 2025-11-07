@@ -4,9 +4,8 @@
  */
 package com.library.service;
 
-import jakarta.mail.*;
-import jakarta.mail.internet.*;
-import jakarta.activation.*;
+
+
 import jakarta.mail.Authenticator;
 import jakarta.mail.Message;
 import jakarta.mail.PasswordAuthentication;

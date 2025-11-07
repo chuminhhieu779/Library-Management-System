@@ -4,7 +4,7 @@
  */
 package com.library.dao;
 
-import com.library.util.BookDataAccessException;
+import com.library.exception.BookDataAccessException;
 import com.library.model.entity.Book;
 import java.sql.Connection;
 import java.util.List;
