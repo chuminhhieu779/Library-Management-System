@@ -1,13 +1,31 @@
 # 📚 Library Management System
 
 [![Run Tests](https://github.com/Suzune705/Library-Management-System/actions/workflows/Run-Tests.yml/badge.svg)](https://github.com/Suzune705/Library-Management-System/actions/workflows/Run-Tests.yml)
-![License](https://img.shields.io/github/license/Suzune705/Library-Management-System)
-![Java](https://img.shields.io/badge/Java-17-blue)
-![Build Tool](https://img.shields.io/badge/Build-Ant-orange)
-![Server](https://img.shields.io/badge/Tomcat-10.1.44-yellow)
+![License](https://img.shields.io/github/license/Suzune705/Library-Management-System?color=00C853&logo=opensourceinitiative&logoColor=white)
+![Java](https://img.shields.io/badge/Java-17-007396?style=flat&logo=openjdk&logoColor=white)
+![Build Tool](https://img.shields.io/badge/Build_Tool-Apache_Ant-A80030?style=flat&logo=apache&logoColor=white)
+![Server](https://img.shields.io/badge/Server-Tomcat_10.1.44-F8DC75?style=flat&logo=apachetomcat&logoColor=black)
+![Database](https://img.shields.io/badge/Database-MS_SQL_Server-CC2927?style=flat&logo=microsoftsqlserver&logoColor=white)
 
 A full-stack **Library Management System (LMS)** built with **Java Servlets**, **JSP**, and **Microsoft SQL Server**, following the MVC pattern.  
 This project is developed for academic and practical purposes, showcasing backend logic, database interaction, and CI automation via **GitHub Actions**.
+
+---
+
+## ✨ Features
+
+### 👤 User Features
+- 🔐 **Authentication** - Secure user registration and login
+- 📖 **Book Browsing** - Search and explore the book catalog
+- 📚 **Borrowing System** - Borrow and return books seamlessly
+- ❤️ **Favorites** - Save your favorite books for quick access
+- 📊 **Activity Logs** - Track your borrowing history
+
+### 🛡️ Admin Features
+- 📈 **Dashboard** - Comprehensive analytics and insights
+- ✏️ **CRUD Operations** - Manage books, users, and categories
+- 📋 **Reports** - Generate system reports and statistics
+- 👥 **User Management** - Monitor and manage user accounts
 
 ---
 
@@ -26,24 +44,97 @@ This project is developed for academic and practical purposes, showcasing backen
 
 ---
 
+## 🚀 Quick Start
+
+### Prerequisites
+- ☕ Java JDK 17 or higher
+- 🗄️ Microsoft SQL Server
+- 🐱 Apache Tomcat 10.1.44
+- 🔧 Apache NetBeans 17 (recommended)
+
+
+## 📁 Project Structure
+
+```
+Library-Management-System/
+│
+├── 📂 src/java/com/library/
+│   ├── 📂 controller/
+│   │   ├── 📂 admin/
+│   │   │   ├── 📂 book/
+│   │   │   └── 📂 user/
+│   │   ├── 📂 book/
+│   │   ├── 📂 borrowing/
+│   │   ├── 📂 favorite/
+│   │   └── 📂 user/
+│   │
+│   ├── 📂 dao/                # Data Access Objects
+│   ├── 📂 enums/              # Enum types
+│   ├── 📂 exception/          # Custom exceptions
+│   ├── 📂 factory/            # Factory patterns
+│   │
+│   ├── 📂 model/
+│   │   ├── 📂 dto/            # Data Transfer Objects
+│   │   └── 📂 entity/         # Database entities
+│   │
+│   ├── 📂 service/            # Business logic
+│   └── 📂 util/               # Utility classes
+│
+├── 📂 web/
+│   ├── 📂 WEB-INF/
+│   │   └── 📂 views/
+│   │       ├── 📂 admin/
+│   │       ├── 📂 book/
+│   │       ├── 📂 borrowing/
+│   │       ├── 📂 components/
+│   │       ├── 📂 favorite/
+│   │       └── 📂 user/
+│   │
+│   └── 📂 resources/
+│       ├── 📂 css/
+│       ├── 📂 images/
+│       └── 📂 js/
+│
+├── 📂 database/               # SQL scripts
+├── 📂 lib/                    # External libraries
+├── 📂 test/                   # Unit tests
+└── build.xml                  # Ant build file
+```
 
 ---
 
-## 🧠 Project Overview
+## 🔄 CI/CD Pipeline
 
-The LMS supports both **user** and **admin** modules:
-- 🔑 User registration & authentication  
-- 📚 Book browsing, borrowing, and returning  
-- ❤️ Favorites management  
-- 🧾 Activity logging  
-- 🧍‍♂️ Admin dashboard with analytics and CRUD operations  
+This project uses **GitHub Actions** for automated testing:
+
+- ✅ Automated unit tests on every push
+- 🔍 Code quality checks
+- 📦 Build verification
 
 ---
 
-## License
-This project is licensed under the [MIT License](LICENSE).
-## 🧰 How to Run Locally
+## 🎨 Design Patterns
 
-1. Clone this repository  
-   ```bash
-   git clone https://github.com/Suzune705/Library-Management-System.git
+The project implements several design patterns to ensure clean, maintainable, and scalable code:
+
+- 🏭 **Factory Pattern** - Centralized object creation (DaoFactory, ServiceFactory)
+- 🎯 **MVC Pattern** - Separation of Model, View, and Controller
+- 📦 **DTO Pattern** - Data transfer between layers
+- 🔌 **DAO Pattern** - Abstract database operations
+- 🛡️ **Singleton Pattern** - Single instance management (DBConnection, SessionTracker)
+- 🎭 **Service Layer Pattern** - Business logic separation
+- 🔒 **Exception Hierarchy Pattern** - Structured error handling
+
+---
+
+
+## 📝 License
+
+This project is licensed under the terms specified in the LICENSE file.
+
+---
+
+
+<div align="center">
+  <sub>Built with ❤️ using Java and Jakarta EE</sub>
+</div>
