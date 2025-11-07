@@ -1,11 +1,7 @@
 # 📚 Library Management System
 
-[![Run Tests](https://github.com/Suzune705/Library-Management-System/actions/workflows/Run-Tests.yml/badge.svg)](https://github.com/Suzune705/Library-Management-System/actions/workflows/Run-Tests.yml)
-![License](https://img.shields.io/github/license/Suzune705/Library-Management-System?color=00C853&logo=opensourceinitiative&logoColor=white)
-![Java](https://img.shields.io/badge/Java-17-007396?style=flat&logo=openjdk&logoColor=white)
-![Build Tool](https://img.shields.io/badge/Build_Tool-Apache_Ant-A80030?style=flat&logo=apache&logoColor=white)
-![Server](https://img.shields.io/badge/Server-Tomcat_10.1.44-F8DC75?style=flat&logo=apachetomcat&logoColor=black)
-![Database](https://img.shields.io/badge/Database-MS_SQL_Server-CC2927?style=flat&logo=microsoftsqlserver&logoColor=white)
+[![Tests](https://github.com/Suzune705/Library-Management-System/actions/workflows/Run-Tests.yml/badge.svg)](https://github.com/Suzune705/Library-Management-System/actions/workflows/Run-Tests.yml) ![License](https://img.shields.io/github/license/Suzune705/Library-Management-System?style=flat-square&color=1976D2) ![Java 17](https://img.shields.io/badge/Java-17-00897B?style=flat-square&logo=openjdk) ![Ant](https://img.shields.io/badge/Ant-43A047?style=flat-square&logo=apache) ![Tomcat 10.1](https://img.shields.io/badge/Tomcat-10.1-FB8C00?style=flat-square&logo=apachetomcat) ![MSSQL](https://img.shields.io/badge/MSSQL-E53935?style=flat-square&logo=microsoftsqlserver)
+
 
 A full-stack **Library Management System (LMS)** built with **Java Servlets**, **JSP**, and **Microsoft SQL Server**, following the MVC pattern.  
 This project is developed for academic and practical purposes, showcasing backend logic, database interaction, and CI automation via **GitHub Actions**.
