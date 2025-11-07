@@ -9,7 +9,7 @@ import com.library.dao.BookDaoImpl;
 import com.library.exception.BookNotFoundException;
 import com.library.model.entity.Book;
 import com.library.service.BookService;
-import com.library.util.BookDataAccessException;
+import com.library.exception.BookDataAccessException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;

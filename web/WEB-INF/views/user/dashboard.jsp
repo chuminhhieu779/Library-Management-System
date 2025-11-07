@@ -602,55 +602,7 @@
         </section>
         <!-- ==== USER REVIEW HISTORY ==== -->
         <!-- ==== USER REVIEW HISTORY ==== -->
-        <section class="review-history">
-            <h3 class="section-header">📝 Recent Reviews Activity </h3>
-            <c:choose>
-                <c:when test="${not empty reviewList}">
-                    <ul class="review-list">
-                        <c:forEach var="r" items="${reviewList}">
-                            <li class="review-item" onclick="location.href = '${pageContext.request.contextPath}/book/detail?slug=${r.bookSlug}&bookID=${r.bookID}'">
-                                <img src="${pageContext.request.contextPath}/resources/images${r.coverImage}" 
-                                     alt="${r.bookTitle}" class="review-cover">
-
-                                <div class="review-content">
-                                    <h6>${r.bookTitle}</h6>
-
-                                    <!-- Rating -->
-                                    <c:if test="${not empty r.rating}">
-                                        <div class="review-rating">
-                                            <c:forEach begin="1" end="${r.rating}">
-                                                <i class="fa-solid fa-star"></i>
-                                            </c:forEach>
-                                            <c:forEach begin="${r.rating + 1}" end="5">
-                                                <i class="fa-regular fa-star"></i>
-                                            </c:forEach>
-                                        </div>
-                                    </c:if>
-
-                                    <p>
-                                        <c:choose>
-                                            <c:when test="${fn:length(r.content) > 120}">
-                                                ${fn:substring(r.content, 0, 120)}...
-                                            </c:when>
-                                            <c:otherwise>
-                                                ${r.content}
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </p>
-
-                                    <div class="review-meta">
-                                        <span><i class="fa-solid fa-calendar"></i> ${r.createdAt}</span>
-                                        <span class="review-time">
-                                            <i class="fa-regular fa-clock"></i> ${r.timeAgo}
-                                        </span>
-                                    </div>
-                                </div>
-                            </li>
-                        </c:forEach>
-                    </ul>
-                </c:when>               
-            </c:choose>
-        </section>
+    
 
 
         <!-- Footer -->

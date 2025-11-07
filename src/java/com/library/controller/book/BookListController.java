@@ -9,7 +9,7 @@ import com.library.dao.BookDaoImpl;
 import com.library.dao.BorrowingDao;
 import com.library.dao.BorrowingDaoImpl;
 import com.library.factory.DaoFactory;
-import com.library.util.BookDataAccessException;
+import com.library.exception.BookDataAccessException;
 import com.library.model.entity.Book;
 import com.library.service.BorrowingService;
 import java.io.IOException;

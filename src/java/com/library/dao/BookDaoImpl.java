@@ -5,7 +5,7 @@
 package com.library.dao;
 
 import com.library.enums.BookType;
-import com.library.util.BookDataAccessException;
+import com.library.exception.BookDataAccessException;
 import com.library.model.entity.Book;
 import com.library.model.entity.Category;
 import com.library.util.DBConnection;
@@ -32,7 +32,7 @@ public class BookDaoImpl implements BookDao {
     private static final Logger logger = LoggerFactory.getLogger(BookDaoImpl.class);
 
     @Override
-    public List<Book> getAllBook() throws BookDataAccessException {
+    public List<Book> getAllBook(){
         List<Book> list = new ArrayList<>();
         String sql = " SELECT b.book_id, b.title ,b.slug,  b.author, b.quantity, c.category_id AS category_ID , c.name as category_name , b.cover_image FROM books b LEFT JOIN categories c ON b.category_id = c.category_id ";
         logger.debug("Executing SQL : ", sql);
@@ -55,9 +55,7 @@ public class BookDaoImpl implements BookDao {
             logger.info("Retrieved {} books from database", list.size());
         } catch (SQLException e) {
             logger.error("Error retrieving books from database", e);
-            throw new BookDataAccessException("Failed to retrieve books from database ");
         }
-
         return list;
     }
 

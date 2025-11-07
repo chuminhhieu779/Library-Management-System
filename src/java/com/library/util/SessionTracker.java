@@ -42,10 +42,7 @@ public class SessionTracker implements HttpSessionListener {
     }
 
     public static boolean isEmpty() {
-        if (map.isEmpty()) {
-            return true;
-        }
-        return false;
+        return map.isEmpty();
     }
 
     public static int getSize() {
