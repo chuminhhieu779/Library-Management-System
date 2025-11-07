@@ -40,6 +40,8 @@ The LMS supports both **user** and **admin** modules:
 
 ---
 
+## License
+This project is licensed under the [MIT License](LICENSE).
 ## 🧰 How to Run Locally
 
 1. Clone this repository  
