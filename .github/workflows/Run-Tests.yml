@@ -1,7 +1,7 @@
 name: Run-Tests
 on:
-  pull_request:
-    branches:
+  push:
+    branches-ignore:
       - master
   workflow_dispatch:
 
