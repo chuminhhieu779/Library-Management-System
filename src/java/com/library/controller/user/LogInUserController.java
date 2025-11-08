@@ -46,7 +46,7 @@ public class LogInUserController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
         HttpSession session = request.getSession(false);
         session = request.getSession(); // create new session if it is not exist
         String error = (String) session.getAttribute("error");
@@ -56,7 +56,7 @@ public class LogInUserController extends HttpServlet {
 
         session.removeAttribute("error");
         session.removeAttribute("success");
-
+        
         request.getRequestDispatcher("/WEB-INF/views/homepage.jsp").forward(request, response);
 
     }

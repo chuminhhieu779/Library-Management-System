@@ -5,6 +5,7 @@
 package com.library.util;
 
 import com.library.exception.ValidationException;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -19,7 +20,7 @@ public class Validator {
         }
     }
 
-    // Validate username (3-20 characters, only letters/numbers/_)
+
     public static void validateUsername(String username) {
         requireNotEmpty(username);
         if (!username.matches("^[a-zA-Z0-9_]{3,20}$")) {
@@ -32,15 +33,22 @@ public class Validator {
             throw new ValidationException("Title must contain only letters!");
         }
     }
-
-    public static void validateUserAccount(String account) {
-        if (!account.matches("^[a-z0-9]{5,10}$")) {
-            throw new ValidationException( "Account must be 5–10 characters long and contain only lowercase letters or digits!" );
-        }
-    }
+/*
+    ^[a-z0-9] : start with normal or number character
+    ([a-z0-9._%+-]{0,62}[a-z0-9])? : allow valid char 
+    @gmail\\.com$ : end with @gamil.com 
     
-    public static void validateUserInput(String account , String password){
-         if (account == null || account.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+    */
+    public static void validateUserAccount(String account) {
+        String gmailRegex = "^[a-z0-9]([a-z0-9._%+-]{0,62}[a-z0-9])?@gmail\\.com$";
+        if (!account.matches(gmailRegex)) {
+            throw new ValidationException("Account must be email format!");
+        }
+
+    }
+  
+    public static void validateUserInput(String account, String password) {
+        if (account == null || account.trim().isEmpty() || password == null || password.trim().isEmpty()) {
             throw new ValidationException("Account or Password cannot be empty !!");
         }
     }
