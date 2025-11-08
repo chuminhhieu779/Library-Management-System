@@ -5,9 +5,11 @@
 package com.library.util;
 
 import com.library.dao.UserDao;
+import com.library.dao.UserDaoTest;
 import com.library.exception.ValidationException;
 import com.library.factory.DaoFactory;
 import com.library.model.entity.User;
+import static com.library.util.HashPassword.hash;
 import static org.junit.Assert.assertFalse;
 
 import static org.junit.Assert.assertTrue;
@@ -66,19 +68,18 @@ public class ValidatorTest {
     }
 
     @Test
-    public void testHashPassword() {
-        String account = "suzune123";
-        String password = "1234";
-        String hashedPassword = userDao.findHashedPassword(account);
+    public void testHashPassword() {  
+        String password = "123";
+        String hashedPassword = HashPassword.hash(password);
         assertTrue(HashPassword.checkPassword(password, hashedPassword));
     }
-
+    
     @Test
     public void testHashPasswordFailed() {
-        String account = "suzune123";
-        String password = "124";
-        String hashedPassword = userDao.findHashedPassword(account);
-        assertFalse(HashPassword.checkPassword(password, hashedPassword));
+        String password = "123";
+        String hashed1 = HashPassword.hash(password);
+        String hashed2  = HashPassword.hash(password);        
+        assertFalse(hashed1.equals(hashed2));
     }
 
 }

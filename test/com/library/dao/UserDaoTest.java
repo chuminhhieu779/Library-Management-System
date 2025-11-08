@@ -40,10 +40,11 @@ public class UserDaoTest {
         Class.forName("org.h2.Driver");
         conn = DriverManager.getConnection(
                 "jdbc:h2:mem:TestLibraryDatabase;MODE=MSSQLServer;DB_CLOSE_DELAY=-1"
-        );        
+        );
     }
+
     @Before // run for every test
-    public void reloadDatabase() throws Exception{
+    public void reloadDatabase() throws Exception {
         // reset database 
         try (Statement st = conn.createStatement()) {
             st.execute("DROP ALL OBJECTS");
@@ -206,5 +207,7 @@ public class UserDaoTest {
             s.printStackTrace();
         }
     }
+
+  
 
 }
