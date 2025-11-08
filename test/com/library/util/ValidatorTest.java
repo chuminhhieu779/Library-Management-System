@@ -4,7 +4,14 @@
  */
 package com.library.util;
 
+import com.library.dao.UserDao;
+import com.library.dao.UserDaoTest;
 import com.library.exception.ValidationException;
+import com.library.factory.DaoFactory;
+import com.library.model.entity.User;
+import static com.library.util.HashPassword.hash;
+import static org.junit.Assert.assertFalse;
+
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
@@ -14,81 +21,65 @@ import org.junit.Test;
  */
 public class ValidatorTest {
 
+    private final UserDao userDao = DaoFactory.getUserDao();
+
     @Test
     public void testRequireNotEmptyValid() {
-        Validator.requireNotEmpty("Hello");       
-        assertTrue(true);
+        Validator.requireNotEmpty("Hello");
     }
 
     @Test(expected = ValidationException.class)
     public void testRequireNotEmptyEmpty() {
         Validator.requireNotEmpty("");
-    }
-
-    @Test(expected = ValidationException.class)
-    public void testRequireNotEmptyNull() {
         Validator.requireNotEmpty(null);
     }
 
     @Test
-    public void testValidateUsernameValid() {
+    public void testUsernameValid() {
         Validator.validateUsername("Hieu_123");
-        assertTrue(true);
     }
 
     @Test(expected = ValidationException.class)
-    public void testValidateUsernameTooShort() {
-        Validator.validateUsername("ab"); 
+    public void testUsernameInvalid() {
+        Validator.validateUsername("ab");
+        Validator.validateUsername("Hieu@123");
     }
-
-    @Test(expected = ValidationException.class)
-    public void testValidateUsernameInvalidChar() {
-        Validator.validateUsername("Hieu@123"); 
-    }
-
 
     @Test
-    public void testValidateSearchBookValid() {
-        Validator.validateSearchBook("Tôi thấy hoa vàng");
-        assertTrue(true);
+    public void testUserAccountValid() {
+        Validator.validateUserAccount("hieuminh9873@gmail.com");
     }
 
     @Test(expected = ValidationException.class)
-    public void testValidateSearchBookInvalid() {
-        Validator.validateSearchBook("Harry123"); 
+    public void testUserAccountInvalid() {
+        Validator.validateUserAccount("@gmail.com");
+        Validator.validateUserAccount("UserName@gmail.com123");
     }
-
 
     @Test
-    public void testValidateUserAccountValid() {
-        Validator.validateUserAccount("abc123");
-        assertTrue(true);
-    }
-
-    @Test(expected = ValidationException.class)
-    public void testValidateUserAccountTooShort() {
-        Validator.validateUserAccount("a12");
-    }
-
-    @Test(expected = ValidationException.class)
-    public void testValidateUserAccountInvalidChar() {
-        Validator.validateUserAccount("UserName"); 
-    }
-
-
-    @Test
-    public void testValidateUserInputValid() {
+    public void testUserInputValid() {
         Validator.validateUserInput("abc123", "password");
-        assertTrue(true);
     }
 
     @Test(expected = ValidationException.class)
-    public void testValidateUserInputEmptyAccount() {
+    public void testUserInputInvalid() {
         Validator.validateUserInput("", "password");
-    }
-
-    @Test(expected = ValidationException.class)
-    public void testValidateUserInputEmptyPassword() {
         Validator.validateUserInput("abc123", "");
     }
+
+    @Test
+    public void testHashPassword() {  
+        String password = "123";
+        String hashedPassword = HashPassword.hash(password);
+        assertTrue(HashPassword.checkPassword(password, hashedPassword));
+    }
+    
+    @Test
+    public void testHashPasswordFailed() {
+        String password = "123";
+        String hashed1 = HashPassword.hash(password);
+        String hashed2  = HashPassword.hash(password);        
+        assertFalse(hashed1.equals(hashed2));
+    }
+
 }

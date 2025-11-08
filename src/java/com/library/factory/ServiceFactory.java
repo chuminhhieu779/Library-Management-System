@@ -18,7 +18,7 @@ import com.library.service.UserService;
  *
  * @author hieuchu
  */
-public class ServiceFactory {
+public final class ServiceFactory {
 
     private static ActivityService activityService;
     private static BookService bookService;

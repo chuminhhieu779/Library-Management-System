@@ -18,8 +18,7 @@ import java.util.Optional;
 public interface UserDao {
 
       List<User> getALLUser();     
-   
-      
+         
       boolean checkUserExistence(String username);
       
       void addNewUser(String username,String account,String password);
