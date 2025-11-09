@@ -10,7 +10,6 @@ import com.library.model.dto.UserProfileDTO;
 import com.library.model.entity.User;
 import com.library.service.ActivityService;
 import com.library.service.BookService;
-import jakarta.annotation.security.DeclareRoles;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
