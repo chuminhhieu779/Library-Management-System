@@ -67,6 +67,7 @@ public class LogInUserController extends HttpServlet {
         HttpSession session = request.getSession();
         String account = request.getParameter("account");
         String pass = request.getParameter("password");
+        
         try {
             Validator.validateUserInput(account, pass);
             userService.isAccountExist(account);

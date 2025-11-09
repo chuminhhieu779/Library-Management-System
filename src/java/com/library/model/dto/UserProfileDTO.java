@@ -14,18 +14,29 @@ public class UserProfileDTO {
     private int userID ;
     private String fullName;
     private String account;
+    private String role ;
     private String avatar;
     private UserStatus status ;
     public UserProfileDTO() {
     }
 
-    public UserProfileDTO(int userID, String fullName, String account, String avatar, UserStatus status) {
+    public UserProfileDTO(int userID, String fullName, String account, String role, String avatar, UserStatus status) {
         this.userID = userID;
         this.fullName = fullName;
         this.account = account;
+        this.role = role;
         this.avatar = avatar;
         this.status = status;
     }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
 
     public int getUserID() {
         return userID;
