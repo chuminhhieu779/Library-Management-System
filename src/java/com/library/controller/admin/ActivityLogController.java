@@ -4,6 +4,7 @@
  */
 package com.library.controller.admin;
 
+
 import com.library.factory.DaoFactory;
 import com.library.factory.ServiceFactory;
 import com.library.model.dto.UserActivityDTO;
@@ -38,10 +39,7 @@ public class ActivityLogController extends HttpServlet {
          request.getRequestDispatcher("/WEB-INF/views/admin/dashboard.jsp").forward(request, response);
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
 
-    }
+    
 
 }

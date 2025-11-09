@@ -51,7 +51,8 @@ public class UserService {
                     dto.setAccount(user.getAccount());
                     dto.setFullName(user.getFullname());
                     dto.setAvatar(user.getAvatar());
-                    dto.setStatus(user.getStatus());
+                    dto.setStatus(user.getStatus());          
+                    dto.setRole(user.getRole());
                 },
                 () -> {
                     throw new UserNotFoundException("User: " + account + "not found");
