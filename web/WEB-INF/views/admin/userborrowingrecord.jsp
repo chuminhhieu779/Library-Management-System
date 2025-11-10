@@ -107,8 +107,8 @@
             <nav>
                 <ul>
                     <li><a href="${pageContext.request.contextPath}/admin/dashboard">Dashboard</a></li>
-                    <li><a href="${pageContext.request.contextPath}/admin/books">Manage Books</a></li>                
-                    <li><a href="${pageContext.request.contextPath}/admin/borrowing">Borrowing Records</a></li>
+                    <li><a href="${pageContext.request.contextPath}/admin/books">Manage Books</a></li>
+                    <li><a href="${pageContext.request.contextPath}/admin/user-manager">Manage Users</a></li>
                 </ul>
             </nav>
         </header>

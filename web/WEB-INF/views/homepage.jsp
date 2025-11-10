@@ -256,7 +256,6 @@
                 <ul>
                     <li><a href="${pageContext.request.contextPath}/book/list">Home</a></li>
                     <li><a href="${pageContext.request.contextPath}/user/login">User Login</a></li>
-                    <li><a href="${pageContext.request.contextPath}/admin/login">Admin Login</a></li>
                 </ul>
             </nav>
         </header>
