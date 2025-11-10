@@ -31,10 +31,6 @@ public class BookManagerController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        if (session == null || session.getAttribute("adminAccount") == null) {
-            response.sendRedirect(request.getContextPath() + "/admin/login");
-            return;
-        }
         String success = (String) session.getAttribute("success");
         request.setAttribute("successMessage", success);
         session.removeAttribute("success");
