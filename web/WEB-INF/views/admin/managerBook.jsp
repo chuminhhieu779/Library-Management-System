@@ -696,9 +696,8 @@
             <nav>
                 <ul>
                     <li><a href="${pageContext.request.contextPath}/admin/dashboard">Dashboard</a></li>
-                    <li><a href="${pageContext.request.contextPath}/admin/books">Manage Books</a></li>
-                    <li><a href="${pageContext.request.contextPath}/admin/users">Manage Users</a></li>
-                    <li><a href="${pageContext.request.contextPath}/admin/borrowing">Borrowing Records</a></li>
+                    <li><a href="${pageContext.request.contextPath}/admin/user-manager">Manage Users</a></li>
+                    <li><a href="${pageContext.request.contextPath}/admin/user-borrowing-record">Borrowing Records</a></li>
                 </ul>
             </nav>
 

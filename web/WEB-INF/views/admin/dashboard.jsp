@@ -370,7 +370,6 @@
             </div>
             <nav>
                 <ul>
-                    <li><a href="${pageContext.request.contextPath}/admin/dashboard">Dashboard</a></li>
                     <li><a href="${pageContext.request.contextPath}/admin/books">Manage Books</a></li>
                     <li><a href="${pageContext.request.contextPath}/admin/user-borrowing-record">User Borrowing Record</a></li>
                     <li><a href="${pageContext.request.contextPath}/admin/user-manager">User Manager</a></li>
