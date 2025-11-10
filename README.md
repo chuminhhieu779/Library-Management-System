@@ -57,50 +57,52 @@ This project is developed for academic and practical purposes, showcasing backen
 ## 📁 Project Structure
 
 ```
-Library-Management-System/
+LibraryManagement/
 │
-├── 📂 src/java/com/library/
-│   ├── 📂 controller/
-│   │   ├── 📂 admin/
-│   │   │   ├── 📂 book/
-│   │   │   └── 📂 user/
-│   │   ├── 📂 book/
-│   │   ├── 📂 borrowing/
-│   │   ├── 📂 favorite/
-│   │   └── 📂 user/
-│   │
-│   ├── 📂 dao/                # Data Access Objects
-│   ├── 📂 enums/              # Enum types
-│   ├── 📂 exception/          # Custom exceptions
-│   ├── 📂 factory/            # Factory patterns
-│   │
-│   ├── 📂 model/
-│   │   ├── 📂 dto/            # Data Transfer Objects
-│   │   └── 📂 entity/         # Database entities
-│   │
-│   ├── 📂 service/            # Business logic
-│   └── 📂 util/               # Utility classes
+├── 📂 Web Pages/
+│   ├── 📂 META-INF/
+│   ├── 📂 WEB-INF/
+│   │   ├── 📂 lib/
+│   │   └── 📂 views/
+│   │       ├── 📂 admin/
+│   │       ├── 📂 book/
+│   │       ├── 📂 borrowing/
+│   │       ├── 📂 components/
+│   │       ├── 📂 favorite/
+│   │       ├── 📂 user/
+│   │       └── 📄 homepage.jsp
+│   │
+│   └── 📂 resources/
+│       ├── 📂 css/
+│       └── 📂 images/
 │
-├── 📂 web/
-│   ├── 📂 WEB-INF/
-│   │   └── 📂 views/
-│   │       ├── 📂 admin/
-│   │       ├── 📂 book/
-│   │       ├── 📂 borrowing/
-│   │       ├── 📂 components/
-│   │       ├── 📂 favorite/
-│   │       └── 📂 user/
-│   │
-│   └── 📂 resources/
-│       ├── 📂 css/
-│       ├── 📂 images/
-│       └── 📂 js/
+├── 📂 Source Packages/
+│   └── 📂 com/
+│       └── 📂 library/
+│           ├── 📂 controller/
+│           │   ├── 📂 admin/
+│           │   ├── 📂 book/
+│           │   ├── 📂 borrowing/
+│           │   ├── 📂 favorite/
+│           │   ├── 📂 filter/
+│           │   └── 📂 user/
+│           │
+│           ├── 📂 dao/
+│           ├── 📂 enums/
+│           ├── 📂 exception/
+│           ├── 📂 factory/
+│           ├── 📂 model/
+│           │   ├── 📂 dto/
+│           │   └── 📂 entity/
+│           ├── 📂 service/
+│           └── 📂 util/
 │
-├── 📂 database/               # SQL scripts
-├── 📂 lib/                    # External libraries
-├── 📂 test/                   # Unit tests
-└── build.xml                  # Ant build file
-```
+└── 📂 Test Packages/
+    └── 📂 com/
+        └── 📂 library/
+            ├── 📂 dao/
+            ├── 📂 util/
+            └── 📄 Library_Management_v7.sql
 
 ---
 
