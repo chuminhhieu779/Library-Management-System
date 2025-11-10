@@ -27,16 +27,21 @@ This project is developed for academic and practical purposes, showcasing backen
 
 ## 🧩 Technologies Used
 
-| Layer | Technology | Version / Notes |
-|:------|:------------|:----------------|
-| **Frontend** | HTML5, CSS3, JSP | JSP 3.0 (Jakarta EE 10) |
-| **Backend** | Java Servlet (Jakarta Servlet API) | 6.0 (EE 10) |
-| **Database** | Microsoft SQL Server | JDBC driver: `mssql-jdbc-13.2.0.jre11.jar` |
-| **Server** | Apache Tomcat / TomEE | 10.1.44 |
-| **JDK** | Java SE Development Kit | 17 |
-| **IDE** | Apache NetBeans | 17 |
-| **Build Tool** | Apache Ant | — |
-| **Version Control** | Git + GitHub | — |
+| Layer                      | Technology / Library                                                                              | Version / Notes                            |
+| :------------------------- | :------------------------------------------------------------------------------------------------ | :----------------------------------------- |
+| **Frontend**               | HTML5, CSS3, JSP                                                                                  | JSP 3.0 (Jakarta EE 10)                    |
+| **Backend**                | Java Servlet (Jakarta Servlet API)                                                                | 6.0 (EE 10)                                |
+| **Database**               | Microsoft SQL Server : (mssql-jdbc-13.2.0.jre11.jar)                                              | JDBC driver                                |
+| **Version Control**        | Git + GitHub                                                                                      | Quản lý mã nguồn                           |
+| **CI/CD**                  | GitHub Actions (Continuous Integration)                                                           | Tự động hóa build và test Java project     |
+| **Mail Service**           | Jakarta Mail (`jakarta.mail-2.0.1.jar`), Jakarta Activation (`jakarta.activation-api-2.1.3.jar`)  | Gửi email qua SMTP                         |
+| **Security**               | BCrypt (`jbcrypt-0.4.jar`)                                                                        | Mã hóa mật khẩu người dùng                 |
+| **Logging**                | SLF4J (`slf4j-api-2.0.17.jar`), Logback (`logback-core-1.5.19.jar`, `logback-classic-1.5.19.jar`) | Ghi log hệ thống                           |
+| **Testing**                | JUnit (`junit-4.13.2.jar`), Hamcrest (`hamcrest-core-1.3.jar`)                                    | Integration testing                        |
+| **In-Memory DB (Testing)** | H2 Database (`h2-1.3.176.jar`)                                                                    | Database cho testing                       |
+| **JSP Tag Library**        | JSTL (`jakarta.servlet.jsp.jstl-3.0.1.jar`)                                                       | Thư viện thẻ JSP chuẩn                     |
+
+
 
 ---
 
