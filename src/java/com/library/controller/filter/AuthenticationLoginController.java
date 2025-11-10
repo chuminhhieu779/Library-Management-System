@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package com.library.controller.user;
+package com.library.controller.filter;
 
 import com.library.dao.ActivityDao;
 import com.library.factory.DaoFactory;
@@ -18,6 +18,7 @@ import com.library.dao.UserDaoImpl;
 import com.library.exception.AccountNotExistException;
 import com.library.exception.ValidationException;
 import com.library.factory.ServiceFactory;
+import com.library.model.dto.UserProfileDTO;
 import com.library.service.ActivityService;
 
 import com.library.service.TrackingUserService;
@@ -33,7 +34,7 @@ import jakarta.servlet.http.HttpSession;
  */
 @WebServlet(name = "Login", urlPatterns = {"/user/login"})
 
-public class LogInUserController extends HttpServlet {
+public class AuthenticationLoginController extends HttpServlet {
 
     UserDao userDao = new UserDaoImpl();
 
@@ -46,7 +47,7 @@ public class LogInUserController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         HttpSession session = request.getSession(false);
         session = request.getSession(); // create new session if it is not exist
         String error = (String) session.getAttribute("error");
@@ -56,7 +57,7 @@ public class LogInUserController extends HttpServlet {
 
         session.removeAttribute("error");
         session.removeAttribute("success");
-        
+
         request.getRequestDispatcher("/WEB-INF/views/homepage.jsp").forward(request, response);
 
     }
@@ -67,20 +68,29 @@ public class LogInUserController extends HttpServlet {
         HttpSession session = request.getSession();
         String account = request.getParameter("account");
         String pass = request.getParameter("password");
-        
+        UserProfileDTO user = userService.getProfileUserByAccount(account);
+
         try {
             Validator.validateUserInput(account, pass);
             userService.isAccountExist(account);
             String hashedPassword = userService.getHashedPassword(account);
             if (HashPassword.checkPassword(pass, hashedPassword)) {
                 session.setAttribute("account", account);
+                session.setAttribute("user", user);
                 TrackingUserService.add(account);
                 activityService.ActivityUser(1, account);
                 userService.setOnlineUser(account);
                 int userID = userDao.findUserID(account);
                 trackService.updateData(session.getId(), userID);
                 SessionTracker.addSessionToServer(session.getId(), session);
-                response.sendRedirect(request.getContextPath() + "/book/list");
+
+                if (user.getRole().equals("user")) {
+                    response.sendRedirect(request.getContextPath() + "/book/list");
+                    return;
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/admin/dashboard");
+                    return;
+                }
             } else {
                 session.setAttribute("error", " Incorrect username or password!");
                 response.sendRedirect(request.getContextPath() + "/user/login");
