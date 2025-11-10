@@ -9,6 +9,7 @@ This project is developed for academic and practical purposes, showcasing backen
 ---
 
 ✨ Features
+
 👤 User Features
 
 🔐 Authentication & Account Management
