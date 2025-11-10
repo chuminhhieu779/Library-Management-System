@@ -22,7 +22,7 @@ import jakarta.servlet.http.HttpSession;
  */
 @WebServlet(name = "ChangePassword", urlPatterns = {"/user/change-password"})
 public class ChangePassword extends HttpServlet {
-
+  
     private UserService userService = ServiceFactory.getUserService();
 
     @Override
@@ -63,6 +63,8 @@ public class ChangePassword extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/user/setting");
             return;
         }
+                 
+                
     }
 
 }

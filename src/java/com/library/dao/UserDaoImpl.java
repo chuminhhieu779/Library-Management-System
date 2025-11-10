@@ -34,7 +34,7 @@ public class UserDaoImpl implements UserDao {
         try (
                 Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
+            while (rs.next()) {               
                 User u = new User();
                 u.setUserID(rs.getInt("user_id"));
                 u.setFullname(rs.getString("fullname"));
