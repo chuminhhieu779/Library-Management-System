@@ -8,21 +8,83 @@ This project is developed for academic and practical purposes, showcasing backen
 
 ---
 
-## ✨ Features
+✨ Features
+👤 User Features
 
-### 👤 User Features
-- 🔐 **Authentication** - Secure user registration and login
-- 📖 **Book Browsing** - Search and explore the book catalog
-- 📚 **Borrowing System** - Borrow and return books seamlessly
-- ❤️ **Favorites** - Save your favorite books for quick access
-- 📊 **Activity Logs** - Track your borrowing history
+🔐 Authentication & Account Management
 
-### 🛡️ Admin Features
-- 📈 **Dashboard** - Comprehensive analytics and insights
-- ✏️ **CRUD Operations** - Manage books, users, and categories
-- 📋 **Reports** - Generate system reports and statistics
-- 👥 **User Management** - Monitor and manage user accounts
+- Secure user registration and login with BCrypt password hashing
+- Password change 
+- Forgot password with email recovery
 
+📖 Book Discovery & Management
+
+- Search books by title
+- Filter books by category (Action, English, Romance, Skill, Technology)
+- View detailed book information
+
+📚 Borrowing System
+
+- Borrow available books with 2-month loan period
+- Track borrowed books with due dates
+- Extend borrowing period (up to 60 days from borrow date)
+Return books
+- View borrowing and return history
+
+❤️ Favorites
+
+- Add books to personal favorites list
+- Quick access to favorite books
+
+👤 Profile Management
+
+- Update personal information (name, email, avatar)
+- View personal dashboard with statistics
+Track total borrowed and returned books
+
+📊 Activity Tracking
+
+- View personal activity history
+- Track login, profile update
+
+🛡️ Admin Features
+
+📈 Dashboard & Analytics
+
+- Real-time online user count
+- Total books statistics
+- Recent user activities monitoring
+- Borrowed books by category visualization
+- Latest activity logs (login, profile updates, borrowing, returns)
+
+📚 Book Management (CRUD)
+
+- Add new books
+- Edit book details
+- Delete books 
+- Search books 
+- View all books
+
+👥 User Management
+
+- View all registered users
+- Monitor user status (active/inactive)
+- View user borrowing records
+- Delete user accounts
+- Force logout individual users
+- Logout all users simultaneously
+
+
+🔍 Monitoring & Reports
+
+- User borrowing records and status
+- Track which users have borrowed specific books
+- Monitor book availability and quantities
+- Category borrowing statistics
+
+🔒 Access Control
+- RBAC (admin/user)
+- Enhance Security Page JSP
 ---
 
 ## 🧩 Technologies Used
