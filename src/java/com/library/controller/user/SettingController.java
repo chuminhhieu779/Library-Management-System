@@ -35,10 +35,10 @@ public class SettingController extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("account") == null) {
-            response.sendRedirect(request.getContextPath() + "/user/login");
-            return;
-        }
+//        if (session == null || session.getAttribute("account") == null) {
+//            response.sendRedirect(request.getContextPath() + "/user/login");
+//            return;
+//        }
         String account = (String) session.getAttribute("account");
         try {
             UserProfileDTO dto = userService.getProfileUserByAccount(account);

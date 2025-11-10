@@ -31,13 +31,12 @@ import org.slf4j.LoggerFactory;
 public class BookListController extends HttpServlet {
 
     private static final Logger logger = LoggerFactory.getLogger(BookListController.class);
-    private final BookDao bookDao ;
+    private final BookDao bookDao;
 
     public BookListController() {
         this.bookDao = DaoFactory.getBookDao();
     }
-       
-     
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

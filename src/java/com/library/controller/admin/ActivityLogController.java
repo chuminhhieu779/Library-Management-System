@@ -38,8 +38,5 @@ public class ActivityLogController extends HttpServlet {
         String account = (String)session.getAttribute("account");
          request.getRequestDispatcher("/WEB-INF/views/admin/dashboard.jsp").forward(request, response);
     }
-
-
     
-
 }
