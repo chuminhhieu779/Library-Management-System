@@ -43,7 +43,7 @@ public class BorrowingService {
     }
 
     public boolean canBorrowBook(int bookID, int userID) {
-        if (this.borrowDao.hasUserBorrowedBook(bookID, userID)) {
+        if (this.borrowDao.hasUserBorrowedBook(bookID, userID) && this.borrowDao.numberOfBorrowBookOnPerUser() < 10) {
             return true;
         }
         return false;
@@ -54,8 +54,7 @@ public class BorrowingService {
             conn.setAutoCommit(false);
             try {
                 if (this.bookDao.getCurrentQuantity(conn, bookID) > 0) {
-                    this.borrowDao.insertBook(conn, bookID, userID);
-                    this.bookDao.decreaseQuantity(conn, bookID);
+                    this.borrowDao.insertBook(conn, bookID, userID);                 
                     conn.commit();
                 }
             } catch (SQLException s) {
@@ -65,4 +64,22 @@ public class BorrowingService {
             s1.printStackTrace();
         }
     }
+
+    public void approveBorrowRequest(int borrowId, int adminId, int bookID) {
+        try (Connection conn = DBConnection.getInstance().getConnection()) {
+            conn.setAutoCommit(false);
+            try {
+                this.borrowDao.approveBorrowing(conn, borrowId, adminId);      
+                this.bookDao.decreaseQuantity(conn, bookID);
+                conn.commit();
+                logger.info("Borrow request {} approved by admin {}", borrowId, adminId);
+            } catch (SQLException e) {
+                conn.rollback();
+                logger.error("Error approving borrow request: {}", e.getMessage(), e);
+            }
+        } catch (SQLException e) {
+            logger.error("DB connection error while approving request", e);
+        }
+    }
+
 }

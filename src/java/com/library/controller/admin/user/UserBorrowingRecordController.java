@@ -15,6 +15,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -31,7 +32,10 @@ public class UserBorrowingRecordController extends HttpServlet {
             throws ServletException, IOException {
 
         List<UserBorrowRecordDTO> list = userService.showUserInformation();
+        HttpSession session = request.getSession(true);
+        String success = (String) session.getAttribute("success");
         request.setAttribute("userList", list);
+        request.setAttribute("sucess", success);
         request.getRequestDispatcher("/WEB-INF/views/admin/userborrowingrecord.jsp").forward(request, response);
     }
 

@@ -49,7 +49,7 @@ public class AutholizationURLController {
         "/admin/book/add",
         "/admin/books/edit",
         "/admin/books/delete",
-
+        "/admin/approveBorrow",
         "/admin/user-manager",
         "/admin/user-borrowing-record",
         "/admin/user/delete",

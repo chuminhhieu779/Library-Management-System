@@ -25,10 +25,12 @@ public class AdminDaoImpl implements AdminDao {
 
     @Override
     public List<UserBorrowRecordDTO> getAllUserInformation() {
-        String sql = "select users.user_id  ,users.fullname , users.account, books.title ,borrowings.status from borrowings\n"
-                + "join books on books.book_id = borrowings.book_id\n"
-                + "join users on users.user_id = borrowings.user_id\n"
-                + "group by users.user_id  ,users.fullname , users.account, borrowings.status , books.title";
+        String sql = "SELECT b.book_id ,b.borrowing_id, u.user_id, u.fullname, u.account,\n"
+                + "               bk.title, b.status\n"
+                + "        FROM borrowings b\n"
+                + "        JOIN books bk ON bk.book_id = b.book_id\n"
+                + "        JOIN users u ON u.user_id = b.user_id\n"
+                + "        ORDER BY b.borrowing_id DESC";
 
         List<UserBorrowRecordDTO> list = new ArrayList<>();
 
@@ -36,19 +38,21 @@ public class AdminDaoImpl implements AdminDao {
                 Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-               UserBorrowRecordDTO dto = new UserBorrowRecordDTO();
-               dto.setUserID(rs.getInt("user_id"));
-               dto.setAccount(rs.getString("account"));
-               dto.setFullName(rs.getString("fullname"));
-               dto.setBorrowedBook(rs.getString("title"));
+                UserBorrowRecordDTO dto = new UserBorrowRecordDTO();
+                dto.setUserID(rs.getInt("user_id"));
+                dto.setAccount(rs.getString("account"));
+                dto.setFullName(rs.getString("fullname"));
+                dto.setBorrowedBook(rs.getString("title"));
+                dto.setBorrowingID(rs.getInt("borrowing_id"));
+                dto.setBookID(rs.getInt("book_id"));
                 Optional<UserStatus> opt = UserStatus.convertToEnum(rs.getString("status"));
                 opt.ifPresent(status -> dto.setStatus(status));
-               list.add(dto);
+                list.add(dto);
             }
         } catch (SQLException s) {
             s.printStackTrace();
         }
-       return list ;
+        return list;
     }
 
 }

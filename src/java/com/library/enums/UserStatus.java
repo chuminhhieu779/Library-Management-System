@@ -14,6 +14,7 @@ public enum UserStatus {
      ACTIVE("active"),
      INACTIVE("inactive"),
      BORROWING("borrowing"),
+     PENDING("pending"),    
      RETURNED("returned");
      
     private final String value;

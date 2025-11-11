@@ -17,6 +17,7 @@ public class UserProfileDTO {
     private String role ;
     private String avatar;
     private UserStatus status ;
+
     public UserProfileDTO() {
     }
 
