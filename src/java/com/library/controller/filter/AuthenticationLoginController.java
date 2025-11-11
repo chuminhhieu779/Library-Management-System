@@ -76,15 +76,14 @@ public class AuthenticationLoginController extends HttpServlet {
             String hashedPassword = userService.getHashedPassword(account);
             if (HashPassword.checkPassword(pass, hashedPassword)) {
                 session.setAttribute("account", account);
-                session.setAttribute("user", user);
-                TrackingUserService.add(account);
-                activityService.ActivityUser(1, account);
-                userService.setOnlineUser(account);
-                int userID = userDao.findUserID(account);
-                trackService.updateData(session.getId(), userID);
-                SessionTracker.addSessionToServer(session.getId(), session);
-
+                session.setAttribute("user", user);             
+                SessionTracker.addSessionToServer(session.getId(), session);                
                 if (user.getRole().equals("user")) {
+                    TrackingUserService.add(account);
+                    activityService.ActivityUser(1, account);
+                    userService.setOnlineUser(account);
+                    int userID = userDao.findUserID(account);
+                    trackService.updateData(session.getId(), userID);
                     response.sendRedirect(request.getContextPath() + "/book/list");
                     return;
                 } else {

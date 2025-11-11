@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 public class DBConnection {
 
     private static final Logger logger = LoggerFactory.getLogger(DBConnection.class);
-    private static DBConnection instance;
+    private static DBConnection instance ;
 
     private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=LibraryManagement;encrypt=true;trustServerCertificate=true";
     private static final String USER = "sa";

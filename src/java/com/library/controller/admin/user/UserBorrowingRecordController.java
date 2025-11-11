@@ -23,7 +23,7 @@ import java.util.List;
  */
 @WebServlet(name = "ManagerUserController", urlPatterns = {"/admin/user-borrowing-record"})
 public class UserBorrowingRecordController extends HttpServlet {
-
+    
     private final UserService userService = ServiceFactory.getUserService();
 
     @Override

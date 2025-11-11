@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
 public class LogoutUserController extends HttpServlet {
 
     UserDao userDao = new UserDaoImpl();
+    
     private final TrackingUserService trackService = ServiceFactory.getTrackingUserService();
     private final UserService userService = ServiceFactory.getUserService();
 

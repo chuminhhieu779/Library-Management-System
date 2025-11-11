@@ -21,14 +21,14 @@ public class TimeFormatter {
             Duration duration = Duration.between(logTime, LocalDateTime.now()); // 1h:00 -> 1h:05 => 5 
             long minutes = duration.toMinutes(); // convert 5 to 5 minutes 
             if (minutes < 1) {
-                return timeFormatted = "vừa xong";
+                return timeFormatted = "just now";
             }
             if (minutes < 60) {
-                return timeFormatted =  minutes + " phút trước";
+                return timeFormatted =  minutes + "minutes ago";
             }
             long hours = duration.toHours();  // convert to hour unit 
             if (hours < 24) {
-                return timeFormatted = hours + " giờ trước";
+                return timeFormatted = hours + " hours ago";
             }
         }
         return null;

@@ -36,6 +36,9 @@ public class TrackingUserService {
     public static int getSize(){
         return list.size();                
     }
+    public static void  clear(){
+        list.clear();
+    }
     
     /**   
      * updateDate : insert data into user_session table after user login in   

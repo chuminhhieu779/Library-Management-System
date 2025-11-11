@@ -585,7 +585,7 @@
 
                     </div>
                     <c:if test="${not empty isUpdated}">
-                        <div class="alert alert-info">${isUpdated}</div>
+                        <div class="alert alert-info" style="color: blueviolet; font-weight: bold;">${isUpdated}</div>
                     </c:if>
 
                     <form action="${pageContext.request.contextPath}/user/update-profile" method="post" enctype="multipart/form-data">
@@ -649,7 +649,7 @@
                         <p style="color:red"><%= request.getAttribute("error") %></p>
                         <% } %>
                         <% if (request.getAttribute("success") != null) { %>
-                        <p style="color:#28a745"><%= request.getAttribute("success") %></p>
+                        <p style="color:yellow"><%= request.getAttribute("success") %></p>
                         <% } %>
                         <div class="form-group">
                             <label for="currentPassword">Current Password</label>
@@ -673,56 +673,7 @@
                             <i class="fa-solid fa-key"></i> Update Password
                         </button>
                     </form>
-                </div>
-
-                <!-- Notification Preferences -->
-                <div class="settings-section">
-                    <h3 class="section-title">
-                        <i class="fa-solid fa-bell"></i>
-                        Notification Preferences
-                    </h3>
-
-                    <form action="${pageContext.request.contextPath}/user/update-notifications" method="post">
-                        <div class="preference-item">
-                            <div>
-                                <div class="preference-label">Email Notifications</div>
-                                <div class="preference-description">Receive email updates about your borrowed books</div>
-                            </div>
-                            <label class="toggle-switch">
-                                <input type="checkbox" name="emailNotifications" checked>
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-
-                        <div class="preference-item">
-                            <div>
-                                <div class="preference-label">Due Date Reminders</div>
-                                <div class="preference-description">Get reminded 3 days before book due date</div>
-                            </div>
-                            <label class="toggle-switch">
-                                <input type="checkbox" name="dueDateReminders" checked>
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-
-                        <div class="preference-item">
-                            <div>
-                                <div class="preference-label">New Book Alerts</div>
-                                <div class="preference-description">Be notified when new books are added</div>
-                            </div>
-                            <label class="toggle-switch">
-                                <input type="checkbox" name="newBookAlerts">
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary" style="margin-top: 15px;">
-                            <i class="fa-solid fa-floppy-disk"></i> Save Preferences
-                        </button>
-                    </form>
-                </div>
-
-
+                </div>            
             </div>
         </div>
 

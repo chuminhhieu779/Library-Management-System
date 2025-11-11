@@ -5,6 +5,7 @@
 package com.library.controller.admin.user;
 
 import com.library.factory.ServiceFactory;
+import com.library.service.TrackingUserService;
 import com.library.service.UserService;
 import com.library.util.SessionTracker;
 import java.io.IOException;
@@ -32,8 +33,9 @@ public class LogaoutAllUser extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                        
+
         userService.logoutAllUser();
+        TrackingUserService.clear();
         HttpSession session = request.getSession();
         session.setAttribute("logAll", "logout all users done!");
         response.sendRedirect(request.getContextPath() + "/admin/user-manager");

@@ -25,18 +25,14 @@ import jakarta.servlet.http.HttpSession;
 public class UserDashBoardController extends HttpServlet {
 
     BookDao bookDao = new BookDaoImpl();
-    BorrowingDao borrowDao = new BorrowingDaoImpl();            
+    BorrowingDao borrowDao = new BorrowingDaoImpl();         
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {      
         int totalBook = bookDao.totalBook();
-        HttpSession session = request.getSession(false);    //get available session 
+        HttpSession session = request.getSession(false);   
         
-//        check if the session is null or if the user has not logged in yet 
-        if(session == null || session.getAttribute("account") == null){
-            response.sendRedirect(request.getContextPath() + "/user/login");
-            return ;
-        }
 //        take current user account 
         String account = (String)session.getAttribute("account");
         

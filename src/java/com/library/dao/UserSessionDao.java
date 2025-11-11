@@ -17,5 +17,5 @@ public interface UserSessionDao {
     void updateData(String sessionID , int userID);
     String getSessionID(int userID);
     public void deleteUserFromSessions(Connection conn, int userId);
-
+    List<String> getSessionIDUser();
 }
