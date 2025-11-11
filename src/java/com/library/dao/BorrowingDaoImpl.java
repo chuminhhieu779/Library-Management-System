@@ -218,11 +218,11 @@ public class BorrowingDaoImpl implements BorrowingDao {
             ps.setString(3, "borrowing");
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return false;
+                return true;
             }
         } catch (Exception e) {
         }
-        return true;
+        return false;
     }
 
     @Override
@@ -302,6 +302,44 @@ public class BorrowingDaoImpl implements BorrowingDao {
             ex.printStackTrace();
         }
 
+    }
+
+        @Override
+        public int getExtendCount(int bookId, String account) {
+            String sql = "SELECT b.extend_count\n"
+                    + "        FROM borrowings b\n"
+                    + "        JOIN users u ON b.user_id = u.user_id \n"
+                    + "        WHERE b.book_id = ? AND u.account = ?";
+
+            try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setInt(1, bookId);
+                ps.setString(2, account);
+                try (ResultSet rs = ps.executeQuery()) {
+                    if (rs.next()) {
+                        return rs.getInt("extend_count");
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return 0;
+        }
+
+    @Override
+    public boolean incrementExtendCount(int bookId, String account) {
+        String sql = "UPDATE b\n"
+                + "SET b.extend_count = b.extend_count + 1\n"
+                + "FROM borrowings b\n"
+                + "JOIN users u ON b.user_id = u.user_id \n"
+                + "WHERE b.book_id = ? AND u.account = ?";
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, bookId);
+            ps.setString(2, account);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }
