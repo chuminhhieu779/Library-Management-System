@@ -37,7 +37,7 @@ public class BorrowBookController extends HttpServlet {
 
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("account") == null) {
-            session.setAttribute("error", "Vui lòng đăng nhập để sử dụng chức năng!");
+            session.setAttribute("error", "you have to login before using our service!");
             response.sendRedirect(request.getContextPath() + "/book/detail");
             return;
         }
@@ -50,7 +50,7 @@ public class BorrowBookController extends HttpServlet {
         if (borrowService.canBorrowBook(bookID, userID)) {
             borrowService.borrowBook(slug, bookID, userID);
             activityService.BookActivityOfUser(account, 3, bookID);
-            session.setAttribute("success", "you borrowed book !!");
+            session.setAttribute("success", "borrow book request has sent  !!");
         } else {
             session.setAttribute("failed", "you already borrowed this book !!!");
         }

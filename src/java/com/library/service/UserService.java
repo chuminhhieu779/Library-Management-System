@@ -146,5 +146,9 @@ public class UserService {
     public boolean addUser(String username, String account , String password){
         return this.userDao.addNewUser(username, account, password);
     }
+    
+    public int getAminID(String account){
+        return this.userDao.findAdminIDByAccount(account);
+    }
 
 }

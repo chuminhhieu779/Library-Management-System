@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -195,16 +196,15 @@ public class BorrowingDaoImpl implements BorrowingDao {
 
     @Override
     public void insertBook(Connection conn, int bookID, int userID) {
-        String sql = "INSERT INTO borrowings (user_id, book_id, borrow_date, due_date, return_date, late_days, fine_amount, fine_paid, status) "
-                + "VALUES (?, ?, GETDATE(), DATEADD(MONTH, 2, GETDATE()), NULL, 0, 0.00, 'Unpaid', 'borrowing')";
-        try (
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+        String sql = "INSERT INTO borrowings (user_id, book_id, status, fine_paid)\n"
+                + "        VALUES (?, ?, 'pending', 'Unpaid')";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, userID);
             ps.setInt(2, bookID);
             ps.executeUpdate();
+            logger.info("Borrow request inserted: user_id={}, book_id={}", userID, bookID);
         } catch (SQLException s) {
-            logger.error("Error executing: {}", s.getMessage(), s);
-
+            logger.error("Error inserting borrow request: {}", s.getMessage(), s);
         }
     }
 
@@ -237,6 +237,7 @@ public class BorrowingDaoImpl implements BorrowingDao {
                 return false;
             }
         } catch (Exception e) {
+
         }
         return true;
     }
@@ -266,4 +267,41 @@ public class BorrowingDaoImpl implements BorrowingDao {
         }
 
     }
+
+    @Override
+    public int numberOfBorrowBookOnPerUser() {
+        String sql = "SELECT user_id, count(book_id) AS borrow_count \n"
+                + "FROM borrowings\n"
+                + "GROUP BY user_id ";
+        try (
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("borrow_count");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    @Override
+    public void approveBorrowing(Connection conn, int borrowId, int adminId) {
+        String sql = "UPDATE borrowings\n"
+                + "        SET status = 'borrowing',\n"
+                + "            borrow_date = GETDATE(),\n"
+                + "            due_date = DATEADD(DAY, 14, GETDATE()),\n"
+                + "            approved_by = ?\n"
+                + "        WHERE borrowing_id = ?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, adminId);
+            ps.setInt(2, borrowId);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
 }

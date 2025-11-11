@@ -296,5 +296,21 @@ public class UserDaoImpl implements UserDao {
             s.printStackTrace();
         }
     }
+    @Override
+public int findAdminIDByAccount(String account) {
+    String sql = "SELECT user_id FROM users WHERE account = ? AND role = 'admin'";
+    try (Connection conn = DBConnection.getInstance().getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setString(1, account);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getInt("user_id");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return -1; 
+}
+
 
 }

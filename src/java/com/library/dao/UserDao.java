@@ -4,7 +4,6 @@
  */
 package com.library.dao;
 
-
 import com.library.model.dto.UserProfileDTO;
 import com.library.model.entity.User;
 import java.sql.Connection;
@@ -17,35 +16,35 @@ import java.util.Optional;
  */
 public interface UserDao {
 
-      List<User> getALLUser();     
-         
-      boolean checkUserExistence(String username);
-      
-      boolean addNewUser(String username,String account,String password);
-      
-      boolean checkAdminLogin(String username,String pass);
-      
-      int findUserID(String account);
-      
-      Optional<User> getUser(String account);
-      
-      boolean updateUser(String account , String avatar, String fullName, int userID);
-      
-      boolean setOnline(String account);
-      
-      boolean setOfflife(String account);
-      
-      void setOfflineAll();
-      
-      boolean checkUserStatus(int userID);
-      
-      boolean deleteUser(Connection conn , int userID);
-      
-      String findHashedPassword(String account);
-      
-      List<Integer> getAllUserID();      
+    List<User> getALLUser();
 
-      boolean updatePassword(String account,String password);
+    boolean checkUserExistence(String username);
 
+    boolean addNewUser(String username, String account, String password);
 
+    boolean checkAdminLogin(String username, String pass);
+
+    int findUserID(String account);
+
+    Optional<User> getUser(String account);
+
+    boolean updateUser(String account, String avatar, String fullName, int userID);
+
+    boolean setOnline(String account);
+
+    boolean setOfflife(String account);
+
+    void setOfflineAll();
+
+    boolean checkUserStatus(int userID);
+
+    boolean deleteUser(Connection conn, int userID);
+
+    String findHashedPassword(String account);
+
+    List<Integer> getAllUserID();
+
+    boolean updatePassword(String account, String password);
+
+   int findAdminIDByAccount (String account);
 }
