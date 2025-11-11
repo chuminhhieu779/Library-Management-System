@@ -80,7 +80,7 @@ public class UserSessionDaoImpl implements UserSessionDao {
     public void deleteUserFromSessions(Connection conn, int userId) {
         String sql = "DELETE FROM user_sessions WHERE user_id = ?";
         try (
-               PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, userId);
             int tmp = ps.executeUpdate();
         } catch (SQLException e) {
@@ -89,7 +89,24 @@ public class UserSessionDaoImpl implements UserSessionDao {
 
     }
 
-    
-    
+    @Override
+    public List<String> getSessionIDUser() {
+        List<String> listSession = new ArrayList<>();
+        String sql = "  SELECT user_sessions.session_id\n"
+                + "        FROM users\n"
+                + "        JOIN user_sessions ON user_sessions.user_id = users.user_id\n"
+                + "        WHERE users.role = 'user' ";
+
+        try (
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery();) {
+            while (rs.next()) {
+                listSession.add(rs.getString("session_id"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return listSession;
+    }
 
 }

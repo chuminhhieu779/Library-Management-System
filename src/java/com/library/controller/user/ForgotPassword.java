@@ -51,10 +51,10 @@ public class ForgotPassword extends HttpServlet {
             Validator.requireNotEmpty(account);
             userService.isAccountExist(account);
             String tmp = RandomPassword.generatePassword();
-            String subject = "Password Recovery - Library System";
+            String title = "Password Recovery - Library System";
             String message = "<p>Your New Pass : <b>" + tmp + "</b> </p>";
             userService.updatePassword(account, HashPassword.hash(tmp));
-            MailService.send(account, subject, message);
+            MailService.send(account, title, message);
             session.setAttribute("message", "we have sent your password via email");
             response.sendRedirect(request.getContextPath() + "/user/forgot-password");
         } catch (ValidationException e) {

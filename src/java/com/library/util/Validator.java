@@ -40,11 +40,10 @@ public class Validator {
     
     */
     public static void validateUserAccount(String account) {
-        String gmailRegex = "^[a-z0-9]([a-z0-9._%+-]{0,62}[a-z0-9])?@gmail\\.com$";
+        String gmailRegex = "^[A-Za-z0-9]([A-Za-z0-9._%+-]{0,62}[A-Za-z0-9])?@gmail\\.com$";
         if (!account.matches(gmailRegex)) {
             throw new ValidationException("Account must be email format!");
         }
-
     }
   
     public static void validateUserInput(String account, String password) {

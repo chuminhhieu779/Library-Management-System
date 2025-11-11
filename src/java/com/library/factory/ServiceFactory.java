@@ -19,7 +19,7 @@ import com.library.service.UserService;
  * @author hieuchu
  */
 public final class ServiceFactory {
-
+    
     private static ActivityService activityService;
     private static BookService bookService;
     private static BorrowingService borrowService;
@@ -56,7 +56,7 @@ public final class ServiceFactory {
         return bookService;
     }
 
-    public static BorrowingService getBorrowService() {
+    public static BorrowingService getBorrowService() {      
         if (borrowService == null) {
             borrowService = new BorrowingService(
                     DaoFactory.getBorrowingDao(),
@@ -98,6 +98,7 @@ public final class ServiceFactory {
         return returnService;
     }
 
+   
     public static TrackingUserService getTrackingUserService() {
         if (trackService == null) {
             trackService = new TrackingUserService(

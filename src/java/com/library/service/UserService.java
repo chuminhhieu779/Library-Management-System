@@ -8,6 +8,7 @@ import com.library.dao.AdminDao;
 import com.library.dao.UserDao;
 import com.library.dao.UserSessionDao;
 import com.library.enums.UserStatus;
+import com.library.exception.AccountHasExistedException;
 import com.library.exception.AccountNotExistException;
 import com.library.exception.UserNotFoundException;
 import com.library.model.dto.UserBorrowRecordDTO;
@@ -64,14 +65,17 @@ public class UserService {
     public List<UserProfileDTO> showProfileUser() {
         List<User> entityList = this.userDao.getALLUser();
         List<UserProfileDTO> dtoList = new ArrayList<>();
-        for (User u : entityList) {
+        for (User u : entityList) {            
             UserProfileDTO dto = new UserProfileDTO();
-            dto.setAccount(u.getAccount());
+            if(u.getRole().equals("user")){
+                   dto.setAccount(u.getAccount());
             dto.setFullName(u.getFullname());
             dto.setUserID(u.getUserID());
             dto.setAvatar(u.getAvatar());
             dto.setStatus(u.getStatus());
             dtoList.add(dto);
+            }
+         
         }
         return dtoList;
     }
@@ -111,7 +115,6 @@ public class UserService {
 
     public void logoutAllUser() {
         Collection<HttpSession> session = SessionTracker.getAllValue();
-
         for (HttpSession s : session) {
             s.invalidate();
         }
@@ -129,9 +132,19 @@ public class UserService {
     }
 
     public void isAccountExist(String account) {
-        if (!this.userDao.checkUserExistence(account)) {
+        if (this.userDao.checkUserExistence(account) == false ) {
             throw new AccountNotExistException("The account : " + account + " not exist!!");
         }
+    }
+    
+    public void hasAccountExisted(String account) {
+        if (this.userDao.checkUserExistence(account)) {
+            throw new AccountHasExistedException("The account : " + account + " has existed!!");
+        }
+    }
+    
+    public boolean addUser(String username, String account , String password){
+        return this.userDao.addNewUser(username, account, password);
     }
 
 }

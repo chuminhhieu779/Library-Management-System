@@ -44,7 +44,7 @@ public class AutholizationUserController implements Filter {
 
         String[] publicPaths = {
             "/login", "/register", "/book/list",
-            "/resource/", "/images/", ".css", ".js", ".png", ".jpg"
+            "/resource/", "/images/", ".css", ".js", ".png", ".jpg", "/user/forgot-password"
         };
         for (String p : publicPaths) {
             if (path.contains(p)) {

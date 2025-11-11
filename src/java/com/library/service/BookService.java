@@ -84,5 +84,5 @@ public class BookService {
      public Map<String, Integer> getNumberBorrowedBookByCategory() {
          return this.bookDao.countingBorrowedBookByCategory();
     }
-
+    
 }

@@ -70,7 +70,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void addNewUser(String username, String account, String password) {
+    public boolean addNewUser(String username, String account, String password) {
         String sql = "insert into users(fullname, account, password, role, avatar) values (?, ?, ?, ?, ?)";
         String role = "user";
         String avatar = "ava.jpg";
@@ -82,10 +82,12 @@ public class UserDaoImpl implements UserDao {
             ps.setString(3, password);
             ps.setString(4, role);
             ps.setString(5, avatar);
-            ps.executeUpdate();
+           int tmp =  ps.executeUpdate();
+           if(tmp > 0 ) return true ;
         } catch (SQLException e) {
             e.printStackTrace();;
         }
+        return false ;
     }
 
     @Override

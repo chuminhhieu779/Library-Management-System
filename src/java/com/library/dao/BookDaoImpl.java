@@ -47,7 +47,7 @@ public class BookDaoImpl implements BookDao {
                 b.setCoverImage(rs.getString("cover_image"));
 
                 Category category = new Category();
-                category.setCategoryID(rs.getInt("category_ID"));
+                category.setCategoryID(rs.getInt("category_ID"));             
                 category.setType(BookType.convert(rs.getString("category_name")));
                 b.setCategory(category);
                 list.add(b);

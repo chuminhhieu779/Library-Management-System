@@ -33,29 +33,19 @@ public class SettingController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        HttpSession session = request.getSession(false);
-//        if (session == null || session.getAttribute("account") == null) {
-//            response.sendRedirect(request.getContextPath() + "/user/login");
-//            return;
-//        }
+        HttpSession session = request.getSession(false);        
         String account = (String) session.getAttribute("account");
         try {
-            UserProfileDTO dto = userService.getProfileUserByAccount(account);
-            
+            UserProfileDTO dto = userService.getProfileUserByAccount(account);            
             String error = (String) session.getAttribute("changePasswordError");
-            String success = (String) session.getAttribute("changePasswordSuccess");
-            
+            String success = (String) session.getAttribute("changePasswordSuccess");            
             request.setAttribute("error", error);
-            request.setAttribute("success", success);
-            
+            request.setAttribute("success", success);            
             session.removeAttribute("changePasswordError");
             session.removeAttribute("changePasswordSuccess");
-            session.setAttribute("user", dto);
-            
+            session.setAttribute("user", dto);            
             request.getRequestDispatcher("/WEB-INF/views/user/setting.jsp").forward(request, response);
             return;
-
         } catch (UserNotFoundException u) {
             response.sendError(404, "User not found");
         }

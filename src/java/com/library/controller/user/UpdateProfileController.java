@@ -83,13 +83,13 @@ public class UpdateProfileController extends HttpServlet {
 
         boolean checkUpdate = userService.updateProfileUser(account, avatar, fullName, userID);        
         if (checkUpdate) {
-            request.setAttribute("isUpdated", "✅ You have updated your profile successfully!");
+            request.setAttribute("isUpdated", "You have updated your profile successfully!");
             session.removeAttribute("user");
             u.setNewProfile(fullName, account, avatar);            
             session.setAttribute("user", u);
             activityService.ActivityUser(2, account);
         } else {
-            request.setAttribute("isUpdated", "❌ Failed to update your profile. Please try again!");
+            request.setAttribute("isUpdated", " Failed to update your profile");
         }
          request.getRequestDispatcher("/WEB-INF/views/user/setting.jsp").forward(request, response);
     }

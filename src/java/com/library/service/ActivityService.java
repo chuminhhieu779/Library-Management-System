@@ -64,10 +64,10 @@ public class ActivityService {
         String actionName = this.actionDao.getNameByID(actionID);
         String detail = "";
         if (actionName.equalsIgnoreCase("borrow book")) {
-            detail = account + "has just borrowed " + getBookTitle(bookID);
+            detail = account + " has just borrowed " + getBookTitle(bookID);
         }
         if (actionName.equalsIgnoreCase("return book")) {
-            detail = account + "has just returned " + getBookTitle(bookID);
+            detail = account + " has just returned " + getBookTitle(bookID);
         }
        this.activityDao.insertData(userID, actionID, detail, LocalDateTime.now());
 

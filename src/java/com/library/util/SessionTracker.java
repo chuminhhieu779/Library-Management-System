@@ -4,11 +4,16 @@
  */
 package com.library.util;
 
+import com.library.dao.UserSessionDao;
+import com.library.dao.UserSessionDaoImpl;
+import com.library.factory.DaoFactory;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.HttpSessionEvent;
 import jakarta.servlet.http.HttpSessionListener;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,6 +23,7 @@ import java.util.Map;
 public class SessionTracker implements HttpSessionListener {
 
     private static final Map<String, HttpSession> map = new HashMap<>();
+    public static UserSessionDao dao = DaoFactory.getUserSessionDao();
 
     @Override
     public void sessionCreated(HttpSessionEvent se) {
@@ -32,13 +38,20 @@ public class SessionTracker implements HttpSessionListener {
     public static HttpSession getSessionOnServer(String sessionIDFromDB) {
         return map.get(sessionIDFromDB);
     }
-
+   
     public static void addSessionToServer(String sessionIDFromDB, HttpSession se) {
         map.put(sessionIDFromDB, se);
     }
 
-    public static Collection<HttpSession> getAllValue() {
-        return map.values();
+    public static List<HttpSession> getAllValue() {   
+       List<HttpSession> listSessionID = new ArrayList<>();
+        List<String> listSession = dao.getSessionIDUser();
+        for(String s : listSession){
+            if(s.equals(map.keySet())){
+                listSessionID.add((HttpSession) map.values());
+            }
+        }      
+        return listSessionID;
     }
 
     public static boolean isEmpty() {
