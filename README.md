@@ -3,7 +3,7 @@
 [![Tests](https://github.com/Suzune705/Library-Management-System/actions/workflows/Run-Tests.yml/badge.svg)](https://github.com/Suzune705/Library-Management-System/actions/workflows/Run-Tests.yml) ![License](https://img.shields.io/github/license/Suzune705/Library-Management-System?style=flat-square&color=1976D2) ![Java 17](https://img.shields.io/badge/Java-17-00897B?style=flat-square&logo=openjdk) ![Ant](https://img.shields.io/badge/Ant-43A047?style=flat-square&logo=apache) ![Tomcat 10.1](https://img.shields.io/badge/Tomcat-10.1-FB8C00?style=flat-square&logo=apachetomcat) ![MSSQL](https://img.shields.io/badge/MSSQL-E53935?style=flat-square&logo=microsoftsqlserver)
 
 
-A **Library Management System** (LMS) built with **Java Servlets**, **JSP**, and **Microsoft SQL Server**, following the **MVC pattern**. This project demonstrates concepts like **dependency injection**, **MVC architecture**, **singleton , simple factory patterns** , **lazy and eager initialization**, **SOLID principles such as SRP DIP** , **RBAC** autholization and includes **integration testing** as well as **CI automation testing** via GitHub Actions
+A **Library Management System** (LMS) built with **Java Servlets**, **JSP**, and **Microsoft SQL Server**, following the **MVC pattern**. This project demonstrates concepts like **dependency injection**, **MVC architecture**, **singleton , simple factory patterns** , **lazy and eager initialization**, **SOLID principles such as SRP DIP** , **RBAC** autholization with session and autholization with filter ,  including  **integration testing** as well as **CI automation testing** via GitHub Actions
 
 ---
 
@@ -24,11 +24,9 @@ A **Library Management System** (LMS) built with **Java Servlets**, **JSP**, and
 - View detailed book information
 
 📚 Borrowing System
-
-- Borrow available books with 2-month loan period
-- Track borrowed books with due dates
-- Extend borrowing period (up to 60 days from borrow date)
-Return books
+- Borrow available books 
+- Extend borrowing period
+- Return books
 - View borrowing and return history
 
 ❤️ Favorites
@@ -40,21 +38,15 @@ Return books
 
 - Update personal information (name, email, avatar)
 - View personal dashboard with statistics
-Track total borrowed and returned books
-
-📊 Activity Tracking
-
-- View personal activity history
-- Track login, profile update
+- Track total borrowed and returned books
 
 🛡️ Admin Features
 
 📈 Dashboard & Analytics
 
-- Real-time online user count
+- Online user count
 - Total books statistics
-- Recent user activities monitoring
-- Borrowed books by category visualization
+- Borrowed books by category 
 - Latest activity logs (login, profile updates, borrowing, returns)
 
 📚 Book Management (CRUD)
@@ -72,15 +64,7 @@ Track total borrowed and returned books
 - View user borrowing records
 - Delete user accounts
 - Force logout individual users
-- Logout all users simultaneously
-
-
-🔍 Monitoring & Reports
-
-- User borrowing records and status
-- Track which users have borrowed specific books
-- Monitor book availability and quantities
-- Category borrowing statistics
+- Logout all users
 
 🔒 Access Control
 - RBAC (admin/user)
