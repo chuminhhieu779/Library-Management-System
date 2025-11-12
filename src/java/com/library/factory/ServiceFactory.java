@@ -7,6 +7,7 @@ package com.library.factory;
 import com.library.service.ActivityService;
 import com.library.service.BookService;
 import com.library.service.BorrowingService;
+import com.library.service.ExtendBookService;
 import com.library.service.FavoriteService;
 import com.library.service.RemoveBookService;
 import com.library.service.RemoveUserService;
@@ -29,6 +30,7 @@ public final class ServiceFactory {
     private static TrackingUserService trackService;
     private static UserService userService;
     private static RemoveUserService removeUserService;
+    private static ExtendBookService extendBookSerivce ;
 
     private ServiceFactory() {
 
@@ -131,5 +133,16 @@ public final class ServiceFactory {
             );
         }
         return removeUserService;
+    }
+    
+    public static ExtendBookService getExtendBookService(){
+        if(extendBookSerivce == null){
+            extendBookSerivce = new ExtendBookService(
+                    DaoFactory.getBookDao(),                    
+                    DaoFactory.getBorrowingDao(),
+                    DaoFactory.getExtendRequestDao()
+            );
+        }
+        return extendBookSerivce;
     }
 }

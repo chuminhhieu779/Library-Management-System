@@ -18,14 +18,12 @@ public class AutholizationURLController {
             "/borrowing/returned",
             "/borrowing/return",
             "/borrowing/extend",
+            "/user/request-extend-book",
             // Favorites
             "/favorite/add-book",
             "/favorite/books",
             // Books
-            "/book/list",
-            "/book/detail",
-            "/book/search",
-            "/book/category",
+      
             // User info
             "/user/dashboard",
             "/user/setting",
@@ -54,7 +52,8 @@ public class AutholizationURLController {
         "/admin/user-borrowing-record",
         "/admin/user/delete",
         "/admin/user/logout",
-        "/admin/users/logout-all"
+        "/admin/users/logout-all",
+        "/admin/extend-request-manger"
     };
        return tmp ;
     }

@@ -46,4 +46,10 @@ public interface BorrowingDao {
     int numberOfBorrowBookOnPerUser();
     
     void approveBorrowing(Connection conn, int borrowId, int adminId);
+    
+    int getExtendCount(int bookId, String account);
+    
+    boolean incrementExtendCount(int bookId, String account);
+    
+    int getBorrowingIdByBookId(int bookId, String account);
 }

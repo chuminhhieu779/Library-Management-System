@@ -10,9 +10,12 @@ import com.library.dao.BorrowingDao;
 import com.library.dao.BorrowingDaoImpl;
 import com.library.dao.UserDao;
 import com.library.dao.UserDaoImpl;
+import com.library.model.dto.BorrowedBookDTO;
 import com.library.util.DBConnection;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,7 +46,7 @@ public class BorrowingService {
     }
 
     public boolean canBorrowBook(int bookID, int userID) {
-        if (this.borrowDao.hasUserBorrowedBook(bookID, userID) && this.borrowDao.numberOfBorrowBookOnPerUser() < 10) {
+        if (!this.borrowDao.hasUserBorrowedBook(bookID, userID) && this.borrowDao.numberOfBorrowBookOnPerUser() < 10) {
             return true;
         }
         return false;
@@ -54,7 +57,7 @@ public class BorrowingService {
             conn.setAutoCommit(false);
             try {
                 if (this.bookDao.getCurrentQuantity(conn, bookID) > 0) {
-                    this.borrowDao.insertBook(conn, bookID, userID);                 
+                    this.borrowDao.insertBook(conn, bookID, userID);
                     conn.commit();
                 }
             } catch (SQLException s) {
@@ -69,7 +72,7 @@ public class BorrowingService {
         try (Connection conn = DBConnection.getInstance().getConnection()) {
             conn.setAutoCommit(false);
             try {
-                this.borrowDao.approveBorrowing(conn, borrowId, adminId);      
+                this.borrowDao.approveBorrowing(conn, borrowId, adminId);
                 this.bookDao.decreaseQuantity(conn, bookID);
                 conn.commit();
                 logger.info("Borrow request {} approved by admin {}", borrowId, adminId);
@@ -82,4 +85,23 @@ public class BorrowingService {
         }
     }
 
+    public LocalDate getBorrowDate(int bookID) {
+        return this.borrowDao.getBorrowDate(bookID);
+    }
+
+    public int getExtendCount(int bookID, String account) {
+        return this.borrowDao.getExtendCount(bookID, account);
+    }
+
+    public List<BorrowedBookDTO> borrowedBooksList(String account) {
+        return this.borrowDao.borrowedBooksList(account);
+    }
+
+    public void incrementExtendCount(int bookId, String account) {
+        this.borrowDao.incrementExtendCount(bookId, account);
+    }
+    
+    public int getBorrowingID(int bookID, String account){
+        return this.borrowDao.getBorrowingIdByBookId(bookID, account);
+    }    
 }

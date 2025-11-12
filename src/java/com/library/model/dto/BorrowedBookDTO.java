@@ -13,6 +13,7 @@ import java.time.LocalDate;
 public class BorrowedBookDTO {
     private int bookID ;
     private String coverImage ;
+    private String name ;
     private String slug ;
     private LocalDate borrowDate ;
     private LocalDate dueDate ;
@@ -20,13 +21,24 @@ public class BorrowedBookDTO {
     public BorrowedBookDTO() {
     }
 
-    public BorrowedBookDTO(int bookID, String coverImage, String slug, LocalDate borrowDate, LocalDate dueDate) {
+    public BorrowedBookDTO(int bookID, String coverImage, String name, String slug, LocalDate borrowDate, LocalDate dueDate) {
         this.bookID = bookID;
         this.coverImage = coverImage;
+        this.name = name;
         this.slug = slug;
         this.borrowDate = borrowDate;
         this.dueDate = dueDate;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+ 
 
     public int getBookID() {
         return bookID;
