@@ -100,5 +100,8 @@ public class BorrowingService {
     public void incrementExtendCount(int bookId, String account) {
         this.borrowDao.incrementExtendCount(bookId, account);
     }
-
+    
+    public int getBorrowingID(int bookID, String account){
+        return this.borrowDao.getBorrowingIdByBookId(bookID, account);
+    }    
 }

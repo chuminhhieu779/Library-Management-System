@@ -50,4 +50,6 @@ public interface BorrowingDao {
     int getExtendCount(int bookId, String account);
     
     boolean incrementExtendCount(int bookId, String account);
+    
+    int getBorrowingIdByBookId(int bookId, String account);
 }

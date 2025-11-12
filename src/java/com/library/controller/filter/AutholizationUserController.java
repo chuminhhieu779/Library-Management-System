@@ -44,7 +44,11 @@ public class AutholizationUserController implements Filter {
 
         String[] publicPaths = {
             "/login", "/register", "/book/list",
-            "/resource/", "/images/", ".css", ".js", ".png", ".jpg", "/user/forgot-password"
+            "/resource/", "/images/", ".css", ".js", ".png", ".jpg", "/user/forgot-password",
+            "/book/list",
+            "/book/detail",
+            "/book/search",
+            "/book/category",
         };
         for (String p : publicPaths) {
             if (path.contains(p)) {
@@ -52,29 +56,29 @@ public class AutholizationUserController implements Filter {
                 return;
             }
         }
-       
+
         if (user == null) {
             response.sendRedirect(request.getContextPath() + "/user/login");
             return;
         }
-         if (user.getRole().equals("user")) {            
+        if (user.getRole().equals("user")) {
             for (String url : AutholizationURLController.pageForUser()) {
-              if(path.contains(url)){
-                  chain.doFilter(servletRequest, servletResponse);
-                  return ;
-              }
+                if (path.contains(url)) {
+                    chain.doFilter(servletRequest, servletResponse);
+                    return;
+                }
             }
         }
-         
-        if (user.getRole().equals("admin")) {            
+
+        if (user.getRole().equals("admin")) {
             for (String url : AutholizationURLController.pageForAdmin()) {
-              if(path.contains(url)){
-                  chain.doFilter(servletRequest, servletResponse);
-                  return ;
-              }
+                if (path.contains(url)) {
+                    chain.doFilter(servletRequest, servletResponse);
+                    return;
+                }
             }
-        }              
-       
+        }
+
     }
 
 }

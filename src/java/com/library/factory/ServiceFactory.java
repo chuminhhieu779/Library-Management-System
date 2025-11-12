@@ -139,7 +139,8 @@ public final class ServiceFactory {
         if(extendBookSerivce == null){
             extendBookSerivce = new ExtendBookService(
                     DaoFactory.getBookDao(),                    
-                    DaoFactory.getBorrowingDao()
+                    DaoFactory.getBorrowingDao(),
+                    DaoFactory.getExtendRequestDao()
             );
         }
         return extendBookSerivce;

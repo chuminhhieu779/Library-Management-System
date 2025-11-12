@@ -31,10 +31,7 @@ public class BorrowedBooksListController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);        
-        if (session == null || session.getAttribute("account") == null) {
-            response.sendRedirect(request.getContextPath() + "/Login");
-            return ;
-        }             
+        
         String account = (String) session.getAttribute("account");
         
         List<BorrowedBookDTO> borrowedBooks = borrowDao.borrowedBooksList(account);

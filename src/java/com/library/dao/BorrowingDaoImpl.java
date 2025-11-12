@@ -72,7 +72,7 @@ public class BorrowingDaoImpl implements BorrowingDao {
     @Override
     public List<BorrowedBookDTO> borrowedBooksList(String account) {
         List<BorrowedBookDTO> list = new ArrayList<>();
-        String sql = "SELECT bk.cover_image, b.borrow_date, b.due_date, bk.slug , bk.book_id "
+        String sql = "SELECT bk.cover_image, b.borrow_date, b.due_date, bk.slug , bk.book_id , bk.title "
                 + "FROM borrowings b "
                 + "JOIN users u ON u.user_id = b.user_id "
                 + "JOIN books bk ON bk.book_id = b.book_id "
@@ -88,6 +88,7 @@ public class BorrowingDaoImpl implements BorrowingDao {
                 dto.setBorrowDate(rs.getDate("borrow_date").toLocalDate());
                 dto.setDueDate(rs.getDate("due_date").toLocalDate());
                 dto.setCoverImage(rs.getString("cover_image"));
+                dto.setName(rs.getString("title"));
                 list.add(dto);
             }
         } catch (SQLException s) {
@@ -341,5 +342,26 @@ public class BorrowingDaoImpl implements BorrowingDao {
         }
         return false;
     }
+    
+    @Override
+    public int getBorrowingIdByBookId(int bookId, String account) {
+    String sql = "SELECT b.borrowing_id " +
+                 "FROM borrowings b " +
+                 "JOIN users u ON b.user_id = u.user_id " +
+                 "WHERE b.book_id = ? AND u.account = ? AND b.status = 'borrowing'";
+
+    try (Connection conn = DBConnection.getInstance().getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setInt(1, bookId);
+        ps.setString(2, account);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getInt("borrowing_id");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return -1; 
+}
 
 }

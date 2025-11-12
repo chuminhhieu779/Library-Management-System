@@ -305,10 +305,11 @@
                             <c:if test="${not empty error && targetBookID == book.bookID}">
                                 <p style="color: #ef4444; font-weight: 600; margin-bottom: 8px;">
                                     ⚠ ${error}
-                                </p>
-                                <c:remove var="errorr" scope="session" />
+                                    <a href="${pageContext.request.contextPath}/user/request-extend-book">Gia hạn sách</a>
+                                </p>                                
+                                <c:remove var="error" scope="session" />
                             </c:if>
-                                                                                
+
 
                             <form action="${pageContext.request.contextPath}/borrowing/extend" method="post">
                                 <label>Choose new due date:</label><br>

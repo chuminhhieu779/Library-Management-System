@@ -8,7 +8,7 @@ import com.library.dao.UserDao;
 import com.library.exception.AccountNotExistException;
 import com.library.exception.ValidationException;
 import com.library.factory.ServiceFactory;
-import com.library.service.MailService;
+import com.library.util.MailTransfer;
 import com.library.service.TrackingUserService;
 import com.library.service.UserService;
 import com.library.util.HashPassword;
@@ -52,9 +52,9 @@ public class ForgotPassword extends HttpServlet {
             userService.isAccountExist(account);
             String tmp = RandomPassword.generatePassword();
             String title = "Password Recovery - Library System";
-            String message = "<p>Your New Pass : <b>" + tmp + "</b> </p>";
+            String newPassword= "<p>Your New Pass : <b>" + tmp + "</b> </p>";
             userService.updatePassword(account, HashPassword.hash(tmp));
-            MailService.send(account, title, message);
+            MailTransfer.send(account, title, newPassword);            
             session.setAttribute("message", "we have sent your password via email");
             response.sendRedirect(request.getContextPath() + "/user/forgot-password");
         } catch (ValidationException e) {

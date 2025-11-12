@@ -18,14 +18,12 @@ public class AutholizationURLController {
             "/borrowing/returned",
             "/borrowing/return",
             "/borrowing/extend",
+            "/user/request-extend-book",
             // Favorites
             "/favorite/add-book",
             "/favorite/books",
             // Books
-            "/book/list",
-            "/book/detail",
-            "/book/search",
-            "/book/category",
+      
             // User info
             "/user/dashboard",
             "/user/setting",

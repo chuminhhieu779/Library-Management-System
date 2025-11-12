@@ -16,6 +16,8 @@ import com.library.dao.BorrowingDao;
 import com.library.dao.BorrowingDaoImpl;
 import com.library.dao.CategoryDao;
 import com.library.dao.CategoryDaoImpl;
+import com.library.dao.ExtendRequestDao;
+import com.library.dao.ExtendRequestDaoImpl;
 import com.library.dao.FavoriteDao;
 import com.library.dao.FavoriteDaoImpl;
 import com.library.dao.UserDao;
@@ -41,6 +43,7 @@ public final class DaoFactory {
     private static final AdminDao adminDao = new AdminDaoImpl();
     private static final FavoriteDao favoriteDao = new FavoriteDaoImpl();
     private static final UserSessionDao userSessionDao = new UserSessionDaoImpl();
+    private static final ExtendRequestDao extendDao = new ExtendRequestDaoImpl();
 
     public static UserDao getUserDao() {
         return userDao;
@@ -76,5 +79,8 @@ public final class DaoFactory {
 
     public static UserSessionDao getUserSessionDao() {
         return userSessionDao;
+    }
+    public static ExtendRequestDao getExtendRequestDao(){
+        return extendDao;
     }
 }

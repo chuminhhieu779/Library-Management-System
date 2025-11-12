@@ -43,21 +43,26 @@ public class ExtendBookController extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("account") == null) {
-            response.sendRedirect(request.getContextPath() + "/Login");
-            return;
-        }
+        
         String account = (String) session.getAttribute("account");
         int bookID = Integer.valueOf(request.getParameter("bookID"));
 
         LocalDate borrowDate = borrowService.getBorrowDate(bookID);
         String dueDate = request.getParameter("newDueDate");
         LocalDate newDueDate = LocalDate.parse(dueDate);
-          List<BorrowedBookDTO> borrowedBooks = borrowService.borrowedBooksList(account);
-          request.setAttribute("borrowedBooks", borrowedBooks);
+
+        List<BorrowedBookDTO> borrowedBooks = borrowService.borrowedBooksList(account);
+
+        BorrowedBookDTO dto = extendBookService.getBorrowdBookFromList(borrowedBooks);
+
+        request.setAttribute("borrowedBooks", borrowedBooks);
+
+        String title = "Extend DueDate - Library System";
+
         long day = ChronoUnit.DAYS.between(borrowDate, newDueDate); //take day 
         if (borrowService.getExtendCount(bookID, account) > 4) {
-            session.setAttribute("error", "You’re out of renewals");        
+            session.setAttribute("bookExtend", dto);
+            session.setAttribute("error", "You’re out of renewal");
             session.setAttribute("targetBookID", bookID); // show popup when update book is failed             
             request.getRequestDispatcher("/WEB-INF/views/borrowing/borrowedbooks.jsp").forward(request, response);
             return;
