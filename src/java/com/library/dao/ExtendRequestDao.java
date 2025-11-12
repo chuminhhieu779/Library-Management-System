@@ -5,7 +5,9 @@
 package com.library.dao;
 
 import com.library.model.dto.ExtendRequestDTO;
+import com.library.model.dto.ExtendRequestViewDTO;
 import com.library.model.entity.ExtendRequest;
+import java.util.List;
 
 /**
  *
@@ -13,4 +15,5 @@ import com.library.model.entity.ExtendRequest;
  */
 public interface ExtendRequestDao {
     boolean insertExtendRequest(ExtendRequestDTO request) ;
+    List<ExtendRequestViewDTO> getAllExtendRequests();
 }

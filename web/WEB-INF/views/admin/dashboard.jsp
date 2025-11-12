@@ -407,16 +407,23 @@
                     <div class="stat-info"><h4>${dto.totalOnlineUser}</h4><p>Online Users</p></div>
                 </div>
 
-                <div class="stat-card">
-                    <div class="stat-icon orange"><i class="fa-solid fa-book-open-reader"></i></div>
-                    <div class="stat-info"><h4></h4><p>Active Borrowings</p></div>
-                </div>
+        
+                <a href="${pageContext.request.contextPath}/admin/extend-request-manger" style="text-decoration: none;">
+                    <div class="stat-card" style="cursor:pointer;">
+                        <div class="stat-icon orange"><i class="fa-solid fa-book-open-reader"></i></div>
+                        <div class="stat-info">
+                            <h4></h4>
+                            <p>Active Borrowings</p>
+                        </div>
+                    </div>
+                </a>
 
                 <div class="stat-card">
                     <div class="stat-icon purple"><i class="fa-solid fa-clock-rotate-left"></i></div>
                     <div class="stat-info"><h4></h4><p>Overdue Books</p></div>
                 </div>
             </div>
+
             <!-- ===== DEMO CKEDITOR + CHART.JS ===== -->
             <section style="margin-top:60px; padding: 30px; background: #fff; border-radius: 12px; box-shadow: 0 3px 10px rgba(0,0,0,0.1);">                
 
@@ -476,18 +483,18 @@
                             },
                             x: {
                                 ticks: {
-                                    color: '#4f46e5', 
+                                    color: '#4f46e5',
                                     font: {size: 14, weight: '600', family: 'Segoe UI'},
                                 },
-                                grid: {display: false}    
+                                grid: {display: false}
                             }
                         },
                         plugins: {
-                            legend: {display: false}, 
+                            legend: {display: false},
                             title: {
                                 display: true,
                                 text: 'Borrowed Books by Category',
-                                padding: { bottom: 30 },
+                                padding: {bottom: 30},
                                 font: {size: 18, weight: 'bold'},
                                 color: '#1f2937'
                             }

@@ -52,7 +52,8 @@ public class AutholizationURLController {
         "/admin/user-borrowing-record",
         "/admin/user/delete",
         "/admin/user/logout",
-        "/admin/users/logout-all"
+        "/admin/users/logout-all",
+        "/admin/extend-request-manger"
     };
        return tmp ;
     }

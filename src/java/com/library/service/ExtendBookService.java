@@ -10,6 +10,7 @@ import com.library.dao.ExtendRequestDao;
 import com.library.factory.DaoFactory;
 import com.library.model.dto.BorrowedBookDTO;
 import com.library.model.dto.ExtendRequestDTO;
+import com.library.model.dto.ExtendRequestViewDTO;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -54,5 +55,8 @@ public class ExtendBookService {
         this.extendDao.insertExtendRequest(e);
     }
     
-
+    public List<ExtendRequestViewDTO> getAllExtendRequests(){
+       return this.extendDao.getAllExtendRequests();
+    }
+    
 }
