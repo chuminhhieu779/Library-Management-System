@@ -72,7 +72,7 @@ public class BorrowingDaoImpl implements BorrowingDao {
     @Override
     public List<BorrowedBookDTO> borrowedBooksList(String account) {
         List<BorrowedBookDTO> list = new ArrayList<>();
-        String sql = "SELECT bk.cover_image, b.borrow_date, b.due_date, bk.slug , bk.book_id , bk.title "
+        String sql = "SELECT bk.cover_image, b.borrow_date, b.due_date, bk.slug , bk.book_id , bk.title , b.extend_count "
                 + "FROM borrowings b "
                 + "JOIN users u ON u.user_id = b.user_id "
                 + "JOIN books bk ON bk.book_id = b.book_id "
@@ -89,6 +89,7 @@ public class BorrowingDaoImpl implements BorrowingDao {
                 dto.setDueDate(rs.getDate("due_date").toLocalDate());
                 dto.setCoverImage(rs.getString("cover_image"));
                 dto.setName(rs.getString("title"));
+                dto.setExtendTime(rs.getInt("extend_count"));
                 list.add(dto);
             }
         } catch (SQLException s) {

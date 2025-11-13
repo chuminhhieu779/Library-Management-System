@@ -32,7 +32,7 @@ public class BookDaoImpl implements BookDao {
     private static final Logger logger = LoggerFactory.getLogger(BookDaoImpl.class);
 
     @Override
-    public List<Book> getAllBook(){
+    public List<Book> getAllBook() {
         List<Book> list = new ArrayList<>();
         String sql = " SELECT b.book_id, b.title ,b.slug,  b.author, b.quantity, c.category_id AS category_ID , c.name as category_name , b.cover_image FROM books b LEFT JOIN categories c ON b.category_id = c.category_id ";
         logger.debug("Executing SQL : ", sql);
@@ -47,7 +47,7 @@ public class BookDaoImpl implements BookDao {
                 b.setCoverImage(rs.getString("cover_image"));
 
                 Category category = new Category();
-                category.setCategoryID(rs.getInt("category_ID"));             
+                category.setCategoryID(rs.getInt("category_ID"));
                 category.setType(BookType.convert(rs.getString("category_name")));
                 b.setCategory(category);
                 list.add(b);
@@ -326,9 +326,7 @@ public class BookDaoImpl implements BookDao {
                 + "join categories on categories.category_id = books.category_id\n"
                 + "group by categories.name";
 
-        try (Connection conn = DBConnection.getInstance().getConnection(); 
-            PreparedStatement ps = conn.prepareStatement(sql); 
-             ResultSet rs = ps.executeQuery()) {
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 map.put(rs.getString("name"), rs.getInt("totalBorrowed"));
             }
@@ -336,6 +334,24 @@ public class BookDaoImpl implements BookDao {
             e.printStackTrace();
         }
         return map;
+    }
+
+    @Override
+    public int getBookID(String coverImage) {
+        String sql = "select book_id from books\n"
+                + "where cover_image = ? ";
+        try (
+                Connection conn = DBConnection.getInstance().getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)){                    
+               ps.setString(1, coverImage);
+                 ResultSet rs = ps.executeQuery() ;
+            while (rs.next()) {
+                return rs.getInt("book_id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
 }
