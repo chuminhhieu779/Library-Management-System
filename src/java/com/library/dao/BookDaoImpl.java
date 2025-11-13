@@ -341,10 +341,9 @@ public class BookDaoImpl implements BookDao {
         String sql = "select book_id from books\n"
                 + "where cover_image = ? ";
         try (
-                Connection conn = DBConnection.getInstance().getConnection();
-                PreparedStatement ps = conn.prepareStatement(sql)){                    
-               ps.setString(1, coverImage);
-                 ResultSet rs = ps.executeQuery() ;
+                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, coverImage);
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 return rs.getInt("book_id");
             }
@@ -352,6 +351,107 @@ public class BookDaoImpl implements BookDao {
             e.printStackTrace();
         }
         return -1;
+    }
+
+    @Override
+    public List<Book> getBooksByCursor(int cursor, int limit) {
+        List<Book> list = new ArrayList<>();
+
+        String sql = "SELECT b.book_id, b.title, b.slug, b.author, b.quantity, "
+                + "c.category_id AS category_ID, c.name AS category_name, b.cover_image "
+                + "FROM books b "
+                + "LEFT JOIN categories c ON b.category_id = c.category_id "
+                + "WHERE b.book_id > ? "
+                + "ORDER BY b.book_id "
+                + "OFFSET 0 ROWS FETCH NEXT ? ROWS ONLY";
+
+        logger.debug("Executing Cursor Pagination SQL: {}", sql);
+
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, cursor);    // ID cuối của trang trước (0 = trang đầu)
+            ps.setInt(2, limit);     // số bản ghi muốn lấy
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Book b = new Book();
+                    b.setBookID(rs.getInt("book_id"));
+                    b.setTitle(rs.getString("title"));
+                    b.setSlug(rs.getString("slug"));
+                    b.setAuthor(rs.getString("author"));
+                    b.setQuantity(rs.getInt("quantity"));
+                    b.setCoverImage(rs.getString("cover_image"));
+
+                    Category category = new Category();
+                    category.setCategoryID(rs.getInt("category_ID"));
+                    category.setType(BookType.convert(rs.getString("category_name")));
+                    b.setCategory(category);
+
+                    list.add(b);
+                }
+            }
+
+            logger.info("Cursor loaded {} books (cursor={}, limit={})",
+                    list.size(), cursor, limit);
+
+        } catch (SQLException e) {
+            logger.error("Error retrieving books using cursor pagination", e);
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<Book> searchBookByCursor(String query, int cursor, int limit) {
+        List<Book> list = new ArrayList<>();
+
+        String sql = "SELECT books.*, categories.* "
+                + "FROM books "
+                + "JOIN categories ON books.category_id = categories.category_id "
+                + "WHERE (title_unaccented LIKE ? OR title LIKE ?) "
+                + "AND books.book_id > ? "
+                + "ORDER BY books.book_id "
+                + "OFFSET 0 ROWS FETCH NEXT ? ROWS ONLY";
+
+        logger.info("Searching books with cursor. Query={}, Cursor={}, Limit={}", query, cursor, limit);
+
+        try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            String key = "%" + query + "%";
+
+            ps.setString(1, key);
+            ps.setString(2, key);
+            ps.setInt(3, cursor);  // KEYSET pagination
+            ps.setInt(4, limit);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+
+                    Book b = new Book();
+                    b.setBookID(rs.getInt("book_id"));
+                    b.setSlug(rs.getString("slug"));
+                    b.setAuthor(rs.getString("author"));
+                    b.setTitle(rs.getString("title"));
+                    b.setQuantity(rs.getInt("quantity"));
+                    b.setDescription(rs.getString("description"));
+                    b.setCoverImage(rs.getString("cover_image"));
+
+                    Category category = new Category();
+                    category.setCategoryID(rs.getInt("category_id"));
+                    category.setType(BookType.convert(rs.getString("name")));
+                    b.setCategory(category);
+
+                    list.add(b);
+                }
+            }
+
+            logger.info("Loaded {} search results (cursor mode)", list.size());
+
+        } catch (SQLException s) {
+            logger.error("Error executing search with cursor: {}", s.getMessage(), s);
+        }
+
+        return list;
     }
 
 }

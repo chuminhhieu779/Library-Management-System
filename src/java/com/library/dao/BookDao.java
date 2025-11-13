@@ -47,4 +47,8 @@ public interface BookDao {
     Map<String, Integer> countingBorrowedBookByCategory();
     
     int getBookID(String title);
+    
+    List<Book> getBooksByCursor(int cursor, int limit);
+    List<Book> searchBookByCursor(String query, int cursor, int limit);
+
 }
