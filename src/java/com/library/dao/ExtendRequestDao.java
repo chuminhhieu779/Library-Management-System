@@ -16,6 +16,4 @@ import java.util.List;
 public interface ExtendRequestDao {
     boolean insertExtendRequest(ExtendRequestDTO request) ;
     List<ExtendRequestViewDTO> getAllExtendRequests();
-     boolean hasUserSentRequest(int borrowingID , int userID );
-     void updateStatus(int userID, String status);     
 }

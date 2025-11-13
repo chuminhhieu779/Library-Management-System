@@ -46,5 +46,4 @@ public interface BookDao {
     int insertBook(Book b); 
     Map<String, Integer> countingBorrowedBookByCategory();
     
-    int getBookID(String title);
 }

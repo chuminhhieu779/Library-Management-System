@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package com.library.controller.user;
+package com.library.controller.admin;
 
 import com.library.enums.RequestStatus;
 import com.library.factory.ServiceFactory;
@@ -30,7 +30,7 @@ import java.time.LocalDateTime;
  * @author hieuchu
  */
 @WebServlet(name = "ConfirmExtendController", urlPatterns = {"/user/request-extend-book"})
-public class RequestExtendController extends HttpServlet {
+public class ConfirmExtendController extends HttpServlet {
 
     private final ExtendBookService extendSerivce = ServiceFactory.getExtendBookService();
     private final BorrowingService borrowService = ServiceFactory.getBorrowService();
@@ -63,10 +63,12 @@ public class RequestExtendController extends HttpServlet {
         ExtendRequestDTO e = new ExtendRequestDTO();
         e.setBorrowing(borrow);
         e.setUser(u);
-        extendSerivce.insertData(e);
-        session.removeAttribute("bookExtend");
-        session.removeAttribute("targetBookID");
-        response.sendRedirect(request.getContextPath() + "/user/dashboard");
+        if (extendSerivce.limitExtend(dto.getBookID(), account) > 4) {
+            extendSerivce.insertData(e);
+            session.removeAttribute("bookExtend");
+            session.removeAttribute("targetBookID");
+            response.sendRedirect(request.getContextPath() + "/user/dashboard");
+        }
 
     }
 

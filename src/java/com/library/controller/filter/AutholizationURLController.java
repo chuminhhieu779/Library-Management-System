@@ -53,9 +53,7 @@ public class AutholizationURLController {
         "/admin/user/delete",
         "/admin/user/logout",
         "/admin/users/logout-all",
-        "/admin/extend-request-manger",
-        "/admin/approve-request",
-        "/admin/reject-request"
+        "/admin/extend-request-manger"
     };
        return tmp ;
     }

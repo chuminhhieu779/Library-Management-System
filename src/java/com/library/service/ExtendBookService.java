@@ -52,17 +52,11 @@ public class ExtendBookService {
     }
     
     public void insertData(ExtendRequestDTO e){
-        if(!this.extendDao.hasUserSentRequest(e.getBorrowing().getBorrowingID(), e.getUser().getUserID())){
-             this.extendDao.insertExtendRequest(e);
-        }       
+        this.extendDao.insertExtendRequest(e);
     }
     
     public List<ExtendRequestViewDTO> getAllExtendRequests(){
        return this.extendDao.getAllExtendRequests();
-    }
-    
-    public void updateRequestStatus(int userID, String status){
-        this.extendDao.updateStatus(userID, status);
     }
     
 }

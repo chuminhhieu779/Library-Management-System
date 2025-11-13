@@ -84,9 +84,5 @@ public class BookService {
      public Map<String, Integer> getNumberBorrowedBookByCategory() {
          return this.bookDao.countingBorrowedBookByCategory();
     }
-     
-     public int getBookIDByCover(String cover){
-         return this.bookDao.getBookID(cover);
-     }
     
 }

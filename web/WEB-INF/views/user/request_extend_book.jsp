@@ -1,7 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -472,7 +470,7 @@
 
                     <div class="form-group">
                         <label for="bookTitle">
-                            <i class="fa-solid fa-bookmark"></i> Book Title
+                            <i class="fa-solid fa-bookmark"></i> Book Title (Optional)
                         </label>
                         <input type="text" id="bookTitle" value="${dto.name}" class="form-control" readonly required >
 

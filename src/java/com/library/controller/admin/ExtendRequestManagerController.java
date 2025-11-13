@@ -14,7 +14,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -30,10 +29,8 @@ public class ExtendRequestManagerController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        HttpSession session = request.getSession();
         List<ExtendRequestViewDTO> list = extendSerivce.getAllExtendRequests();
         request.setAttribute("list", list);
-        session.setAttribute("extendDTO", list);
         request.getRequestDispatcher("/WEB-INF/views/admin/extend_request_manager.jsp").forward(request, response);
     }    
     

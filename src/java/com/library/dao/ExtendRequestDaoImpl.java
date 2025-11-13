@@ -44,8 +44,7 @@ public class ExtendRequestDaoImpl implements ExtendRequestDao {
                 + "            FROM extend_requests\n"
                 + "            JOIN users ON users.user_id = extend_requests.user_id\n"
                 + "            JOIN borrowings ON borrowings.borrowing_id = extend_requests.borrowing_id\n"
-                + "            JOIN books ON books.book_id = borrowings.book_id\n"
-                + "            ORDER BY extend_requests.request_date DESC";
+                + "            JOIN books ON books.book_id = borrowings.book_id";
 
         try (
                 Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
@@ -63,38 +62,6 @@ public class ExtendRequestDaoImpl implements ExtendRequestDao {
             e.printStackTrace();
         }
         return list;
-    }
-
-    @Override
-    public boolean hasUserSentRequest(int borrowingID, int userID) {
-        String sql = "select * from extend_requests\n"
-                + "where borrowing_id  = ? and user_id = ? ";
-        try (
-                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, borrowingID);
-            ps.setInt(2, userID);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return true;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    @Override
-    public void updateStatus(int userID, String status) {
-        String sql = "update extend_requests set status = ? \n"
-                + "where user_id = ? ";
-        try (
-                Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, userID);
-            ps.setString(2, status);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
 }

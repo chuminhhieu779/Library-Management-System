@@ -726,17 +726,6 @@
 
         <!-- ==== MAIN ==== -->
         <main>
-            <form id="approveForm" method="get" action="${pageContext.request.contextPath}/admin/approve-request">
-                <input type="hidden" name="account" id="approveAccount">
-                <input type="hidden" name="title" id="approveTitle">
-                <input type="hidden" name="cover" id="approveCover">
-            </form>
-
-            <form id="rejectForm" method="get" action="${pageContext.request.contextPath}/admin/reject-request">
-                <input type="hidden" name="account" id="rejectAccount">
-                <input type="hidden" name="title" id="rejectTitle">
-                <input type="hidden" name="cover" id="approveCover">
-            </form>
             <div class="page-title">
                 <h2>Manage Extend Requests</h2>
             </div>
@@ -785,12 +774,12 @@
 
                                         <td>
                                             <c:choose>
-                                                <c:when test="${r.status == 'pending'}">
+                                                <c:when test="${r.status == 'PENDING'}">
                                                     <span class="status-badge status-inactive">
                                                         <i class="fa-solid fa-hourglass-half"></i> Pending
                                                     </span>
                                                 </c:when>
-                                                <c:when test="${r.status == 'approved'}">
+                                                <c:when test="${r.status == 'APPROVED'}">
                                                     <span class="status-badge status-active">
                                                         <i class="fa-solid fa-circle-check"></i> Approved
                                                     </span>
@@ -802,9 +791,9 @@
                                                 </c:otherwise>
                                             </c:choose>
                                         </td>
-                                        <td>                                        
+                                        <td>
                                             <div class="actions">
-                                                <button class="btn btn-success btn-sm" onclick="approveRequest('${r.account}', '${r.title}', '${r.coverImage}')">
+                                                <button class="btn btn-success btn-sm" onclick="approveRequest('${r.account}', '${r.title}')">
                                                     <i class="fa-solid fa-check"></i> Approve
                                                 </button>
                                                 <button class="btn btn-danger btn-sm" onclick="rejectRequest('${r.account}', '${r.title}')">
@@ -837,24 +826,19 @@
                 window.location.href = '${pageContext.request.contextPath}/admin/extend-request-manger?search=' + encodeURIComponent(val);
             }
 
-            function approveRequest(account, title, cover) {
+            function approveRequest(account, title) {
                 if (confirm(`Approve extend request for "${title}" by ${account}?`)) {
-                    document.getElementById("approveAccount").value = account;
-                    document.getElementById("approveTitle").value = title;
-                    document.getElementById("approveCover").value = cover;
-                    document.getElementById("approveForm").submit();
+                    alert("Approved (demo)");
+                    // TODO: gọi servlet xử lý POST approve
                 }
             }
 
-            function rejectRequest(account, title, cover) {
+            function rejectRequest(account, title) {
                 if (confirm(`Reject extend request for "${title}" by ${account}?`)) {
-                    document.getElementById("rejectAccount").value = account;
-                    document.getElementById("rejectTitle").value = title;
-                    document.getElementById("approveCover").value = cover;
-                    document.getElementById("rejectForm").submit();
+                    alert("Rejected (demo)");
+                    // TODO: gọi servlet xử lý POST reject
                 }
             }
-
         </script>
     </body>
 
