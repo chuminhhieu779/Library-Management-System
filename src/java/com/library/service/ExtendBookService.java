@@ -65,4 +65,7 @@ public class ExtendBookService {
         this.extendDao.updateStatus(userID, status);
     }
     
+    public int getNumberOfRequest(){
+        return this.extendDao.countingRequest();
+    }
 }

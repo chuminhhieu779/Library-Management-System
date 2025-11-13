@@ -97,4 +97,18 @@ public class ExtendRequestDaoImpl implements ExtendRequestDao {
         }
     }
 
+    @Override
+    public int countingRequest() {
+        String sql = "select count(*) as totalRequest from extend_requests\n"
+                + "where status = 'pending'";
+           try (
+            Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+             ResultSet rs = ps.executeQuery();
+             if(rs.next()) return rs.getInt("totalRequest");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+         return -1 ;
+    }
+
 }
