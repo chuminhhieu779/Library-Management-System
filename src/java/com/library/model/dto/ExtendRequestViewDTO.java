@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class ExtendRequestViewDTO {
     private String account;
     private String avatar;
-    private String title;
+    private String title;   
     private String coverImage;
     private LocalDateTime requestDate;
     private String status;

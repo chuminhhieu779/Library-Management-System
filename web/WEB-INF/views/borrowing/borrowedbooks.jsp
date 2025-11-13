@@ -1,5 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -291,11 +293,21 @@
 
                         <p><strong>Borrow Date:</strong> ${book.borrowDate}</p>
                         <p><strong>Due Date:</strong> ${book.dueDate}</p>
-
+                        <c:choose>
+                            <c:when test="${book.extendTime >= 5}">
+                                <p><strong>Extensions:</strong> 
+                                    <span style="color:red">${book.extendTime} / 5 (Maxed Out)</span>
+                                </p>
+                            </c:when>
+                            <c:otherwise>
+                                <p><strong>Extensions:</strong> ${book.extendTime} / 5</p>
+                            </c:otherwise>
+                        </c:choose>
                         <div class="btn-group">
                             <a href="${pageContext.request.contextPath}/borrowing/return?slug=${book.slug}" class="btn return">Return Book</a>
                             <button class="btn extend" onclick="document.getElementById('extendBox${loop.index}').style.display = 'block'">Extend</button>
                         </div>
+
 
                         <!-- Extend form -->
                         <div id="extendBox${loop.index}" 
@@ -305,11 +317,15 @@
                             <c:if test="${not empty error && targetBookID == book.bookID}">
                                 <p style="color: #ef4444; font-weight: 600; margin-bottom: 8px;">
                                     ⚠ ${error}
-                                    <a href="${pageContext.request.contextPath}/user/request-extend-book">Gia hạn sách</a>
+                                <div style="margin-top:18px;text-align:center;">
+                                    <a href="${pageContext.request.contextPath}/user/request-extend-book"
+                                       style="color:#2563eb;font-weight:600;text-decoration:none;">
+                                        → If you’ve run out of renewals, you can request an extension via email.
+                                    </a>
+                                </div>
                                 </p>                                
                                 <c:remove var="error" scope="session" />
                             </c:if>
-
 
                             <form action="${pageContext.request.contextPath}/borrowing/extend" method="post">
                                 <label>Choose new due date:</label><br>
@@ -321,7 +337,7 @@
                                             onclick="this.closest('.extend-box').style.display = 'none'">Cancel</button>
                                 </div>
                             </form>
-                        </div>
+                        </div>                       
                     </dialog>
                 </c:forEach>
             </div>

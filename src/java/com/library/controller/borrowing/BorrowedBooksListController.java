@@ -30,12 +30,13 @@ public class BorrowedBooksListController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession(false);        
-        
+        HttpSession session = request.getSession(false);
+        session.removeAttribute("targetBookID");
+
         String account = (String) session.getAttribute("account");
-        
+            
         List<BorrowedBookDTO> borrowedBooks = borrowDao.borrowedBooksList(account);
-        
+
         request.setAttribute("borrowedBooks", borrowedBooks);
         request.getRequestDispatcher("/WEB-INF/views/borrowing/borrowedbooks.jsp").forward(request, response);
     }
