@@ -412,8 +412,8 @@
                     <div class="stat-card" style="cursor:pointer;">
                         <div class="stat-icon orange"><i class="fa-solid fa-book-open-reader"></i></div>
                         <div class="stat-info">
-                            <h4></h4>
-                            <p>Active Borrowings</p>
+                            <h4>${total}</h4>
+                            <p>Number of Request</p>
                         </div>
                     </div>
                 </a>

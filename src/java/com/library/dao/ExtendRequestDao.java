@@ -14,8 +14,14 @@ import java.util.List;
  * @author hieuchu
  */
 public interface ExtendRequestDao {
-    boolean insertExtendRequest(ExtendRequestDTO request) ;
+
+    boolean insertExtendRequest(ExtendRequestDTO request);
+
     List<ExtendRequestViewDTO> getAllExtendRequests();
-     boolean hasUserSentRequest(int borrowingID , int userID );
-     void updateStatus(int userID, String status);     
+
+    boolean hasUserSentRequest(int borrowingID, int userID);
+
+    void updateStatus(int userID, String status);
+
+    int countingRequest();
 }

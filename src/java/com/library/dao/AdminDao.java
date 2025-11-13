@@ -12,5 +12,7 @@ import java.util.List;
  * @author hieuchu
  */
 public interface AdminDao {
+
     public List<UserBorrowRecordDTO> getAllUserInformation();
+
 }

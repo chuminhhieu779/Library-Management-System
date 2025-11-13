@@ -39,7 +39,6 @@ public class ActivityService {
         this.bookDao = bookDao;
 
     }
-  
 
     public String getBookTitle(int bookID) {
         return this.bookDao.getBookTitleByID(bookID);
@@ -54,7 +53,7 @@ public class ActivityService {
         }
         if (actionName.equalsIgnoreCase("update profile")) {
             detail = account + " has just updated their profile ";
-        }     
+        }
         logger.info("userid {} is logging ", userId);
         this.activityDao.insertData(userId, actionID, detail, LocalDateTime.now());
     }
@@ -69,37 +68,37 @@ public class ActivityService {
         if (actionName.equalsIgnoreCase("return book")) {
             detail = account + " has just returned " + getBookTitle(bookID);
         }
-       this.activityDao.insertData(userID, actionID, detail, LocalDateTime.now());
+        this.activityDao.insertData(userID, actionID, detail, LocalDateTime.now());
 
     }
 
-        public UserActivityDTO getLatestActivityByAction(int actionID) {
-            Activity activity = activityDao.getLatestByAction(actionID);
-            if (activity != null) {
-                UserActivityDTO dto = new UserActivityDTO();
-                dto.setAccount(activity.getUser().getAccount());
-                Action a = new Action();
-                a.setType(activity.getAction().getType());                    
-                dto.setAction(a);
-                dto.setDetail(activity.getDetail());
-                dto.setLog_time(TimeFormatter.timeAgo(activity.getLogTime()));
-                return dto;
-            }
-            return null;
+    public UserActivityDTO getLatestActivityByAction(int actionID) {
+        Activity activity = activityDao.getLatestByAction(actionID);
+        if (activity != null) {
+            UserActivityDTO dto = new UserActivityDTO();
+            dto.setAccount(activity.getUser().getAccount());
+            Action a = new Action();
+            a.setType(activity.getAction().getType());
+            dto.setAction(a);
+            dto.setDetail(activity.getDetail());
+            dto.setLog_time(TimeFormatter.timeAgo(activity.getLogTime()));
+            return dto;
         }
+        return null;
+    }
 
-    public AdminDashBoardDTO  adminDashBoard(){        
+    public AdminDashBoardDTO adminDashBoard() {
         AdminDashBoardDTO dto = new AdminDashBoardDTO();
-        dto.setTotalOnlineUser(TrackingUserService.getSize());      
+        dto.setTotalOnlineUser(TrackingUserService.getSize());
         dto.setTotalBook(this.bookDao.totalBook());
         List<Action> list = this.actionDao.getAllAction();
         List<UserActivityDTO> listActivities = new ArrayList<>();
-        for(Action a : list){
+        for (Action a : list) {
             UserActivityDTO act = getLatestActivityByAction(a.getActionID()); // take new log of a user 
             listActivities.add(act); /// add log user into list
-        }               
+        }
         dto.setActionList(listActivities); // set list 
-        return dto ;
+        return dto;
     }
 
 }

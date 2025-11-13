@@ -10,6 +10,7 @@ import com.library.model.dto.UserProfileDTO;
 import com.library.model.entity.User;
 import com.library.service.ActivityService;
 import com.library.service.BookService;
+import com.library.service.ExtendBookService;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -32,16 +33,18 @@ public class AdminDashboardController extends HttpServlet {
 
     private final ActivityService activityService = ServiceFactory.getActivityService();
     private final BookService bookService = ServiceFactory.getBookService();
+    private final ExtendBookService extendSerivce = ServiceFactory.getExtendBookService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
         Map<String, Integer> map = bookService.getNumberBorrowedBookByCategory();
-
+        int total = extendSerivce.getNumberOfRequest();
         AdminDashBoardDTO dto = activityService.adminDashBoard();
         request.setAttribute("dto", dto);
         request.setAttribute("map", map);
+        request.setAttribute("total", total);      
         request.getRequestDispatcher("/WEB-INF/views/admin/dashboard.jsp").forward(request, response);
 
     }
