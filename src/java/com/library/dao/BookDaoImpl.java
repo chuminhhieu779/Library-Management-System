@@ -369,8 +369,8 @@ public class BookDaoImpl implements BookDao {
 
         try (Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, cursor);    // ID cuối của trang trước (0 = trang đầu)
-            ps.setInt(2, limit);     // số bản ghi muốn lấy
+            ps.setInt(1, cursor);    
+            ps.setInt(2, limit);    
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {

@@ -321,7 +321,7 @@
                                 <i class="fa-solid fa-heart"></i> Favorite 
                             </a> 
                             <a href="${pageContext.request.contextPath}/user/setting" class="dropdown-item">
-                               <i class="fa-solid fa-gear"></i> Setting
+                                <i class="fa-solid fa-gear"></i> Setting
                             </a>    
                             <a href="${pageContext.request.contextPath}/LogOut" class="dropdown-item logout">
                                 <i class="fa-solid fa-right-from-bracket"></i> Logout
@@ -346,6 +346,16 @@
                     </a>
                 </c:forEach>
             </div>
+        </div>
+        <!-- Pagination Cursor -->
+        <div class="pagination" style="margin: 30px auto; text-align: center;">
+            <c:if test="${nextCursor > 0}">
+                <a href="${pageContext.request.contextPath}/book/list?cursor=${nextCursor}&limit=${limit}"
+                   style="padding: 12px 20px; background: #4f46e5; color: white;
+                   border-radius: 8px; text-decoration:none; font-weight:600;">
+                    Load More <i class="fa-solid fa-chevron-down"></i>
+                </a>
+            </c:if>
         </div>
 
         <!-- ======= FOOTER ======= -->

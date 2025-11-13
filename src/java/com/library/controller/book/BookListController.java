@@ -41,10 +41,24 @@ public class BookListController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        String cursorParam = request.getParameter("cursor");
+        String limitParam = request.getParameter("limit");
+
+        int cursor = (cursorParam == null) ? 0 : Integer.parseInt(cursorParam);
+        int limit = (limitParam == null) ? 20 : Integer.parseInt(limitParam);
+
         try {
-            List<Book> bookList = bookDao.getAllBook();
+
+            List<Book> bookList = bookDao.getBooksByCursor(cursor, limit);
+
+            int nextCursor = bookList.isEmpty() ? 0 : bookList.get(bookList.size() - 1).getBookID();
+
             request.setAttribute("bookList", bookList);
+            request.setAttribute("nextCursor", nextCursor);
+            request.setAttribute("limit", limit);
+
             request.getRequestDispatcher("/WEB-INF/views/book/booklist.jsp").forward(request, response);
+
         } catch (BookDataAccessException b) {
             logger.error("Error loading books", b);
         }
