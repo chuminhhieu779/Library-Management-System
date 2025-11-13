@@ -39,22 +39,40 @@ public class BookManagerController extends HttpServlet {
         session.removeAttribute("error");
         String addBook = (String) session.getAttribute("addBookNotice");
         String deleteBook = (String) session.getAttribute("deleteBookNotice");
-
+        String cursorParam = request.getParameter("cursor");
+        String limitParam = request.getParameter("limit");
+        int cursor = (cursorParam == null) ? 0 : Integer.parseInt(cursorParam);
+        int limit = (limitParam == null) ? 10 : Integer.parseInt(limitParam);
         String search = request.getParameter("search");
-        if (search == null || search.trim().isEmpty()) {
-            try {
-                List<Book> bookList = bookDao.getAllBook();
-                request.setAttribute("bookList", bookList);
-                request.setAttribute("addBook", addBook);
-                request.setAttribute("deleteBook", deleteBook);
-                request.getRequestDispatcher("/WEB-INF/views/admin/managerBook.jsp").forward(request, response);
-            } catch (BookDataAccessException e) {
-                logger.error("Error loading books", e);
-            }
-        } else {
-            List<Book> bookList = bookDao.searchBook(search);
+        List<Book> bookList;
+        try {
 
+            // ===== SEARCH MODE =====
+            if (search != null && !search.trim().isEmpty()) {
+
+                bookList = bookDao.searchBookByCursor(search.trim(), cursor, limit);
+
+                int nextCursor = bookList.isEmpty() ? 0 : bookList.get(bookList.size() - 1).getBookID();
+                request.setAttribute("bookList", bookList);
+                request.setAttribute("nextCursor", nextCursor);
+                request.setAttribute("limit", limit);
+                request.setAttribute("search", search);
+
+                request.getRequestDispatcher("/WEB-INF/views/admin/managerBook.jsp").forward(request, response);
+                return;
+            }
+            // ===== NORMAL MODE (Không search) =====
+            bookList = bookDao.getBooksByCursor(cursor, limit);
+            // Cursor mới (ID của dòng cuối cùng)
+            int nextCursor = bookList.isEmpty() ? 0 : bookList.get(bookList.size() - 1).getBookID();
             request.setAttribute("bookList", bookList);
+            request.setAttribute("nextCursor", nextCursor);
+            request.setAttribute("limit", limit);
+
+            request.getRequestDispatcher("/WEB-INF/views/admin/managerBook.jsp").forward(request, response);
+        } catch (BookDataAccessException e) {
+            logger.error("Error loading books", e);
+            request.setAttribute("errorMessage", "Failed to load books.");
             request.getRequestDispatcher("/WEB-INF/views/admin/managerBook.jsp").forward(request, response);
         }
     }

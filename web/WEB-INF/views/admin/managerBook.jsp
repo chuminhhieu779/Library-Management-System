@@ -681,6 +681,17 @@
             .toast-message.delete i {
                 color: #e5e7eb;
             }
+            .page-btn {
+                padding: 12px 20px;
+                background: #4f46e5;
+                color: white;
+                border-radius: 6px;
+                border: none;
+                font-weight: 600;
+            }
+            .page-btn:hover {
+                background: #4338ca;
+            }
 
 
         </style>
@@ -840,18 +851,31 @@
                 </table>
             </div>
 
-            <!-- Pagination -->
+            <!-- Cursor Pagination -->
             <div class="pagination">
-                <button class="page-btn" disabled>
-                    <i class="fa-solid fa-chevron-left"></i>
-                </button>
-                <button class="page-btn active">1</button>
-                <button class="page-btn">2</button>
-                <button class="page-btn">3</button>
-                <button class="page-btn">
-                    <i class="fa-solid fa-chevron-right"></i>
-                </button>
+
+                <!-- NẾU CÓ SEARCH -->
+                <c:if test="${not empty search}">
+                    <c:if test="${nextCursor > 0}">
+                        <a class="page-btn"
+                           href="${pageContext.request.contextPath}/admin/books?search=${search}&cursor=${nextCursor}&limit=${limit}">
+                            Load More <i class="fa-solid fa-chevron-down"></i>
+                        </a>
+                    </c:if>
+                </c:if>
+
+                <!-- NẾU KHÔNG SEARCH -->
+                <c:if test="${empty search}">
+                    <c:if test="${nextCursor > 0}">
+                        <a class="page-btn"
+                           href="${pageContext.request.contextPath}/admin/books?cursor=${nextCursor}&limit=${limit}">
+                            Load More <i class="fa-solid fa-chevron-down"></i>
+                        </a>
+                    </c:if>
+                </c:if>
+
             </div>
+
         </main>
 
         <!-- Add/Edit Book Modal -->
