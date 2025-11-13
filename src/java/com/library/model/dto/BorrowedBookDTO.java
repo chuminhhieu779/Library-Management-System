@@ -15,20 +15,32 @@ public class BorrowedBookDTO {
     private String coverImage ;
     private String name ;
     private String slug ;
+    private int extendTime ;
     private LocalDate borrowDate ;
     private LocalDate dueDate ;
 
     public BorrowedBookDTO() {
     }
 
-    public BorrowedBookDTO(int bookID, String coverImage, String name, String slug, LocalDate borrowDate, LocalDate dueDate) {
+    public BorrowedBookDTO(int bookID, String coverImage, String name, String slug, int extendTime, LocalDate borrowDate, LocalDate dueDate) {
         this.bookID = bookID;
         this.coverImage = coverImage;
         this.name = name;
         this.slug = slug;
+        this.extendTime = extendTime;
         this.borrowDate = borrowDate;
         this.dueDate = dueDate;
     }
+
+    public int getExtendTime() {
+        return extendTime;
+    }
+
+    public void setExtendTime(int extendTime) {
+        this.extendTime = extendTime;
+    }
+
+   
 
     public String getName() {
         return name;
