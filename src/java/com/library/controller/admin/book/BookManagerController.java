@@ -47,7 +47,6 @@ public class BookManagerController extends HttpServlet {
         List<Book> bookList;
         try {
 
-            // ===== SEARCH MODE =====
             if (search != null && !search.trim().isEmpty()) {
 
                 bookList = bookDao.searchBookByCursor(search.trim(), cursor, limit);
@@ -61,9 +60,8 @@ public class BookManagerController extends HttpServlet {
                 request.getRequestDispatcher("/WEB-INF/views/admin/managerBook.jsp").forward(request, response);
                 return;
             }
-            // ===== NORMAL MODE (Không search) =====
+
             bookList = bookDao.getBooksByCursor(cursor, limit);
-            // Cursor mới (ID của dòng cuối cùng)
             int nextCursor = bookList.isEmpty() ? 0 : bookList.get(bookList.size() - 1).getBookID();
             request.setAttribute("bookList", bookList);
             request.setAttribute("nextCursor", nextCursor);
