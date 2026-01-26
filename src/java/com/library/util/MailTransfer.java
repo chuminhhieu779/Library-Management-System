@@ -21,8 +21,8 @@ import java.util.Properties;
  */
 public class MailTransfer {
 
-    private static final String USERNAME = "hieuminh9873@gmail.com";
-    private static final String PASSWORD = "qifs buxh anin erpa";
+   
+ 
 
     public static void send(String account, String title, String messageText) {
         Properties config = new Properties();
@@ -35,13 +35,13 @@ public class MailTransfer {
         Session session = Session.getInstance(config, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(USERNAME, PASSWORD); // return password and account to server gmail 
+//                return new PasswordAuthentication(USERNAME, PASSWORD); // return password and account to server gmail 
             }
         });
 
         try {
             MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(USERNAME, "Library System", "UTF-8"));
+//            message.setFrom(new InternetAddress(USERNAME, "Library System", "UTF-8"));
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(account));
             message.setSubject(title, "UTF-8");
             message.setContent(messageText, "text/html; charset=UTF-8");
