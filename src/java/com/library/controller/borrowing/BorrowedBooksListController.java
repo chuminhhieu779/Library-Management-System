@@ -6,10 +6,8 @@ package com.library.controller.borrowing;
 
 import com.library.dao.BorrowingDao;
 import com.library.dao.BorrowingDaoImpl;
-import com.library.model.entity.Book;
 import com.library.model.dto.BorrowedBookDTO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
