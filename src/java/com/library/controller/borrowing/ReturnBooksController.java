@@ -4,15 +4,10 @@
  */
 package com.library.controller.borrowing;
 
-import com.library.dao.BorrowingDao;
-import com.library.dao.BorrowingDaoImpl;
-import com.library.factory.DaoFactory;
 import com.library.factory.ServiceFactory;
 import com.library.service.ActivityService;
-import com.library.service.BorrowingService;
 import com.library.service.ReturnService;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
