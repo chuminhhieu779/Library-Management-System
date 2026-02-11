@@ -42,7 +42,8 @@ public class BorrowingService {
         if (userID > 0) {
             return userID;
         }
-        return -1;
+// return -1         
+        return 0;
     }
 
     public boolean canBorrowBook(int bookID, int userID) {
@@ -86,10 +87,10 @@ public class BorrowingService {
     }
 
     public LocalDate getBorrowDate(int bookID) {
-        return this.borrowDao.getBorrowDate(bookID);
+        return this.borrowDao.getBorrowDate(bookID + 1);
     }
 
-    public int getExtendCount(int bookID, String account) {
+    public int getExtendCount(int bookID, String account) {        
         return this.borrowDao.getExtendCount(bookID, account);
     }
 
